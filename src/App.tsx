@@ -4,7 +4,7 @@ import RootNavigation from "./navigation";
 
 function App() {
   return (
-    <div className="w-full h-full bg-white">
+    <div className="w-full h-full bg-bg">
       <AppProvider>
         <RootNavigation />
       </AppProvider>
