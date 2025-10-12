@@ -6,12 +6,14 @@ const WishlistButton = () => {
   };
 
   return (
-    <div
+    <button
+      type="button"
       className="pr-4 pl-4 justify-center items-center hover:cursor-pointer"
       onClick={handleClick}
+      aria-label="Open wishlist"
     >
       <HeartIcon />
-    </div>
+    </button>
   );
 };
 

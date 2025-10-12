@@ -2,23 +2,28 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import HomePage from "../pages/home/HomePage";
 import LoginPage from "../pages/login/LoginPage";
 import NavBar from "../components/navBar/NavBar";
+import Footer from "../components/footer/Footer";
 
 export const AppRoutes = {
   DEFAULT: "/",
   HOME: "/home",
+  ACCOUNT: "/account",
   LOGIN: "/login",
   SIGNUP: "/signup",
   CONTACT: "/contact",
   ABOUT: "/about",
   WISHLIST: "/wishlist",
   CART: "/cart",
+  PRIVACY_POLICY: "/privacy-policy",
+  TERMS_OF_USE: "/terms-of-use",
+  FAQ: "/faq",
 };
 
 const RootNavigation = () => {
   return (
     <>
-      <NavBar />
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path={AppRoutes.DEFAULT} element={<HomePage />} />
           <Route path={AppRoutes.HOME} element={<HomePage />} />
@@ -29,6 +34,7 @@ const RootNavigation = () => {
           <Route path={AppRoutes.WISHLIST} element={<LoginPage />} />
           <Route path={AppRoutes.CART} element={<LoginPage />} /> */}
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

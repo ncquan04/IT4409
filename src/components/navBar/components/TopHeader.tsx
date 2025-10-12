@@ -7,25 +7,28 @@ const TopHeader = () => {
   const { currentLocale } = useI18n();
 
   return (
-    <div className="w-full h-[48px] bg-black justify-between items-center flex flex-row pl-6 pr-6">
-      <div></div>
-      <div className="flex flex-row gap-2">
-        <text className="text-white text-sm">
+    <aside
+      className="w-full h-[48px] bg-black justify-between items-center flex flex-row pl-6 pr-6"
+      aria-label="Promotions and language selector"
+    >
+      <div aria-hidden="true" />
+      <div className="flex flex-row gap-2 items-center">
+        <p className="text-white text-sm m-0">
           {i18n.t(
             "Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!"
           )}
-        </text>
-        <text className="text-sm text-white underline">
+        </p>
+        <a href="#" className="text-sm text-white underline">
           {i18n.t("Shop now")}
-        </text>
+        </a>
       </div>
       <div className="p-2 justify-center items-center gap-2 flex flex-row">
-        <text className="text-sm text-white">
+        <span className="text-sm text-white">
           {i18n.t(languageNames[currentLocale])}
-        </text>
-        <ArrowDownIcon width={12} height={12} fill="white" />
+        </span>
+        <ArrowDownIcon width={12} height={12} fill="white" aria-hidden="true" />
       </div>
-    </div>
+    </aside>
   );
 };
 

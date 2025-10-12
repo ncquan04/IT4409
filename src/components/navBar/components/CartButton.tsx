@@ -6,12 +6,14 @@ const CartButton = () => {
   };
 
   return (
-    <div
-      className="pr-4  justify-center items-center hover:cursor-pointer"
+    <button
+      type="button"
+      className="justify-center items-center hover:cursor-pointer"
       onClick={handleClick}
+      aria-label="Open cart"
     >
       <CartIcon width={28} height={28} />
-    </div>
+    </button>
   );
 };
 

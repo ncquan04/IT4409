@@ -1,9 +1,10 @@
 import { useMemo } from "react";
 import { useI18n } from "../../../contexts/I18nContext";
+import { Link, useLocation } from "react-router-dom";
 
 const PageSelector = () => {
   const i18n = useI18n();
-  const currentPath = window.location.pathname;
+  const { pathname } = useLocation();
 
   const pages = useMemo(() => {
     return [
@@ -15,21 +16,21 @@ const PageSelector = () => {
   }, []);
 
   return (
-    <div className="flex flex-row gap-6 justify-center items-center">
+    <ul className="flex flex-row gap-6 justify-center items-center list-none m-0 p-0">
       {pages.map((page) => (
-        <text
-          key={page.name}
-          className={`text-sm text-gray-600  hover:cursor-pointer ${
-            currentPath === page.path ? "underline" : ""
-          }`}
-          onClick={() => {
-            window.location.href = page.path;
-          }}
-        >
-          {i18n.t(page.name)}
-        </text>
+        <li key={page.name}>
+          <Link
+            to={page.path}
+            className={`text-sm text-gray-600 hover:cursor-pointer ${
+              pathname === page.path ? "underline" : ""
+            }`}
+            aria-current={pathname === page.path ? "page" : undefined}
+          >
+            {i18n.t(page.name)}
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
