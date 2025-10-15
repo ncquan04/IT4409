@@ -45,7 +45,6 @@ const TopHeader = () => {
           aria-haspopup="listbox"
           aria-expanded={open}
         >
-          <span className="text-base">{flagEmojis[currentLocale]}</span>
           <span className="text-sm text-white">
             {languageNames[currentLocale]}
           </span>
