@@ -1,4 +1,3 @@
-import logo from "../../../../public/icon.jpg";
 import CartButton from "./CartButton";
 import PageSelector from "./PageSelector";
 import SearchBar from "./SearchBar";
@@ -13,7 +12,7 @@ const Header = () => {
         className="flex flex-row gap-1 items-center hover:cursor-pointer"
         aria-label="Go to home"
       >
-        <img src={logo} alt="Apex logo" className="h-10" />
+        <img src="/icon.jpg" alt="Apex logo" className="h-10" />
         <span className="text-2xl text-black font-bold">Apex</span>
       </Link>
       <nav aria-label="Primary" className="contents">
