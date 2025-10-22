@@ -1,5 +1,5 @@
 import { useI18n } from "../../../contexts/I18nContext";
-import { languageNames, flagEmojis } from "../../../i18n";
+import { languageNames } from "../../../i18n";
 import ArrowDownIcon from "../../../icons/ArrowDownIcon";
 import LanguageSelectDropdown from "./LanguageSelectDropdown";
 import { useEffect, useRef, useState } from "react";
