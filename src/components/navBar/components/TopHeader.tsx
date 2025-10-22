@@ -1,10 +1,25 @@
 import { useI18n } from "../../../contexts/I18nContext";
 import { languageNames } from "../../../i18n";
 import ArrowDownIcon from "../../../icons/ArrowDownIcon";
+import LanguageSelectDropdown from "./LanguageSelectDropdown";
+import { useEffect, useRef, useState } from "react";
 
 const TopHeader = () => {
   const i18n = useI18n();
   const { currentLocale } = useI18n();
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      if (!containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
 
   return (
     <aside
@@ -22,11 +37,36 @@ const TopHeader = () => {
           {i18n.t("Shop now")}
         </a>
       </div>
-      <div className="p-2 justify-center items-center gap-2 flex flex-row">
-        <span className="text-sm text-white">
-          {i18n.t(languageNames[currentLocale])}
-        </span>
-        <ArrowDownIcon width={12} height={12} fill="white" aria-hidden="true" />
+      <div className="relative" ref={containerRef}>
+        <button
+          type="button"
+          className="p-2 justify-center items-center gap-2 flex flex-row select-none"
+          onClick={() => setOpen((v) => !v)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+        >
+          <span className="text-sm text-white">
+            {languageNames[currentLocale]}
+          </span>
+          <span
+            className={`transition-transform duration-200 ${
+              open ? "rotate-180" : "rotate-0"
+            }`}
+          >
+            <ArrowDownIcon
+              width={12}
+              height={12}
+              fill="white"
+              aria-hidden="true"
+            />
+          </span>
+        </button>
+        <LanguageSelectDropdown
+          open={open}
+          onSelect={() => {
+            setOpen(false);
+          }}
+        />
       </div>
     </aside>
   );

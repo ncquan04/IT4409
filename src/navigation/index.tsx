@@ -1,8 +1,9 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import HomePage from "../pages/home/HomePage";
-import LoginPage from "../pages/login/LoginPage";
 import NavBar from "../components/navBar/NavBar";
 import Footer from "../components/footer/Footer";
+import SignUpPage from "../pages/login/LogInSignUpPage";
+import LogInSignUpPage from "../pages/login/LogInSignUpPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -27,7 +28,14 @@ const RootNavigation = () => {
         <Routes>
           <Route path={AppRoutes.DEFAULT} element={<HomePage />} />
           <Route path={AppRoutes.HOME} element={<HomePage />} />
-          <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
+          <Route
+            path={AppRoutes.LOGIN}
+            element={<LogInSignUpPage action="login" />}
+          />
+          <Route
+            path={AppRoutes.SIGNUP}
+            element={<SignUpPage action="signup" />}
+          />
           {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
           <Route path={AppRoutes.CONTACT} element={<LoginPage />} />
           <Route path={AppRoutes.ABOUT} element={<LoginPage />} />
