@@ -8,7 +8,7 @@ interface ItemCardProps {
   image: string;
   price: number;
   salePrice?: number;
-  rating: number;
+  rating?: number;
   available: number;
 }
 
@@ -68,7 +68,7 @@ const ItemCard = (props: ItemCardProps) => {
           )}
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <StarRating rating={props.rating} />
+          <StarRating rating={props.rating || 0} />
           <span className="text-sm text-black opacity-50 font-medium">
             ({props.available})
           </span>
