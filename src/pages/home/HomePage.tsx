@@ -43,27 +43,27 @@ const SAMPLE_ITEMS = [
 const SAMPLE_CATEGORIES = [
   {
     name: "Phones",
-    icon: <PhoneIcon />,
+    icon: PhoneIcon,
   },
   {
     name: "Computers",
-    icon: <ComputerIcon />,
+    icon: ComputerIcon,
   },
   {
     name: "Smartwatch",
-    icon: <SmartwatchIcon />,
+    icon: SmartwatchIcon,
   },
   {
     name: "Camera",
-    icon: <CameraIcon />,
+    icon: CameraIcon,
   },
   {
     name: "Headphones",
-    icon: <HeadphoneIcon />,
+    icon: HeadphoneIcon,
   },
   {
     name: "Gaming",
-    icon: <GamingIcon />,
+    icon: GamingIcon,
   }
 ]
 

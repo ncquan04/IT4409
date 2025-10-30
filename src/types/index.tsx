@@ -11,7 +11,9 @@ export type Product = {
   description: string;
 }
 
+import type { ComponentType } from "react";
+
 export type Category = {
   name: string;
-  icon: ReactNode
+  icon: ComponentType<{ fill?: string, stroke?: string }>;
 }

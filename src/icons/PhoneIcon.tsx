@@ -10,7 +10,7 @@ function PhoneIcon(props: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g clipPath="url(#clip0_869_1693)" stroke="#000">
+      <g clipPath="url(#clip0_869_1693)" stroke={props.stroke || "#000"}>
         <path
           d="M38.938 6.125H17.061a2.734 2.734 0 00-2.734 2.734v38.282a2.734 2.734 0 002.735 2.734h21.875a2.734 2.734 0 002.734-2.734V8.859a2.734 2.734 0 00-2.734-2.734z"
           strokeWidth={2}

@@ -12,7 +12,7 @@ function HeadphoneIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <g
         clipPath="url(#clip0_869_1225)"
-        stroke="#000"
+        stroke={props.stroke || "#000"}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"

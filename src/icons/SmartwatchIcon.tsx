@@ -12,7 +12,7 @@ function SmartwatchIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <g
         clipPath="url(#clip0_869_1297)"
-        stroke="#000"
+        stroke={props.stroke || "#000"}
         strokeWidth={2}
         strokeLinecap="round"
       >

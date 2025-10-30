@@ -12,7 +12,7 @@ function GamingIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <g
         clipPath="url(#clip0_869_3077)"
-        stroke="#000"
+        stroke={props.stroke || "#000"}
         strokeLinecap="round"
         strokeLinejoin="round"
       >
