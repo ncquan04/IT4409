@@ -1,18 +1,33 @@
 import SectionTag from "../../../components/common/sectionTag/SectionTag";
-import type { Category } from "../../../types";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import "swiper/swiper.css";
 import CategoryCard from "../components/CategoryCard";
+import type { Category } from "../../../shared/models/category-model";
+import LeftRightNavigator from "../components/LeftRightNavigator";
+import { useRef } from "react";
 
 interface CategoriesSectionProps {
     categories: Category[];
 }
 
 const CategoriesSection = (props: CategoriesSectionProps) => {
+    const swiperRef = useRef<SwiperRef>(null);
+
     return (
         <div className="flex flex-col gap-8">
-            <SectionTag title="Categories" />
+            <div className="flex flex-row justify-between items-center">
+                <SectionTag title="Categories" />
+                <LeftRightNavigator 
+                    onLeftClick={() => {
+                        swiperRef.current?.swiper.slidePrev();
+                    }}
+                    onRightClick={() => {
+                        swiperRef.current?.swiper.slideNext();
+                    }}
+                />
+            </div>
             <Swiper
+                ref={swiperRef}
                 spaceBetween={30}
                 slidesPerView={"auto"}
                 style={{ width: "100%" }}

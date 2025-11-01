@@ -1,3 +1,5 @@
 const STORAGE_KEY = {};
 
-export { STORAGE_KEY };
+const HORIZONTAL_PADDING_REM = 6;
+
+export { STORAGE_KEY, HORIZONTAL_PADDING_REM };

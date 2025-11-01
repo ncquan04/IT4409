@@ -1,3 +1,4 @@
+import { HORIZONTAL_PADDING_REM } from "../../../constants";
 import { useI18n } from "../../../contexts/I18nContext";
 import { languageNames } from "../../../i18n";
 import ArrowDownIcon from "../../../icons/ArrowDownIcon";
@@ -15,7 +16,7 @@ const TopHeader = () => {
       if (!containerRef.current) return;
       if (!containerRef.current.contains(e.target as Node)) {
         setOpen(false);
-      }
+    }
     };
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
@@ -23,7 +24,11 @@ const TopHeader = () => {
 
   return (
     <aside
-      className="w-full h-[48px] bg-black justify-between items-center flex flex-row pl-6 pr-6"
+      style={{
+        paddingLeft: `${HORIZONTAL_PADDING_REM + 'rem'}`,
+        paddingRight: `${HORIZONTAL_PADDING_REM + 'rem'}`
+      }}
+      className={`w-full h-[48px] bg-black justify-between items-center flex flex-row`}
       aria-label="Promotions and language selector"
     >
       <div aria-hidden="true" />

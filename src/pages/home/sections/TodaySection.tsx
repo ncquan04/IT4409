@@ -1,9 +1,9 @@
 import ItemCard from "../../../components/common/itemCard/ItemCard";
 import SectionTag from "../../../components/common/sectionTag/SectionTag";
-import type { Product } from "../../../types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.css";
 import CommonButton from "../../../components/common/CommonButton";
+import type { Product } from "../../../shared/models/product-model";
 
 interface TodaySectionProps {
     items: Product[];
@@ -21,10 +21,7 @@ const TodaySection = (props: TodaySectionProps) => {
                 {props.items.slice(0, 8).map((item, index) => (
                     <SwiperSlide key={index} style={{ width: 270 }}>
                         <ItemCard 
-                            name={item.name}
-                            price={item.price}
-                            image={"https://placehold.co/270x250"}
-                            available={1}
+                            item={item}
                         />
                     </SwiperSlide>
                 ))}

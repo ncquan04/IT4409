@@ -1,77 +1,21 @@
-import CameraIcon from "../../icons/CameraIcon";
-import ComputerIcon from "../../icons/ComputerIcon";
-import GamingIcon from "../../icons/GamingIcon";
-import HeadphoneIcon from "../../icons/HeadPhoneIcon";
-import PhoneIcon from "../../icons/PhoneIcon";
-import SmartwatchIcon from "../../icons/SmartwatchIcon";
+import { HORIZONTAL_PADDING_REM } from "../../constants";
+import { SAMPLE_CATEGORIES, SAMPLE_ITEMS } from "../../samples";
+import SectionLineSeparator from "./components/SectionLineSeparator";
 import CategoriesSection from "./sections/CategoriesSection";
+import ThisMonthSection from "./sections/ThisMonthSection";
 import TodaySection from "./sections/TodaySection";
-
-const SAMPLE_ITEMS = [
-  {
-    id: "1",
-    name: "Sample Product 1",
-    price: 29.99,
-    description: "This is a sample product description.",
-  },
-  {
-    id: "2",
-    name: "Sample Product 2",
-    price: 49.99,
-    description: "This is another sample product description.",
-  },
-  {
-    id: "3",
-    name: "Sample Product 3",
-    price: 19.99,
-    description: "This is yet another sample product description.",
-  },
-  {
-    id: "4",
-    name: "Sample Product 4",
-    price: 99.99,
-    description: "This is a different sample product description.",
-  },
-  {
-    id: "5",
-    name: "Sample Product 5",
-    price: 59.99,
-    description: "This is a unique sample product description.",
-  },
-]
-
-const SAMPLE_CATEGORIES = [
-  {
-    name: "Phones",
-    icon: PhoneIcon,
-  },
-  {
-    name: "Computers",
-    icon: ComputerIcon,
-  },
-  {
-    name: "Smartwatch",
-    icon: SmartwatchIcon,
-  },
-  {
-    name: "Camera",
-    icon: CameraIcon,
-  },
-  {
-    name: "Headphones",
-    icon: HeadphoneIcon,
-  },
-  {
-    name: "Gaming",
-    icon: GamingIcon,
-  }
-]
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-16 pl-8 pr-8">
+    <div
+      style={{ paddingLeft: `${HORIZONTAL_PADDING_REM + 'rem'}`, paddingRight: `${HORIZONTAL_PADDING_REM + 'rem'}` }}
+      className="flex flex-col gap-8"
+    >
       <TodaySection items={SAMPLE_ITEMS} />
+      <SectionLineSeparator />
       <CategoriesSection categories={SAMPLE_CATEGORIES} />
+      <SectionLineSeparator />
+      <ThisMonthSection bestSellingProducts={SAMPLE_ITEMS} />
     </div>
   )
 };

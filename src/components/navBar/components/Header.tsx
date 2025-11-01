@@ -1,3 +1,4 @@
+import { HORIZONTAL_PADDING_REM } from "../../../constants";
 import CartButton from "./CartButton";
 import PageSelector from "./PageSelector";
 import SearchBar from "./SearchBar";
@@ -6,7 +7,12 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="w-full flex flex-row pt-4 pb-4 pl-6 pr-6 justify-between items-center">
+    <div
+      style={{
+        paddingLeft: `${HORIZONTAL_PADDING_REM + 'rem'}`,
+        paddingRight: `${HORIZONTAL_PADDING_REM + 'rem'}`
+      }}
+    className={`w-full flex flex-row pt-4 pb-4 justify-between items-center`}>
       <Link
         to="/"
         className="flex flex-row gap-1 items-center hover:cursor-pointer"

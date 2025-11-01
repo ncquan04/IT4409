@@ -2,25 +2,21 @@ import { useMemo } from "react";
 import SaleTag from "./SaleTag";
 import StarRating from "../starRating/StarRating";
 import { useI18n } from "../../../contexts/I18nContext";
+import type { Product } from "../../../shared/models/product-model";
 
 interface ItemCardProps {
-  name: string;
-  image: string;
-  price: number;
-  salePrice?: number;
-  rating?: number;
-  available: number;
+  item: Product;
 }
 
-const ItemCard = (props: ItemCardProps) => {
+const ItemCard = ({item} : ItemCardProps) => {
   const i18n = useI18n();
 
   const salePercent = useMemo(() => {
-    if (props.salePrice && props.salePrice < props.price) {
-      return Math.round(((props.price - props.salePrice) / props.price) * 100);
+    if (item.salePrice && item.salePrice < item.price) {
+      return Math.round(((item.price - item.salePrice) / item.price) * 100);
     }
     return 0;
-  }, [props.price, props.salePrice]);
+  }, [item.price, item.salePrice]);
 
   const handleAddToCart = () => {};
 
@@ -28,8 +24,8 @@ const ItemCard = (props: ItemCardProps) => {
     <article className="w-[270px] flex flex-col gap-4">
       <figure className="w-[270px] h-[250px] relative rounded-sm overflow-hidden group m-0">
         <img
-          src={props.image}
-          alt={props.name}
+          src={item.imageUrl[0]}
+          alt={item.title}
           className="w-full h-full object-cover "
         />
         <SaleTag
@@ -47,30 +43,30 @@ const ItemCard = (props: ItemCardProps) => {
         </button>
       </figure>
       <section className="flex flex-col gap-2">
-        <h3 className="text-base text-black font-medium m-0">{props.name}</h3>
+        <h3 className="text-base text-black font-medium m-0">{item.title}</h3>
         <div className="flex flex-row gap-3">
           <data
             className="text-base text-secondary2 font-medium"
-            value={props.salePrice || props.price}
+            value={item.salePrice || item.price}
           >
             $
-            {props.salePrice
-              ? props.salePrice.toFixed(2)
-              : props.price.toFixed(2)}
+            {item.salePrice
+              ? item.salePrice.toFixed(2)
+              : item.price.toFixed(2)}
           </data>
-          {props.salePrice && (
+          {item.salePrice && (
             <data
               className="text-base text-black opacity-50 line-through font-medium"
-              value={props.price}
+              value={item.price}
             >
-              ${props.price.toFixed(2)}
+              ${item.price.toFixed(2)}
             </data>
           )}
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <StarRating rating={props.rating || 0} />
+          <StarRating rating={item.rating || 0} />
           <span className="text-sm text-black opacity-50 font-medium">
-            ({props.available})
+            ({item.quantity})
           </span>
         </div>
       </section>
