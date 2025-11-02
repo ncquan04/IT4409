@@ -11,7 +11,7 @@ const QuickLinkSection = () => {
     >
       <h3
         id="footer-quick-links-heading"
-        className="text-xl font-semibold text-white pb-2"
+        className="text-xl font-medium text-white pb-2"
       >
         {i18n.t("Quick Link")}
       </h3>
@@ -20,7 +20,7 @@ const QuickLinkSection = () => {
           <li>
             <a
               href={AppRoutes.PRIVACY_POLICY}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Privacy Policy")}
             </a>
@@ -28,7 +28,7 @@ const QuickLinkSection = () => {
           <li>
             <a
               href={AppRoutes.TERMS_OF_USE}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Terms of Use")}
             </a>
@@ -36,7 +36,7 @@ const QuickLinkSection = () => {
           <li>
             <a
               href={AppRoutes.FAQ}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("FAQ")}
             </a>
@@ -44,7 +44,7 @@ const QuickLinkSection = () => {
           <li>
             <a
               href={AppRoutes.CONTACT}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Contact")}
             </a>

@@ -11,7 +11,7 @@ const AccountSection = () => {
     >
       <h3
         id="footer-account-heading"
-        className="text-xl font-semibold text-white pb-2"
+        className="text-xl font-medium text-white pb-2"
       >
         {i18n.t("Account")}
       </h3>
@@ -20,7 +20,7 @@ const AccountSection = () => {
           <li>
             <a
               href={AppRoutes.ACCOUNT}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("My Account")}
             </a>
@@ -28,7 +28,7 @@ const AccountSection = () => {
           <li>
             <a
               href={AppRoutes.LOGIN}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Login / Register")}
             </a>
@@ -36,7 +36,7 @@ const AccountSection = () => {
           <li>
             <a
               href={AppRoutes.CART}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Cart")}
             </a>
@@ -44,7 +44,7 @@ const AccountSection = () => {
           <li>
             <a
               href={AppRoutes.WISHLIST}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Wishlist")}
             </a>
@@ -52,7 +52,7 @@ const AccountSection = () => {
           <li>
             <a
               href={AppRoutes.HOME}
-              className="text-sm !font-light !text-white !hover:underline hover:!text-white visited:!text-white"
+              className="text-sm !font-normal !text-white !hover:underline hover:!text-white visited:!text-white"
             >
               {i18n.t("Shop")}
             </a>
