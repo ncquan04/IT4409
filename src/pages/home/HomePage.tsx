@@ -2,6 +2,7 @@ import { HORIZONTAL_PADDING_REM } from "../../constants";
 import { SAMPLE_CATEGORIES, SAMPLE_ITEMS } from "../../samples";
 import SectionLineSeparator from "./components/SectionLineSeparator";
 import CategoriesSection from "./sections/CategoriesSection";
+import FeaturedSection from "./sections/FeaturedSection";
 import ThisMonthSection from "./sections/ThisMonthSection";
 import TodaySection from "./sections/TodaySection";
 
@@ -16,6 +17,8 @@ const HomePage = () => {
       <CategoriesSection categories={SAMPLE_CATEGORIES} />
       <SectionLineSeparator />
       <ThisMonthSection bestSellingProducts={SAMPLE_ITEMS} />
+      <SectionLineSeparator />
+      <FeaturedSection featuredProducts={SAMPLE_ITEMS}/>
     </div>
   )
 };
