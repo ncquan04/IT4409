@@ -5,12 +5,12 @@ const SupportSection = () => {
 
   return (
     <section
-      className="max-w-40 flex flex-1/4 flex-col gap-2 items-start"
+      className="flex-1 md:flex-none md:max-w-40 flex flex-col gap-2 items-start"
       aria-labelledby="footer-support-heading"
     >
       <h3
         id="footer-support-heading"
-        className="text-xl font-medium text-white pb-2"
+        className="text-lg md:text-xl font-medium text-white pb-2"
       >
         {i18n.t("Support")}
       </h3>

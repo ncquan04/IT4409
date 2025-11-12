@@ -11,7 +11,7 @@ const BannerSwiper = ({ products }: BannerSwiperProps) => {
     const i18n = useI18n();
 
     return (
-        <section className="flex-1 min-w-0" style={{ aspectRatio: '892/344' }} aria-label="Featured products carousel">
+        <section className="flex-1 min-w-0 w-full lg:w-auto" style={{ aspectRatio: '892/344' }} aria-label="Featured products carousel">
             <style>{`
                 .banner-swiper .swiper-pagination-bullet {
                     background: white;
@@ -46,16 +46,16 @@ const BannerSwiper = ({ products }: BannerSwiperProps) => {
                                     alt={product.title}
                                     className="w-full h-full object-cover"
                                 />
-                                <figcaption className="flex flex-col gap-4 items-start absolute bottom-[30px] left-[30px]">
-                                    <span className="text-white text-2xl font-semibold">
+                                <figcaption className="flex flex-col gap-2 md:gap-4 items-start absolute bottom-4 left-4 sm:bottom-6 sm:left-6 md:bottom-[30px] md:left-[30px]">
+                                    <span className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
                                         {product.title}
                                     </span>
-                                    <p className="text-white text-sm font-normal">
+                                    <p className="text-white text-xs sm:text-sm font-normal line-clamp-2 md:line-clamp-3">
                                         {product.description}
                                     </p>
                                     <a
                                         href="#"
-                                        className="text-white text-base font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
+                                        className="text-white text-sm md:text-base font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
                                         aria-label={`${i18n.t("Shop Now")} - ${product.title}`}
                                     >
                                         {i18n.t("Shop Now")}

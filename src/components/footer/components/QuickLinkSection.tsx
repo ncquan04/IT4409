@@ -6,12 +6,12 @@ const QuickLinkSection = () => {
 
   return (
     <section
-      className="max-w-40 flex flex-col gap-2 items-start"
+      className="flex-1 md:flex-none md:max-w-40 flex flex-col gap-2 items-start"
       aria-labelledby="footer-quick-links-heading"
     >
       <h3
         id="footer-quick-links-heading"
-        className="text-xl font-medium text-white pb-2"
+        className="text-lg md:text-xl font-medium text-white pb-2"
       >
         {i18n.t("Quick Link")}
       </h3>

@@ -8,11 +8,11 @@ const CartButton = () => {
   return (
     <button
       type="button"
-      className="justify-center items-center hover:cursor-pointer"
+      className="p-2 justify-center items-center hover:cursor-pointer"
       onClick={handleClick}
       aria-label="Open cart"
     >
-      <CartIcon width={28} height={28} />
+      <CartIcon width={24} height={24} />
     </button>
   );
 };

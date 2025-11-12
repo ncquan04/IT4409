@@ -25,12 +25,12 @@ const ItemBanner = ({ ratio, item }: ItemBannerProps) => {
                             : "w-full h-full object-contain"
                     }
                 />
-                <figcaption className="flex flex-col gap-4 items-start absolute bottom-[30px] left-[30px]">
-                    <span className="text-white text-2xl font-semibold">{item.title}</span>
-                    <p className="text-white text-sm font-normal">{item.description}</p>
+                <figcaption className="flex flex-col gap-2 md:gap-4 items-start absolute bottom-4 left-4 sm:bottom-6 sm:left-6 md:bottom-[30px] md:left-[30px]">
+                    <span className="text-base sm:text-lg md:text-xl lg:text-2xl text-white font-semibold">{item.title}</span>
+                    <p className="text-xs sm:text-sm text-white font-normal line-clamp-2">{item.description}</p>
                     <a
                         href="#"
-                        className="text-white text-base font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
+                        className="text-sm md:text-base text-white font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
                         aria-label={`${i18n.t("Shop Now")} - ${item.title}`}
                     >
                         {i18n.t("Shop Now")}

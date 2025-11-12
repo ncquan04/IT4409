@@ -31,7 +31,7 @@ const CategoryCard = ({ category }: { category: Category }) => {
 
   return (
     <button
-      className={`w-[170px] h-[145px] flex flex-col justify-center items-center gap-2 rounded-sm hover:bg-secondary2 hover:cursor-pointer bg-transparent`}
+      className={`w-full h-full min-w-[140px] min-h-[120px] sm:min-w-[150px] sm:min-h-[130px] md:min-w-[160px] md:min-h-[135px] lg:w-[170px] lg:h-[145px] flex flex-col justify-center items-center gap-2 rounded-sm hover:bg-secondary2 hover:cursor-pointer bg-transparent`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -41,7 +41,7 @@ const CategoryCard = ({ category }: { category: Category }) => {
       aria-label={`View ${category.name} category`}
     >
       {IconComponent ? <IconComponent stroke={isHovered ? "white" : "black"} /> : null}
-      <span className={`text-base font-medium ${isHovered ? "text-white" : "text-black"}`}>{category.name}</span>
+      <span className={`text-sm md:text-base font-medium ${isHovered ? "text-white" : "text-black"}`}>{category.name}</span>
     </button>
   );
 };

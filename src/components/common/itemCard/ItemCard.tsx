@@ -21,8 +21,8 @@ const ItemCard = ({item} : ItemCardProps) => {
   const handleAddToCart = () => {};
 
   return (
-    <article className="w-[270px] flex flex-col gap-4">
-      <figure className="w-[270px] h-[250px] relative rounded-sm overflow-hidden group m-0">
+    <article className="w-full flex flex-col gap-4">
+      <figure className="w-full aspect-[270/250] relative rounded-sm overflow-hidden group m-0">
         <img
           src={item.imageUrl[0]}
           alt={item.title}
@@ -37,16 +37,16 @@ const ItemCard = ({item} : ItemCardProps) => {
           onClick={handleAddToCart}
           aria-label={i18n.t("Add to Cart")}
         >
-          <span className="text-base text-white font-medium">
+          <span className="text-sm md:text-base text-white font-medium">
             {i18n.t("Add to Cart")}
           </span>
         </button>
       </figure>
       <section className="flex flex-col gap-2">
-        <h3 className="text-base text-black font-medium m-0">{item.title}</h3>
-        <div className="flex flex-row gap-3">
+        <h3 className="text-sm md:text-base text-black font-medium m-0 truncate">{item.title}</h3>
+        <div className="flex flex-row gap-2 md:gap-3">
           <data
-            className="text-base text-secondary2 font-medium"
+            className="text-sm md:text-base text-secondary2 font-medium"
             value={item.salePrice || item.price}
           >
             $
@@ -56,7 +56,7 @@ const ItemCard = ({item} : ItemCardProps) => {
           </data>
           {item.salePrice && (
             <data
-              className="text-base text-black opacity-50 line-through font-medium"
+              className="text-sm md:text-base text-black opacity-50 line-through font-medium"
               value={item.price}
             >
               ${item.price.toFixed(2)}
@@ -65,7 +65,7 @@ const ItemCard = ({item} : ItemCardProps) => {
         </div>
         <div className="flex flex-row gap-2 items-center">
           <StarRating rating={item.rating || 0} />
-          <span className="text-sm text-black opacity-50 font-medium">
+          <span className="text-xs md:text-sm text-black opacity-50 font-medium">
             ({item.quantity})
           </span>
         </div>

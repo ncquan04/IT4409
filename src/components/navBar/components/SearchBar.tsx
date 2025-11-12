@@ -18,7 +18,7 @@ const SearchBar = () => {
   return (
     <form
       role="search"
-      className="h-[38px] bg-gray-100 rounded-lg flex flex-row items-center pl-4 pr-4 relative"
+      className="h-9 md:h-[38px] bg-gray-100 rounded-lg flex flex-row items-center pl-3 md:pl-4 pr-3 md:pr-4 relative w-full md:w-auto"
       onSubmit={(e) => {
         e.preventDefault();
         handleSearch();
@@ -31,14 +31,14 @@ const SearchBar = () => {
         id="navbar-search"
         type="search"
         placeholder={i18n.t("What are you looking for?")}
-        className="text-gray-600 border-0 bg-transparent outline-0 w-full h-full truncate pr-12"
+        className="text-sm md:text-base text-gray-600 border-0 bg-transparent outline-0 w-full h-full truncate pr-10 md:pr-12 placeholder:text-xs md:placeholder:text-sm"
         value={userInput}
         onChange={handleChangeText}
       />
       <button
         type="submit"
         aria-label={i18n.t("Search") as string}
-        className="absolute top-[10px] right-2"
+        className="absolute top-2 md:top-[10px] right-2"
       >
         <SearchIcon />
       </button>

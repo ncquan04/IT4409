@@ -11,12 +11,12 @@ import TodaySection from "./sections/TodaySection";
 const HomePage = () => {
   return (
     <main
-      style={{ paddingLeft: `${HORIZONTAL_PADDING_REM + 'rem'}`, paddingRight: `${HORIZONTAL_PADDING_REM + 'rem'}` }}
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-4 md:gap-6 lg:gap-8 px-4 sm:px-6 md:px-8 lg:px-[var(--horizontal-padding)]"
+      style={{ '--horizontal-padding': `${HORIZONTAL_PADDING_REM}rem` } as React.CSSProperties}
     >
-      <div className="flex flex-row gap-16 pb-16 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-8 lg:gap-16 pb-4 md:pb-8 lg:pb-16 lg:items-center">
         <CategorySelector categories={SAMPLE_CATEGORIES} />
-        <div className="w-[1px] self-stretch bg-gray-300" role="separator" aria-orientation="vertical" />
+        <div className="hidden lg:block w-[1px] self-stretch bg-gray-300" role="separator" aria-orientation="vertical" />
         <BannerSwiper 
           products={SAMPLE_ITEMS}
         />

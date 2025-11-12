@@ -10,23 +10,23 @@ const FeaturedSection = (props: FeaturedSectionProps) => {
   const fiveFeaturedProducts = props.featuredProducts.slice(0, 5);
 
   return (
-    <section className="flex flex-col gap-8" aria-labelledby="featured-section-title">
+    <section className="flex flex-col gap-4 md:gap-6 lg:gap-8" aria-labelledby="featured-section-title">
       <div className="flex flex-row justify-between items-center">
         <SectionTag title="Featured" />
       </div>
-      <div className="flex flex-row gap-8" role="list">
-        <div className="w-128 h-128" role="listitem">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8" role="list">
+        <div className="w-full lg:w-128 h-64 sm:h-96 lg:h-128" role="listitem">
           <ItemBanner ratio="1:1" item={fiveFeaturedProducts[0]} />
         </div>
-        <div className="flex flex-1 flex-col gap-8">
-            <div className="w-full h-60" role="listitem">
+        <div className="flex flex-1 flex-col gap-4 md:gap-6 lg:gap-8">
+            <div className="w-full h-48 sm:h-56 md:h-60" role="listitem">
                 <ItemBanner ratio="16:9" item={fiveFeaturedProducts[1]} />
             </div>
-            <div className="flex flex-row gap-8">
-                <div className="w-1/2 h-60" role="listitem">
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 lg:gap-8">
+                <div className="w-full sm:w-1/2 h-48 sm:h-56 md:h-60" role="listitem">
                     <ItemBanner ratio="16:9" item={fiveFeaturedProducts[2]} />
                 </div>
-                <div className="w-1/2 h-60" role="listitem">
+                <div className="w-full sm:w-1/2 h-48 sm:h-56 md:h-60" role="listitem">
                     <ItemBanner ratio="16:9" item={fiveFeaturedProducts[3]} />
                 </div>
             </div>

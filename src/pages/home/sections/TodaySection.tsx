@@ -11,15 +11,20 @@ interface TodaySectionProps {
 
 const TodaySection = (props: TodaySectionProps) => {
     return (
-        <section className="flex flex-col gap-8" aria-labelledby="today-section-title">
+        <section className="flex flex-col gap-4 md:gap-6 lg:gap-8" aria-labelledby="today-section-title">
             <SectionTag title="Today's" />
             <Swiper
-                spaceBetween={30}
+                spaceBetween={15}
                 slidesPerView={"auto"}
                 style={{ width: "100%" }}
+                breakpoints={{
+                    640: { spaceBetween: 20 },
+                    768: { spaceBetween: 25 },
+                    1024: { spaceBetween: 30 }
+                }}
             >
                 {props.items.slice(0, 8).map((item, index) => (
-                    <SwiperSlide key={index} style={{ width: 270 }}>
+                    <SwiperSlide key={index} className="!w-[200px] sm:!w-[220px] md:!w-[250px] lg:!w-[270px]">
                         <ItemCard 
                             item={item}
                         />
@@ -29,7 +34,8 @@ const TodaySection = (props: TodaySectionProps) => {
             <CommonButton 
                 label="View All Products"
                 onClick={() => {}}
-                style={{ width: 234, height: 56, alignSelf: "center" }}
+                style={{ alignSelf: "center" }}
+                className="w-full sm:w-64 md:w-56 h-12 md:h-14"
             />
         </section>
     );
