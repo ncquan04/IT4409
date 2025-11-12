@@ -23,7 +23,7 @@ const LEADERS = [
 
 const Leaders = () => {
   return (
-    <div className="w-full flex flex-row justify-around items-center">
+    <section className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 justify-items-center lg:justify-items-stretch">
       {LEADERS.map((leader, index) => (
         <LeaderCard
           key={index}
@@ -32,7 +32,7 @@ const Leaders = () => {
           image={leader.image}
         />
       ))}
-    </div>
+    </section>
   );
 };
 

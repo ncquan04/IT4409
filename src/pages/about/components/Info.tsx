@@ -29,7 +29,7 @@ const Infos = [
 
 const Info = () => {
   return (
-    <div className="flex flex-row gap-8 justify-around items-center">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 justify-items-center">
       {Infos.map((info, index) => (
         <InfoCard
           key={index}
@@ -38,7 +38,7 @@ const Info = () => {
           description={info.description}
         />
       ))}
-    </div>
+    </section>
   );
 };
 
