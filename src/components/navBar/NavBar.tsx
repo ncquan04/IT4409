@@ -4,7 +4,8 @@ import TopHeader from "./components/TopHeader";
 const NavBar = () => {
   return (
     <header
-      className="flex flex-col border-b-gray-300 border-b-2 "
+      className="flex flex-col"
+      style={{ borderBottom: "1px solid var(--color-gray-300)" }}
       role="banner"
     >
       <TopHeader />
