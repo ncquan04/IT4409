@@ -4,6 +4,7 @@ import NavBar from "../components/navBar/NavBar";
 import Footer from "../components/footer/Footer";
 import SignUpPage from "../pages/login/LogInSignUpPage";
 import LogInSignUpPage from "../pages/login/LogInSignUpPage";
+import AboutPage from "../pages/about/AboutPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -36,6 +37,7 @@ const RootNavigation = () => {
             path={AppRoutes.SIGNUP}
             element={<SignUpPage action="signup" />}
           />
+          <Route path={AppRoutes.ABOUT} element={<AboutPage />} />
           {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
           <Route path={AppRoutes.CONTACT} element={<LoginPage />} />
           <Route path={AppRoutes.ABOUT} element={<LoginPage />} />

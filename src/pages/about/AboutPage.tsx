@@ -1,0 +1,15 @@
+import Info from "./components/Info";
+import Leaders from "./components/Leaders";
+import OurStory from "./components/OurStory";
+
+const AboutPage = () => {
+  return (
+    <main className="flex flex-1 w-full flex-col gap-8 md:gap-16 lg:gap-32 px-4 sm:px-6 md:px-8 lg:px-12">
+      <OurStory />
+      <Info />
+      <Leaders />
+    </main>
+  );
+};
+
+export default AboutPage;
