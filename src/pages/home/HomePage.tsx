@@ -16,7 +16,7 @@ const HomePage = () => {
     >
       <div className="flex flex-row gap-16 pb-16 items-center">
         <CategorySelector categories={SAMPLE_CATEGORIES} />
-        <div className="w-[1px] self-stretch bg-gray-300" />
+        <div className="w-[1px] self-stretch bg-gray-300" role="separator" aria-orientation="vertical" />
         <BannerSwiper 
           products={SAMPLE_ITEMS}
         />

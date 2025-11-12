@@ -14,19 +14,19 @@ const FeaturedSection = (props: FeaturedSectionProps) => {
       <div className="flex flex-row justify-between items-center">
         <SectionTag title="Featured" />
       </div>
-      <div className="flex flex-row gap-8">
-        <div className="w-128 h-128">
+      <div className="flex flex-row gap-8" role="list">
+        <div className="w-128 h-128" role="listitem">
           <ItemBanner ratio="1:1" item={fiveFeaturedProducts[0]} />
         </div>
         <div className="flex flex-1 flex-col gap-8">
-            <div className="w-full h-60">
+            <div className="w-full h-60" role="listitem">
                 <ItemBanner ratio="16:9" item={fiveFeaturedProducts[1]} />
             </div>
             <div className="flex flex-row gap-8">
-                <div className="w-1/2 h-60">
+                <div className="w-1/2 h-60" role="listitem">
                     <ItemBanner ratio="16:9" item={fiveFeaturedProducts[2]} />
                 </div>
-                <div className="w-1/2 h-60">
+                <div className="w-1/2 h-60" role="listitem">
                     <ItemBanner ratio="16:9" item={fiveFeaturedProducts[3]} />
                 </div>
             </div>

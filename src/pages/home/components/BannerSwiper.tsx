@@ -11,7 +11,7 @@ const BannerSwiper = ({ products }: BannerSwiperProps) => {
     const i18n = useI18n();
 
     return (
-        <div className="flex-1 min-w-0" style={{ aspectRatio: '892/344' }}>
+        <section className="flex-1 min-w-0" style={{ aspectRatio: '892/344' }} aria-label="Featured products carousel">
             <style>{`
                 .banner-swiper .swiper-pagination-bullet {
                     background: white;
@@ -36,7 +36,7 @@ const BannerSwiper = ({ products }: BannerSwiperProps) => {
             >
                 {products.map((product) => (
                     <SwiperSlide key={product._id}>
-                        <section
+                        <article
                             className="w-full h-full bg-black flex justify-center items-center overflow-hidden relative"
                             aria-label={product.title}
                         >
@@ -56,17 +56,17 @@ const BannerSwiper = ({ products }: BannerSwiperProps) => {
                                     <a
                                         href="#"
                                         className="text-white text-base font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
-                                        aria-label={i18n.t("Shop Now") as string}
+                                        aria-label={`${i18n.t("Shop Now")} - ${product.title}`}
                                     >
                                         {i18n.t("Shop Now")}
                                     </a>
                                 </figcaption>
                             </figure>
-                        </section>
+                        </article>
                     </SwiperSlide>
                 ))}
             </Swiper>
-        </div>
+        </section>
     );
 }
 

@@ -30,21 +30,19 @@ const CategoryCard = ({ category }: { category: Category }) => {
   })();
 
   return (
-    <article
-      className={`w-[170px] h-[145px] flex flex-col justify-center items-center gap-2 rounded-sm hover:bg-secondary2 hover:cursor-pointer`}
+    <button
+      className={`w-[170px] h-[145px] flex flex-col justify-center items-center gap-2 rounded-sm hover:bg-secondary2 hover:cursor-pointer bg-transparent`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
         borderWidth: 1,
         borderColor: isHovered ? "#DB4444" : "#00000033"
       }}
-      role="button"
-      tabIndex={0}
-      aria-label={`Category: ${category.name}`}
+      aria-label={`View ${category.name} category`}
     >
       {IconComponent ? <IconComponent stroke={isHovered ? "white" : "black"} /> : null}
       <span className={`text-base font-medium ${isHovered ? "text-white" : "text-black"}`}>{category.name}</span>
-    </article>
+    </button>
   );
 };
 

@@ -11,7 +11,7 @@ const ItemBanner = ({ ratio, item }: ItemBannerProps) => {
     const i18n = useI18n();
 
     return (
-        <section
+        <article
             className="w-full h-full bg-black flex justify-center items-center rounded-sm overflow-hidden relative"
             aria-label={item.title}
         >
@@ -30,14 +30,14 @@ const ItemBanner = ({ ratio, item }: ItemBannerProps) => {
                     <p className="text-white text-sm font-normal">{item.description}</p>
                     <a
                         href="#"
-                        className="text-white text-base font-medium underline cursor-pointer"
-                        aria-label={i18n.t("Shop Now") as string}
+                        className="text-white text-base font-medium underline cursor-pointer hover:text-gray-200 transition-colors"
+                        aria-label={`${i18n.t("Shop Now")} - ${item.title}`}
                     >
                         {i18n.t("Shop Now")}
                     </a>
                 </figcaption>
             </figure>
-        </section>
+        </article>
     );
 }
 
