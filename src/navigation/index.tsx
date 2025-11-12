@@ -4,6 +4,7 @@ import NavBar from "../components/navBar/NavBar";
 import Footer from "../components/footer/Footer";
 import SignUpPage from "../pages/login/LogInSignUpPage";
 import LogInSignUpPage from "../pages/login/LogInSignUpPage";
+import NotFoundPage from "../pages/notFound/NotFoundPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -25,23 +26,26 @@ const RootNavigation = () => {
     <>
       <BrowserRouter>
         <NavBar />
-        <Routes>
-          <Route path={AppRoutes.DEFAULT} element={<HomePage />} />
-          <Route path={AppRoutes.HOME} element={<HomePage />} />
-          <Route
-            path={AppRoutes.LOGIN}
-            element={<LogInSignUpPage action="login" />}
-          />
-          <Route
-            path={AppRoutes.SIGNUP}
-            element={<SignUpPage action="signup" />}
-          />
-          {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
+        <div className="flex-1 flex flex-col">
+          <Routes>
+            <Route path={AppRoutes.DEFAULT} element={<HomePage />} />
+            <Route path={AppRoutes.HOME} element={<HomePage />} />
+            <Route
+              path={AppRoutes.LOGIN}
+              element={<LogInSignUpPage action="login" />}
+            />
+            <Route
+              path={AppRoutes.SIGNUP}
+              element={<SignUpPage action="signup" />}
+            />
+            <Route path="*" element={<NotFoundPage />} />
+            {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
           <Route path={AppRoutes.CONTACT} element={<LoginPage />} />
           <Route path={AppRoutes.ABOUT} element={<LoginPage />} />
           <Route path={AppRoutes.WISHLIST} element={<LoginPage />} />
           <Route path={AppRoutes.CART} element={<LoginPage />} /> */}
-        </Routes>
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </>
