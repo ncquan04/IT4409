@@ -10,9 +10,9 @@ interface ThisMonthSectionProps {
 
 const ThisMonthSection = (props: ThisMonthSectionProps) => {
     return (
-        <div className="flex flex-col gap-8">
+        <section className="flex flex-col gap-8" aria-labelledby="thismonth-section-title">
             <div className="flex flex-row justify-between items-center">
-                <SectionTag title="Today's" />
+                <SectionTag title="This Month" />
             <CommonButton
                 label="View All Products"
                 onClick={() => {}}
@@ -33,7 +33,7 @@ const ThisMonthSection = (props: ThisMonthSectionProps) => {
                 ))}
             </Swiper>
             
-        </div>
+        </section>
     )
 }
 

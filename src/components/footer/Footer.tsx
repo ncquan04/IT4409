@@ -10,7 +10,7 @@ const Footer = () => {
   const i18n = useI18n();
 
   return (
-    <main className="flex flex-col pt-12 gap-24">
+    <main className="flex flex-col pt-32 gap-24">
       <section className="flex flex-row justify-center items-start gap-16" aria-label="Features">
         <FeatureCard 
           icon={<DeliveryIcon width={40} height={40}/>}

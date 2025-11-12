@@ -14,7 +14,7 @@ const CategoriesSection = (props: CategoriesSectionProps) => {
     const swiperRef = useRef<SwiperRef>(null);
 
     return (
-        <div className="flex flex-col gap-8">
+        <section className="flex flex-col gap-8" aria-labelledby="categories-section-title">
             <div className="flex flex-row justify-between items-center">
                 <SectionTag title="Categories" />
                 <LeftRightNavigator 
@@ -38,7 +38,7 @@ const CategoriesSection = (props: CategoriesSectionProps) => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-        </div>
+        </section>
     )
 }
 

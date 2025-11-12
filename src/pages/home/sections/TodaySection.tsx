@@ -11,7 +11,7 @@ interface TodaySectionProps {
 
 const TodaySection = (props: TodaySectionProps) => {
     return (
-        <div className="flex flex-col gap-8">
+        <section className="flex flex-col gap-8" aria-labelledby="today-section-title">
             <SectionTag title="Today's" />
             <Swiper
                 spaceBetween={30}
@@ -31,7 +31,7 @@ const TodaySection = (props: TodaySectionProps) => {
                 onClick={() => {}}
                 style={{ width: 234, height: 56, alignSelf: "center" }}
             />
-        </div>
+        </section>
     );
 }
 
