@@ -5,7 +5,7 @@ const OurStory = () => {
   const i18n = useI18n();
 
   return (
-    <section className="flex flex-col lg:flex-row justify-between items-center gap-8 md:gap-12 lg:gap-16 lg:-mr-12">
+    <section className="flex flex-col lg:flex-row justify-between items-center gap-8 md:gap-12 lg:gap-16 lg:-mr-[var(--horizontal-padding)]">
       <article className="flex flex-1 flex-wrap flex-col gap-4 md:gap-6 lg:gap-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold text-black">
           {i18n.t("Our Story")}
