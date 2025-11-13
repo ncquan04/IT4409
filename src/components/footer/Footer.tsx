@@ -38,7 +38,7 @@ const Footer = () => {
           <QuickLinkSection />
         </nav>
         <p className="text-sm md:text-base text-center text-gray-500">
-          &copy; 2024 Apex. {i18n.t("All rights reserved.")}
+          &copy; 2025 Apex. {i18n.t("All rights reserved.")}
         </p>
       </footer>
     </main>
