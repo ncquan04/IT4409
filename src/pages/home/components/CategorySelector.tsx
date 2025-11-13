@@ -1,22 +1,70 @@
+import { useState } from "react";
 import type { Category } from "../../../shared/models/category-model";
+import ArrowDownIcon from "../../../icons/ArrowDownIcon";
 
 interface CategorySelectorProps {
     categories: Category[]
 }
 
 const CategorySelector = (props: CategorySelectorProps) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string>("Browse Categories");
+
     const handleSelectCategory = () => {
 
     }
 
+    const handleDropdownToggle = () => {
+        setIsOpen(!isOpen);
+    }
+
+    const handleCategoryClick = (categoryName: string) => {
+        setSelectedCategory(categoryName);
+        setIsOpen(false);
+    }
+
     return (
         <nav className="flex flex-col gap-4 w-full lg:w-auto" aria-label="Category navigation">
-            <ul className="list-none p-0 m-0 flex flex-row lg:flex-col gap-2 md:gap-4 overflow-x-auto lg:overflow-visible">
+            <div className="lg:hidden relative">
+                <button
+                    onClick={handleDropdownToggle}
+                    className="w-full px-4 py-3 text-sm md:text-base text-black font-medium bg-transparent hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between gap-2"
+                    aria-expanded={isOpen}
+                    aria-label="Select category"
+                >
+                    <span>{selectedCategory}</span>
+                    <ArrowDownIcon 
+                        className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+                        fill="currentColor"
+                    />
+                </button>
+                
+                <div 
+                    className={`absolute top-full left-0 w-full bg-white shadow-lg rounded-b-md overflow-hidden transition-all duration-300 ease-in-out z-10 ${
+                        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                >
+                    <ul className="list-none p-0 m-0">
+                        {props.categories.map((category, index) => (
+                            <li key={index}>
+                                <button
+                                    onClick={() => handleCategoryClick(category.name)}
+                                    className="w-full px-4 py-3 text-sm md:text-base text-black font-medium hover:bg-gray-100 bg-transparent border-0 text-left transition-colors duration-150"
+                                >
+                                    {category.name}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <ul className="hidden lg:flex list-none p-0 m-0 flex-col gap-4">
                 {props.categories.map((category, index) => (
-                    <li key={index} className="flex-shrink-0">
+                    <li key={index}>
                         <button 
                             onClick={handleSelectCategory}
-                            className="text-sm md:text-base text-black font-medium hover:cursor-pointer bg-transparent border-0 p-0 text-left w-full hover:underline whitespace-nowrap"
+                            className="text-base text-black font-medium hover:cursor-pointer bg-transparent border-0 p-0 text-left w-full hover:underline"
                             aria-label={`Select ${category.name} category`}
                         >
                             {category.name}
