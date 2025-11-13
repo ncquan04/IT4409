@@ -2,34 +2,30 @@ import { useMemo } from "react";
 import SaleTag from "./SaleTag";
 import StarRating from "../starRating/StarRating";
 import { useI18n } from "../../../contexts/I18nContext";
+import type { Product } from "../../../shared/models/product-model";
 
 interface ItemCardProps {
-  name: string;
-  image: string;
-  price: number;
-  salePrice?: number;
-  rating: number;
-  available: number;
+  item: Product;
 }
 
-const ItemCard = (props: ItemCardProps) => {
+const ItemCard = ({item} : ItemCardProps) => {
   const i18n = useI18n();
 
   const salePercent = useMemo(() => {
-    if (props.salePrice && props.salePrice < props.price) {
-      return Math.round(((props.price - props.salePrice) / props.price) * 100);
+    if (item.salePrice && item.salePrice < item.price) {
+      return Math.round(((item.price - item.salePrice) / item.price) * 100);
     }
     return 0;
-  }, [props.price, props.salePrice]);
+  }, [item.price, item.salePrice]);
 
   const handleAddToCart = () => {};
 
   return (
-    <article className="w-[270px] flex flex-col gap-4">
-      <figure className="w-[270px] h-[250px] relative rounded-sm overflow-hidden group m-0">
+    <article className="w-full flex flex-col gap-4">
+      <figure className="w-full aspect-[270/250] relative rounded-sm overflow-hidden group m-0">
         <img
-          src={props.image}
-          alt={props.name}
+          src={item.imageUrl[0]}
+          alt={item.title}
           className="w-full h-full object-cover "
         />
         <SaleTag
@@ -41,36 +37,36 @@ const ItemCard = (props: ItemCardProps) => {
           onClick={handleAddToCart}
           aria-label={i18n.t("Add to Cart")}
         >
-          <span className="text-base text-white font-medium">
+          <span className="text-sm md:text-base text-white font-medium">
             {i18n.t("Add to Cart")}
           </span>
         </button>
       </figure>
       <section className="flex flex-col gap-2">
-        <h3 className="text-base text-black font-medium m-0">{props.name}</h3>
-        <div className="flex flex-row gap-3">
+        <h3 className="text-sm md:text-base text-black font-medium m-0 truncate">{item.title}</h3>
+        <div className="flex flex-row gap-2 md:gap-3">
           <data
-            className="text-base text-secondary2 font-medium"
-            value={props.salePrice || props.price}
+            className="text-sm md:text-base text-secondary2 font-medium"
+            value={item.salePrice || item.price}
           >
             $
-            {props.salePrice
-              ? props.salePrice.toFixed(2)
-              : props.price.toFixed(2)}
+            {item.salePrice
+              ? item.salePrice.toFixed(2)
+              : item.price.toFixed(2)}
           </data>
-          {props.salePrice && (
+          {item.salePrice && (
             <data
-              className="text-base text-black opacity-50 line-through font-medium"
-              value={props.price}
+              className="text-sm md:text-base text-black opacity-50 line-through font-medium"
+              value={item.price}
             >
-              ${props.price.toFixed(2)}
+              ${item.price.toFixed(2)}
             </data>
           )}
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <StarRating rating={props.rating} />
-          <span className="text-sm text-black opacity-50 font-medium">
-            ({props.available})
+          <StarRating rating={item.rating || 0} />
+          <span className="text-xs md:text-sm text-black opacity-50 font-medium">
+            ({item.quantity})
           </span>
         </div>
       </section>

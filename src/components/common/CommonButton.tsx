@@ -5,6 +5,7 @@ interface CommonButtonProps {
   onClick: () => void;
   style?: React.CSSProperties;
   type?: "button" | "submit" | "reset";
+  className?: string;
 }
 
 const CommonButton = (props: CommonButtonProps) => {
@@ -12,7 +13,7 @@ const CommonButton = (props: CommonButtonProps) => {
 
   return (
     <button
-      className="w-full h-14 rounded-lg bg-button2 hover:bg-hoverButton hover:cursor-pointer"
+      className={`w-full h-14 rounded-lg bg-button2 hover:bg-hoverButton hover:cursor-pointer ${props.className || ''}`}
       onClick={props.onClick}
       style={props.style}
       type={props.type || "button"}

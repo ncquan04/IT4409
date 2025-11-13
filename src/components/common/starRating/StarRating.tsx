@@ -8,8 +8,8 @@ const StarRating = ({ rating }: { rating: number }) => {
           key={index}
           width={20}
           height={20}
-          fill={index < rating ? "#FFAD33" : "#000"}
-          opacity={index < rating ? 1 : 0.5}
+          fill={index < rating ? "#FFAD33" : '#000'}
+          opacity={index < rating ? 1 : 0.25}
         />
       ))}
     </div>

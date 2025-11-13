@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { User } from "../types";
+import type { User } from "../shared/models/user-model";
 
 type AuthContextType = {
   isAuthenticated: boolean;
