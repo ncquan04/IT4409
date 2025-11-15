@@ -5,6 +5,7 @@ import Footer from "../components/footer/Footer";
 import SignUpPage from "../pages/login/LogInSignUpPage";
 import LogInSignUpPage from "../pages/login/LogInSignUpPage";
 import NotFoundPage from "../pages/notFound/NotFoundPage";
+import ContactPage from "../pages/contact/ContactPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -38,12 +39,8 @@ const RootNavigation = () => {
               path={AppRoutes.SIGNUP}
               element={<SignUpPage action="signup" />}
             />
+            <Route path={AppRoutes.CONTACT} element={<ContactPage />} />
             <Route path="*" element={<NotFoundPage />} />
-            {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
-          <Route path={AppRoutes.CONTACT} element={<LoginPage />} />
-          <Route path={AppRoutes.ABOUT} element={<LoginPage />} />
-          <Route path={AppRoutes.WISHLIST} element={<LoginPage />} />
-          <Route path={AppRoutes.CART} element={<LoginPage />} /> */}
           </Routes>
         </div>
         <Footer />
