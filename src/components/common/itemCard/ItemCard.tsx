@@ -8,7 +8,7 @@ interface ItemCardProps {
   item: Product;
 }
 
-const ItemCard = ({item} : ItemCardProps) => {
+const ItemCard = ({ item }: ItemCardProps) => {
   const i18n = useI18n();
 
   const salePercent = useMemo(() => {
@@ -20,18 +20,27 @@ const ItemCard = ({item} : ItemCardProps) => {
 
   const handleAddToCart = () => {};
 
+  const handleClick = () => {
+    window.location.href = `/products/${item._id}`;
+  };
+
   return (
-    <article className="w-full flex flex-col gap-4">
+    <article
+      className="w-full flex flex-col gap-4 hover:cursor-pointer"
+      onClick={handleClick}
+    >
       <figure className="w-full aspect-[270/250] relative rounded-sm overflow-hidden group m-0">
         <img
           src={item.imageUrl[0]}
           alt={item.title}
           className="w-full h-full object-cover "
         />
-        <SaleTag
-          salePercent={salePercent}
-          style={{ position: "absolute", top: 12, left: 12 }}
-        />
+        {salePercent !== 0 && (
+          <SaleTag
+            salePercent={salePercent}
+            style={{ position: "absolute", top: 12, left: 12 }}
+          />
+        )}
         <button
           className="w-full pb-1 pt-1 absolute bottom-0 bg-black flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out cursor-pointer border-0"
           onClick={handleAddToCart}
@@ -43,16 +52,16 @@ const ItemCard = ({item} : ItemCardProps) => {
         </button>
       </figure>
       <section className="flex flex-col gap-2">
-        <h3 className="text-sm md:text-base text-black font-medium m-0 truncate">{item.title}</h3>
+        <h3 className="text-sm md:text-base text-black font-medium m-0 truncate">
+          {item.title}
+        </h3>
         <div className="flex flex-row gap-2 md:gap-3">
           <data
             className="text-sm md:text-base text-secondary2 font-medium"
             value={item.salePrice || item.price}
           >
             $
-            {item.salePrice
-              ? item.salePrice.toFixed(2)
-              : item.price.toFixed(2)}
+            {item.salePrice ? item.salePrice.toFixed(2) : item.price.toFixed(2)}
           </data>
           {item.salePrice && (
             <data
