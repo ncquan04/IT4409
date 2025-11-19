@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CommonButton from "../../../components/common/CommonButton";
 import { useI18n } from "../../../contexts/I18nContext";
 import { AppRoutes } from "../../../navigation";
@@ -21,9 +22,9 @@ const ActionSection = (props: ActionSectionProps) => {
           style={{ width: "40%" }}
         />
         <nav aria-label="Password recovery">
-          <a href="/" className="text-base text-button2 cursor-pointer">
+          <Link to="/" className="text-base text-button2 cursor-pointer">
             {i18n.t("Forgot Password?")}
-          </a>
+          </Link>
         </nav>
       </div>
     );
@@ -37,12 +38,12 @@ const ActionSection = (props: ActionSectionProps) => {
         />
         <p className="text-base text-text2">
           {i18n.t("Already have an account?")}{" "}
-          <a
-            href={AppRoutes.LOGIN}
+          <Link
+            to={AppRoutes.LOGIN}
             className="text-text2 underline cursor-pointer"
           >
             {i18n.t("Log In")}
-          </a>
+          </Link>
         </p>
       </div>
     );
