@@ -6,6 +6,7 @@ import SignUpPage from "../pages/login/LogInSignUpPage";
 import LogInSignUpPage from "../pages/login/LogInSignUpPage";
 import NotFoundPage from "../pages/notFound/NotFoundPage";
 import ContactPage from "../pages/contact/ContactPage";
+import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -20,6 +21,7 @@ export const AppRoutes = {
   PRIVACY_POLICY: "/privacy-policy",
   TERMS_OF_USE: "/terms-of-use",
   FAQ: "/faq",
+  PRODUCT_DETAIL: "/products/:productId",
 };
 
 const RootNavigation = () => {
@@ -40,6 +42,10 @@ const RootNavigation = () => {
               element={<SignUpPage action="signup" />}
             />
             <Route path={AppRoutes.CONTACT} element={<ContactPage />} />
+            <Route
+              path={AppRoutes.PRODUCT_DETAIL}
+              element={<ProductDetailPage />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
