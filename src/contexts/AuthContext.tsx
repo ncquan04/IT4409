@@ -23,7 +23,7 @@ type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -31,7 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async () => {},
   register: async () => {},
-  logout: () => {},
+  logout: async () => {},
 });
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
@@ -66,11 +66,22 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    AppStorage.remove("token");
-    AppStorage.remove("user");
-    setIsAuthenticated(false);
-    setUser(null);
+  const logout = async () => {
+    try {
+      await fetch(Contacts.API_CONFIG.AUTH.LOGOUT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      AppStorage.remove("token");
+      AppStorage.remove("user");
+      setIsAuthenticated(false);
+      setUser(null);
+    }
   };
 
   const register = async (payload: RegisterPayload) => {
