@@ -7,6 +7,7 @@ import LogInSignUpPage from "../pages/login/LogInSignUpPage";
 import NotFoundPage from "../pages/notFound/NotFoundPage";
 import ContactPage from "../pages/contact/ContactPage";
 import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
+import WishlistPage from "../pages/wishlist/WishlistPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -46,6 +47,7 @@ const RootNavigation = () => {
               path={AppRoutes.PRODUCT_DETAIL}
               element={<ProductDetailPage />}
             />
+            <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />  
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

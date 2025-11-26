@@ -61,7 +61,6 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         </Swiper>
       </nav>
 
-      {/* Main product image */}
       <div className="flex flex-col gap-4 md:w-[500px] lg:w-[400px] xl:w-[500px]">
         <figure className="w-full h-[300px] sm:h-[400px] md:h-[500px] xl:h-[600px] rounded-sm overflow-hidden bg-gray-100">
           <img
@@ -71,7 +70,6 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           />
         </figure>
 
-        {/* Horizontal thumbnail navigation for mobile/tablet */}
         <nav className="lg:hidden w-full" aria-label="Product image thumbnails">
           <Swiper
             direction="horizontal"
