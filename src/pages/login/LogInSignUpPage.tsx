@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import InfoSection from "./components/InfoSection";
 import ActionSection from "./components/ActionSection";
+import { useAuth } from "../../contexts/AuthContext";
+import { AppRoutes } from "../../navigation";
 
 interface LogInSignUpPageProps {
   action: "login" | "signup";
@@ -11,15 +15,45 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = (email: string, password: string) => {
-    // your code here
-    // Handle login logic here
+  const {login, register} = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (email: string, password: string) => {
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+    try {
+      setError("");
+      await login(email, password);
+      navigate(AppRoutes.HOME);
+    } catch (err: any) {
+      setError(err.message || "Login failed");
+    }
   };
 
-  const handleSignUp = (username: string, email: string, password: string) => {
-    // your code here
-    // Handle sign up logic here
+  const handleSignUp = async (username: string, email: string, password: string, phoneNumber: string, dateOfBirth: string) => {
+    if (!username || !email || !password || !phoneNumber || !dateOfBirth) {
+      setError("Please fill in all fields");
+      return;
+    }
+    try {
+      setError("");
+      await register({
+        username,
+        email,
+        password,
+        phoneNumber,
+        dateOfBirth,
+      });
+      navigate(AppRoutes.HOME);
+    } catch (err: any) {
+      setError(err.message || "Registration failed");
+    }
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -27,49 +61,68 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
     if (props.action === "login") {
       handleLogin(email, password);
     } else {
-      handleSignUp(username, email, password);
+      handleSignUp(username, email, password, phoneNumber, dateOfBirth);
     }
   };
 
   return (
     <main
       role="main"
-      className="w-full h-full pt-12 pb-12 pl-6 pr-6 flex flex-row justify-between items-center"
+      className="w-full h-full pt-12 pb-12 pl-6 pr-6 flex flex-row justify-between items-center overflow-hidden"
     >
-      <aside
-        className="w-1/2 h-full flex flex-col justify-center items-center gap-6"
-        aria-label="Branding"
-      >
-        <figure className="w-full flex justify-center">
-          <img src="/icon.jpg" alt="Apex logo" className="w-1/2 h-auto" />
-        </figure>
-      </aside>
-      <section
-        className="w-1/2 pr-24 h-full flex flex-col justify-center items-center gap-12"
-        aria-labelledby="auth-heading"
-      >
-        <Header action={props.action} />
-        <form
-          className="w-full flex flex-col gap-8"
-          onSubmit={handleSubmit}
-          noValidate
+      <AnimatePresence mode="wait">
+        <motion.aside
+          key={props.action + "-aside"}
+          initial={{ x: props.action === "login" ? -100 : 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: props.action === "login" ? -100 : 100, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-1/2 h-full flex flex-col justify-center items-center gap-6"
+          aria-label="Branding"
         >
-          <InfoSection
-            action={props.action}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            username={username}
-            setUsername={setUsername}
-          />
-          <ActionSection
-            action={props.action}
-            handleLogIn={() => handleLogin(email, password)}
-            handleSignUp={() => handleSignUp(username, email, password)}
-          />
-        </form>
-      </section>
+          <figure className="w-full flex justify-center">
+            <img src="/icon.jpg" alt="Apex logo" className="w-1/2 h-auto" />
+          </figure>
+        </motion.aside>
+        <motion.section
+          key={props.action + "-section"}
+          initial={{ x: props.action === "login" ? 100 : -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: props.action === "login" ? 100 : -100, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-1/2 pr-24 h-full flex flex-col justify-center items-center gap-12"
+          aria-labelledby="auth-heading"
+        >
+          <Header action={props.action} />
+          <form
+            className="w-full flex flex-col gap-8"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <InfoSection
+              action={props.action}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              username={username}
+              setUsername={setUsername}
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+              dateOfBirth={dateOfBirth}
+              setDateOfBirth={setDateOfBirth}
+            />
+            {error && <p className="text-button2 text-center">{error}</p>}
+            <ActionSection
+              action={props.action}
+              handleLogIn={() => handleLogin(email, password)}
+              handleSignUp={() =>
+                handleSignUp(username, email, password, phoneNumber, dateOfBirth)
+              }
+            />
+          </form>
+        </motion.section>
+      </AnimatePresence>
     </main>
   );
 };
