@@ -8,6 +8,10 @@ interface InfoSectionProps {
   setPassword: Dispatch<SetStateAction<string>>;
   username?: string;
   setUsername?: Dispatch<SetStateAction<string>>;
+  phoneNumber?: string;
+  setPhoneNumber?: Dispatch<SetStateAction<string>>;
+  dateOfBirth?: string;
+  setDateOfBirth?: Dispatch<SetStateAction<string>>;
 }
 
 const InfoSection = (props: InfoSectionProps) => {
@@ -35,6 +39,35 @@ const InfoSection = (props: InfoSectionProps) => {
             value={props.username}
             onChange={(e) =>
               props.setUsername && props.setUsername(e.target.value)
+            }
+          />
+          <label htmlFor="phoneNumber" className="sr-only">
+            Phone Number
+          </label>
+          <input
+            id="phoneNumber"
+            name="phoneNumber"
+            type="tel"
+            placeholder="Phone Number"
+            autoComplete="tel"
+            className="border-b border-text2 p-2 text-text2 focus:outline-none w-full"
+            value={props.phoneNumber}
+            onChange={(e) =>
+              props.setPhoneNumber && props.setPhoneNumber(e.target.value)
+            }
+          />
+          <label htmlFor="dateOfBirth" className="sr-only">
+            Date of Birth
+          </label>
+          <input
+            id="dateOfBirth"
+            name="dateOfBirth"
+            type="date"
+            placeholder="Date of Birth"
+            className="border-b border-text2 p-2 text-text2 focus:outline-none w-full"
+            value={props.dateOfBirth}
+            onChange={(e) =>
+              props.setDateOfBirth && props.setDateOfBirth(e.target.value)
             }
           />
         </>

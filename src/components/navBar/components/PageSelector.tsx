@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useI18n } from "../../../contexts/I18nContext";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 
 interface PageSelectorProps {
   mobile?: boolean;
@@ -9,15 +10,16 @@ interface PageSelectorProps {
 const PageSelector = ({ mobile = false }: PageSelectorProps) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
+  const { isAuthenticated } = useAuth();
 
   const pages = useMemo(() => {
     return [
       { name: "Home", path: "/" },
       { name: "Contact", path: "/contact" },
       { name: "About", path: "/about" },
-      { name: "Sign Up", path: "/signup" },
-    ];
-  }, []);
+      isAuthenticated ? { name: "Log Out", path: "/logout" } : undefined,
+    ].filter((page) => page !== undefined);
+  }, [isAuthenticated]);
 
   if (mobile) {
     return (

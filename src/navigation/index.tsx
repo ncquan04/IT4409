@@ -6,6 +6,9 @@ import SignUpPage from "../pages/login/LogInSignUpPage";
 import LogInSignUpPage from "../pages/login/LogInSignUpPage";
 import AboutPage from "../pages/about/AboutPage";
 import NotFoundPage from "../pages/notFound/NotFoundPage";
+import ContactPage from "../pages/contact/ContactPage";
+import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
+import WishlistPage from "../pages/wishlist/WishlistPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -20,6 +23,7 @@ export const AppRoutes = {
   PRIVACY_POLICY: "/privacy-policy",
   TERMS_OF_USE: "/terms-of-use",
   FAQ: "/faq",
+  PRODUCT_DETAIL: "/products/:productId",
 };
 
 const RootNavigation = () => {
@@ -40,12 +44,13 @@ const RootNavigation = () => {
               element={<SignUpPage action="signup" />}
             />
             <Route path={AppRoutes.ABOUT} element={<AboutPage />}/>
+            <Route path={AppRoutes.CONTACT} element={<ContactPage />} />
+            <Route
+              path={AppRoutes.PRODUCT_DETAIL}
+              element={<ProductDetailPage />}
+            />
+            <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />  
             <Route path="*" element={<NotFoundPage />} />
-            {/* <Route path={AppRoutes.SIGNUP} element={<LoginPage />} />
-          <Route path={AppRoutes.CONTACT} element={<LoginPage />} />
-          <Route path={AppRoutes.ABOUT} element={<LoginPage />} />
-          <Route path={AppRoutes.WISHLIST} element={<LoginPage />} />
-          <Route path={AppRoutes.CART} element={<LoginPage />} /> */}
           </Routes>
         </div>
         <Footer />

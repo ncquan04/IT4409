@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 function DeliveryIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -12,7 +12,7 @@ function DeliveryIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <g
         clipPath="url(#clip0_864_335)"
-        stroke="#FAFAFA"
+        stroke={props.stroke || "#FAFAFA"}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -27,7 +27,7 @@ function DeliveryIcon(props: React.SVGProps<SVGSVGElement>) {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
 
-export default DeliveryIcon
+export default DeliveryIcon;
