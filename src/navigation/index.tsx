@@ -9,6 +9,7 @@ import NotFoundPage from "../pages/notFound/NotFoundPage";
 import ContactPage from "../pages/contact/ContactPage";
 import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
 import WishlistPage from "../pages/wishlist/WishlistPage";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -24,6 +25,7 @@ export const AppRoutes = {
   TERMS_OF_USE: "/terms-of-use",
   FAQ: "/faq",
   PRODUCT_DETAIL: "/products/:productId",
+  CHECKOUT: "/checkout",
 };
 
 const RootNavigation = () => {
@@ -43,13 +45,14 @@ const RootNavigation = () => {
               path={AppRoutes.SIGNUP}
               element={<SignUpPage action="signup" />}
             />
-            <Route path={AppRoutes.ABOUT} element={<AboutPage />}/>
+            <Route path={AppRoutes.ABOUT} element={<AboutPage />} />
             <Route path={AppRoutes.CONTACT} element={<ContactPage />} />
             <Route
               path={AppRoutes.PRODUCT_DETAIL}
               element={<ProductDetailPage />}
             />
-            <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />  
+            <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />
+            <Route path={AppRoutes.CHECKOUT} element={<CheckoutPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
