@@ -4,22 +4,26 @@ interface QuantitySelectorProps {
   maxQuantity: number;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
+  onQuantityChange?: (quantity: number) => void;
 }
 
 const QuantitySelector = ({
   maxQuantity,
   quantity,
   setQuantity,
+  onQuantityChange,
 }: QuantitySelectorProps) => {
   const handleDecrease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+      onQuantityChange?.(quantity - 1);
     }
   };
 
   const handleIncrease = () => {
     if (quantity < maxQuantity) {
       setQuantity(quantity + 1);
+      onQuantityChange?.(quantity + 1);
     }
   };
 
