@@ -10,6 +10,7 @@ import ContactPage from "../pages/contact/ContactPage";
 import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
 import WishlistPage from "../pages/wishlist/WishlistPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
+import AccountPage from "../pages/account/AccountPage";
 
 export const AppRoutes = {
   DEFAULT: "/",
@@ -53,6 +54,7 @@ const RootNavigation = () => {
             />
             <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />
             <Route path={AppRoutes.CHECKOUT} element={<CheckoutPage />} />
+            <Route path={AppRoutes.ACCOUNT} element={<AccountPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
