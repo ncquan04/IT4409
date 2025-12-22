@@ -1,3 +1,4 @@
+import PageTransition from "../../components/common/PageTransition";
 import { useEffect, useState } from "react";
 import { Product } from "../../shared/models/product-model";
 import Wishlist from "./components/Wishlist";
@@ -13,27 +14,29 @@ const WishlistPage = () => {
   }, []);
 
   return (
-    <main
-      className="flex flex-col gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-[var(--horizontal-padding)] py-4 md:py-6 lg:py-8"
-      style={
-        {
-          "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,
-        } as React.CSSProperties
-      }
-    >
-      <section aria-labelledby="wishlist-heading">
-        <h1 id="wishlist-heading" className="sr-only">
-          Wishlist
-        </h1>
-        <Wishlist products={SAMPLE_ITEMS} />
-      </section>
-      <section aria-labelledby="just-for-you-heading">
-        <h2 id="just-for-you-heading" className="sr-only">
-          Just For You
-        </h2>
-        <JustForYou />
-      </section>
-    </main>
+    <PageTransition>
+      <main
+        className="flex flex-col gap-12 md:gap-16 lg:gap-24 px-4 sm:px-6 md:px-8 lg:px-[var(--horizontal-padding)] py-4 md:py-6 lg:py-8"
+        style={
+          {
+            "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,
+          } as React.CSSProperties
+        }
+      >
+        <section aria-labelledby="wishlist-heading">
+          <h1 id="wishlist-heading" className="sr-only">
+            Wishlist
+          </h1>
+          <Wishlist products={SAMPLE_ITEMS} />
+        </section>
+        <section aria-labelledby="just-for-you-heading">
+          <h2 id="just-for-you-heading" className="sr-only">
+            Just For You
+          </h2>
+          <JustForYou />
+        </section>
+      </main>
+    </PageTransition>
   );
 };
 
