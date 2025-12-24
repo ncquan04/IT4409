@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
         },
         define: {
             "process.env": {
-                REACT_APP_ENDPOINT: env.REACT_APP_ENDPOINT,
+                VITE_ENDPOINT: env.VITE_ENDPOINT,
             },
         },
     };
