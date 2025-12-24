@@ -17,7 +17,7 @@ class ApiService {
             baseURL: API_CONFIG.BASE_URL,
             timeout: API_CONFIG.TIMEOUT,
             headers: API_CONFIG.HEADERS,
-            // withCredentials: true,
+            withCredentials: true,
         });
 
         this.setupInterceptors();
