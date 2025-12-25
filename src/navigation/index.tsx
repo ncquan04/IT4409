@@ -11,57 +11,153 @@ import ProductDetailPage from "../pages/productDetail/ProductDetailPage";
 import WishlistPage from "../pages/wishlist/WishlistPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
 import AccountPage from "../pages/account/AccountPage";
+import AdminProtectedRoute from "../components/admin/adminProtectedRoute/adminProtectedRoute";
+import AdminPages from "../pages/admin";
 
 export const AppRoutes = {
-  DEFAULT: "/",
-  HOME: "/home",
-  ACCOUNT: "/account",
-  LOGIN: "/login",
-  SIGNUP: "/signup",
-  CONTACT: "/contact",
-  ABOUT: "/about",
-  WISHLIST: "/wishlist",
-  CART: "/cart",
-  PRIVACY_POLICY: "/privacy-policy",
-  TERMS_OF_USE: "/terms-of-use",
-  FAQ: "/faq",
-  PRODUCT_DETAIL: "/products/:productId",
-  CHECKOUT: "/checkout",
+    DEFAULT: "/",
+    HOME: "/home",
+    ACCOUNT: "/account",
+    LOGIN: "/login",
+    SIGNUP: "/signup",
+    CONTACT: "/contact",
+    ABOUT: "/about",
+    WISHLIST: "/wishlist",
+    CART: "/cart",
+    PRIVACY_POLICY: "/privacy-policy",
+    TERMS_OF_USE: "/terms-of-use",
+    FAQ: "/faq",
+    PRODUCT_DETAIL: "/products/:productId",
+    CHECKOUT: "/checkout",
+    ADMIN: "/admin",
+};
+
+const Mainlayout = ({ children }: { children: any }) => {
+    return (
+        <>
+            <NavBar />
+            <div className="flex-1 flex flex-col">{children}</div>
+            <Footer />
+        </>
+    );
+};
+
+const AdminLayout = ({ children }: { children: any }) => {
+    return (
+        <AdminProtectedRoute>
+            <>
+                <div>header</div>
+                <div>{children}</div>
+            </>
+        </AdminProtectedRoute>
+    );
 };
 
 const RootNavigation = () => {
-  return (
-    <>
-      <BrowserRouter>
-        <NavBar />
-        <div className="flex-1 flex flex-col">
-          <Routes>
-            <Route path={AppRoutes.DEFAULT} element={<HomePage />} />
-            <Route path={AppRoutes.HOME} element={<HomePage />} />
-            <Route
-              path={AppRoutes.LOGIN}
-              element={<LogInSignUpPage action="login" />}
-            />
-            <Route
-              path={AppRoutes.SIGNUP}
-              element={<SignUpPage action="signup" />}
-            />
-            <Route path={AppRoutes.ABOUT} element={<AboutPage />} />
-            <Route path={AppRoutes.CONTACT} element={<ContactPage />} />
-            <Route
-              path={AppRoutes.PRODUCT_DETAIL}
-              element={<ProductDetailPage />}
-            />
-            <Route path={AppRoutes.WISHLIST} element={<WishlistPage />} />
-            <Route path={AppRoutes.CHECKOUT} element={<CheckoutPage />} />
-            <Route path={AppRoutes.ACCOUNT} element={<AccountPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </div>
-        <Footer />
-      </BrowserRouter>
-    </>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path={AppRoutes.DEFAULT}
+                        element={
+                            <Mainlayout>
+                                <HomePage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.HOME}
+                        element={
+                            <Mainlayout>
+                                <HomePage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.LOGIN}
+                        element={
+                            <Mainlayout>
+                                <LogInSignUpPage action="login" />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.SIGNUP}
+                        element={
+                            <Mainlayout>
+                                <SignUpPage action="signup" />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ABOUT}
+                        element={
+                            <Mainlayout>
+                                <AboutPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.CONTACT}
+                        element={
+                            <Mainlayout>
+                                <ContactPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.PRODUCT_DETAIL}
+                        element={
+                            <Mainlayout>
+                                <ProductDetailPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.WISHLIST}
+                        element={
+                            <Mainlayout>
+                                <WishlistPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.CHECKOUT}
+                        element={
+                            <Mainlayout>
+                                <CheckoutPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ACCOUNT}
+                        element={
+                            <Mainlayout>
+                                <AccountPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ADMIN}
+                        element={
+                            <AdminLayout>
+                                <AdminPages />
+                            </AdminLayout>
+                        }
+                    />
+                    <Route
+                        path="*"
+                        element={
+                            <Mainlayout>
+                                <NotFoundPage />
+                            </Mainlayout>
+                        }
+                    />
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 };
 
 export default RootNavigation;
