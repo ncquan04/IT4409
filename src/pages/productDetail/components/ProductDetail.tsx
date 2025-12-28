@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import type { Product } from "../../../shared/models/product-model";
 import StarRating from "../../../components/common/starRating/StarRating";
@@ -14,11 +15,23 @@ interface ProductDetailProps {
 }
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
+  const navigate = useNavigate();
   const [imageIdx, setImageIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
-  const handleBuy = () => {};
+  const handleBuy = () => {
+    navigate("/checkout", {
+      state: {
+        products: [
+          {
+            ...product,
+            quantity: quantity,
+          },
+        ],
+      },
+    });
+  };
 
   const handleAddToWishList = () => {
     setAdded(true);

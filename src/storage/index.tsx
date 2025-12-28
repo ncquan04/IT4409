@@ -1,3 +1,7 @@
+export const STORAGE_KEY = {
+  BILLING_INFO: "billingInfo",
+};
+
 const AppStorage = {
   set(key: string, value: any, ttl?: number) {
     const item = {

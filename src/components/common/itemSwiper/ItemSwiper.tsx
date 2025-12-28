@@ -12,7 +12,7 @@ const ItemSwiper = ({ items }: ItemSwiperProps) => {
     <Swiper
       spaceBetween={15}
       slidesPerView={"auto"}
-      style={{ width: "100%" }}
+      style={{ width: "100%", padding: "4px" }}
       breakpoints={{
         640: { spaceBetween: 20 },
         768: { spaceBetween: 25 },
