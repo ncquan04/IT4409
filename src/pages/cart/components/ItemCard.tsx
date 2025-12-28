@@ -14,7 +14,9 @@ const ItemCard = ({
 }) => {
   const [item, setItem] = useState<Product>(SAMPLE_ITEMS[0]);
   const [quantity, setQuantity] = useState<number>(_quantity);
-  const [subtotal, setSubtotal] = useState<number>(item.price * _quantity);
+  const [subtotal, setSubtotal] = useState<number>(
+    item.variants[0].price * _quantity
+  );
 
   useEffect(() => {
     //get item
@@ -28,7 +30,7 @@ const ItemCard = ({
     <article className="flex flex-col md:flex-row justify-between items-center px-8 py-4 shadow-sm rounded-lg gap-4 md:gap-0">
       <div className="w-full md:w-1/4 flex justify-center md:justify-start">
         <img
-          src={item?.imageUrl[0]}
+          src={item?.variants[0].images[0]}
           alt={item.title}
           className="max-w-24 max-h-24 object-contain"
         />
@@ -37,15 +39,17 @@ const ItemCard = ({
         <span className="md:hidden text-base font-medium text-text2">
           Price:
         </span>
-        <span className="text-base font-normal text-text2">{item.price}</span>
+        <span className="text-base font-normal text-text2">
+          {item.variants[0].price}
+        </span>
       </div>
       <div className="w-full md:w-1/4 flex justify-center">
         <QuantitySelector
-          maxQuantity={item.quantity}
+          maxQuantity={item.variants[0].quantity}
           quantity={quantity}
           setQuantity={setQuantity}
           onQuantityChange={(newQuantity) => {
-            setSubtotal(item.price * newQuantity);
+            setSubtotal(item.variants[0].price * newQuantity);
           }}
         />
       </div>
