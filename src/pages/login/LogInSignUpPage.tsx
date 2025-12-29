@@ -1,6 +1,6 @@
 import PageTransition from "../../components/common/PageTransition";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import InfoSection from "./components/InfoSection";
@@ -20,8 +20,18 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState("");
 
-  const { login, register } = useAuth();
+  const { login, register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromLocation = location.state?.from;
+  const fromPath = fromLocation?.pathname || AppRoutes.HOME;
+  const fromState = fromLocation?.state;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(fromPath, { replace: true, state: fromState });
+    }
+  }, [isAuthenticated, navigate, fromPath, fromState]);
 
   const handleLogin = async (email: string, password: string) => {
     if (!email || !password) {
@@ -31,7 +41,6 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
     try {
       setError("");
       await login(email, password);
-      navigate(AppRoutes.HOME);
     } catch (err: any) {
       setError(err.message || "Login failed");
     }

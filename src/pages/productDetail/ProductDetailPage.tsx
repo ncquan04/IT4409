@@ -38,7 +38,7 @@ const ProductDetailPage = () => {
   return (
     <PageTransition>
       <main
-        className="flex flex-col gap-8 md:gap-12 lg:gap-16 px-4 sm:px-6 md:px-8 lg:px-[var(--horizontal-padding)] py-4 md:py-6 lg:py-8"
+        className="flex flex-col gap-8 md:gap-12 lg:gap-16 px-4 sm:px-6 md:px-8 lg:px-(--horizontal-padding) py-4 md:py-6 lg:py-8"
         style={
           {
             "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,

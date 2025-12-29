@@ -188,7 +188,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         <div className="flex flex-row gap-2 flex-wrap items-center">
           {product.rating && <StarRating rating={product.rating} />}
           {product.rating && (
-            <div className="w-[1px] h-4 bg-black" aria-hidden="true" />
+            <div className="w-px h-4 bg-black" aria-hidden="true" />
           )}
           <span
             className={`text-sm font-normal ${
@@ -287,7 +287,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
               className="flex-1 sm:flex-none"
             />
             <button
-              className="w-[44px] h-[44px] border-[1px] border-[#00000033] rounded-sm flex justify-center items-center hover:cursor-pointer shrink-0"
+              className="w-[44px] h-[44px] border border-[#00000033] rounded-sm flex justify-center items-center hover:cursor-pointer shrink-0"
               onClick={added ? handleRemoveFromWishList : handleAddToWishList}
               aria-label={added ? "Remove from wishlist" : "Add to wishlist"}
               aria-pressed={added}

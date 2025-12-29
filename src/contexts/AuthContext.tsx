@@ -54,11 +54,12 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const data = await response.json();
-      const { accessToken } = data;
+      const { user } = data;
 
-      if (accessToken) {
-        AppStorage.set("token", accessToken);
+      if (user) {
+        AppStorage.set("user", user);
         setIsAuthenticated(true);
+        setUser(user);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -77,7 +78,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      AppStorage.remove("token");
       AppStorage.remove("user");
       setIsAuthenticated(false);
       setUser(null);
@@ -105,10 +105,9 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const token = AppStorage.get("token");
     const storedUser = AppStorage.get("user");
 
-    if (token && storedUser) {
+    if (storedUser) {
       setIsAuthenticated(true);
       setUser(storedUser);
     }
