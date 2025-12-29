@@ -5,6 +5,7 @@ import bank1 from "../../../assets/images/image 30.png";
 import bank2 from "../../../assets/images/image 31.png";
 import bank3 from "../../../assets/images/image 32.png";
 import bank4 from "../../../assets/images/image 33.png";
+import { formatPrice } from "../../../utils";
 
 interface OrderSummaryProps {
   products: (Product & { quantity: number })[];
@@ -17,7 +18,7 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
   const [couponCode, setCouponCode] = useState("");
 
   const subtotal = products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
+    (acc, product) => acc + product.variants[0].price * product.quantity,
     0
   );
   const shipping = 0;
@@ -31,7 +32,7 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
             <div className="flex items-center gap-4">
               <div className="relative w-12 h-12">
                 <img
-                  src={product.imageUrl[0]}
+                  src={product.variants[0].images[0]}
                   alt={product.title}
                   className="w-full h-full object-contain"
                 />
@@ -39,7 +40,7 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
               <span className="text-base">{product.title}</span>
             </div>
             <span className="text-base">
-              ${product.price * product.quantity}
+              {formatPrice(product.variants[0].price * product.quantity)}
             </span>
           </li>
         ))}
@@ -48,7 +49,7 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between py-4 border-b border-gray-300">
           <span className="text-base">Subtotal:</span>
-          <span className="text-base">${subtotal}</span>
+          <span className="text-base">{formatPrice(subtotal)}</span>
         </div>
         <div className="flex justify-between py-4 border-b border-gray-300">
           <span className="text-base">Shipping:</span>
@@ -56,7 +57,7 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
         </div>
         <div className="flex justify-between py-4">
           <span className="text-base">Total:</span>
-          <span className="text-base">${total}</span>
+          <span className="text-base">{formatPrice(total)}</span>
         </div>
       </div>
 
@@ -78,7 +79,10 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
           </div>
           <div className="flex gap-2">
             {bankOptionsImg.map((bank, index) => (
-              <div className="w-[42px] h-[28px] flex justify-center items-center">
+              <div
+                key={index}
+                className="w-[42px] h-[28px] flex justify-center items-center"
+              >
                 <img src={bank} alt={`Bank ${index + 1}`} />
               </div>
             ))}
