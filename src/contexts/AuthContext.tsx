@@ -6,17 +6,10 @@ import {
   type ReactNode,
 } from "react";
 import type { User } from "../shared/models/user-model";
-import { Contacts } from "../shared/contacts";
+
 import AppStorage from "../storage";
 
-export type RegisterPayload = {
-  username: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-  dateOfBirth: string | Date;
-  address?: string[];
-};
+import { authApi, type RegisterPayload } from "../services/api/api.auth";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -40,20 +33,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(Contacts.API_CONFIG.AUTH.LOGIN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Login failed");
-      }
-
-      const data = await response.json();
+      const data = await authApi.login(email, password);
       const { user } = data;
 
       if (user) {
@@ -69,12 +49,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await fetch(Contacts.API_CONFIG.AUTH.LOGOUT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await authApi.logout();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
@@ -86,18 +61,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (payload: RegisterPayload) => {
     try {
-      const response = await fetch(Contacts.API_CONFIG.AUTH.REGISTER, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Registration failed");
-      }
+      await authApi.register(payload);
     } catch (error) {
       console.error("Registration error:", error);
       throw error;
