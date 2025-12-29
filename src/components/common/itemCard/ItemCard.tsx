@@ -5,6 +5,7 @@ import StarRating from "../starRating/StarRating";
 import { useI18n } from "../../../contexts/I18nContext";
 import type { Product } from "../../../shared/models/product-model";
 import { formatPrice } from "../../../utils";
+import { addToCart } from "../../../services/api/api.cart";
 
 interface ItemCardProps {
   item: Product;
@@ -27,7 +28,15 @@ const ItemCard = ({ item }: ItemCardProps) => {
     return 0;
   }, [variant]);
 
-  const handleAddToCart = () => {};
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(item._id, 1);
+      alert(i18n.t("Product added to cart successfully"));
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || i18n.t("Failed to add product to cart"));
+    }
+  };
 
   const handleClick = () => {
     navigate(`/products/${item._id}`);
