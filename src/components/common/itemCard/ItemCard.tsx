@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SaleTag from "./SaleTag";
 import StarRating from "../starRating/StarRating";
@@ -11,10 +11,12 @@ interface ItemCardProps {
 }
 
 const ItemCard = ({ item }: ItemCardProps) => {
+  const [productVariant, setProductVariant] = useState<number>(0);
+
   const i18n = useI18n();
   const navigate = useNavigate();
 
-  const variant = item.variants?.[0];
+  const variant = item.variants?.[productVariant];
 
   const salePercent = useMemo(() => {
     if (variant && variant.salePrice && variant.salePrice < variant.price) {
@@ -36,7 +38,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
       className="w-full flex flex-col hover:cursor-pointer bg-white shadow-md hover:shadow-xl transition-all duration-300 rounded-lg overflow-hidden"
       onClick={handleClick}
     >
-      <figure className="w-full aspect-[270/250] relative overflow-hidden group m-0">
+      <figure className="w-full aspect-270/250 relative overflow-hidden group m-0">
         <img
           src={variant?.images?.[0]}
           alt={item.title}
@@ -70,14 +72,14 @@ const ItemCard = ({ item }: ItemCardProps) => {
             className="text-sm md:text-base text-secondary2 font-medium"
             value={variant?.salePrice || variant?.price}
           >
-            {formatPrice(variant?.salePrice || variant?.price || 0)}đ
+            {formatPrice(variant?.salePrice || variant?.price || 0)}
           </data>
           {variant?.salePrice && (
             <data
               className="text-sm md:text-base text-black opacity-50 line-through font-medium"
               value={variant?.price}
             >
-              {formatPrice(variant?.price || 0)}đ
+              {formatPrice(variant?.price || 0)}
             </data>
           )}
         </div>

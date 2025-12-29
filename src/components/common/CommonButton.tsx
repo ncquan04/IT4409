@@ -23,7 +23,7 @@ const CommonButton = (props: CommonButtonProps) => {
       style={props.style}
       type={props.type || "button"}
     >
-      {props.label || i18n.t("Continue")}
+      {i18n.t(props.label || "Continue")}
     </button>
   );
 };

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { Product } from "../../../shared/models/product-model";
 import StarRating from "../../../components/common/starRating/StarRating";
 import SectionLineSeparator from "../../home/components/SectionLineSeparator";
@@ -9,6 +9,7 @@ import QuantitySelector from "../../../components/common/quantitySelector/Quanti
 import CommonButton from "../../../components/common/CommonButton";
 import HeartIcon from "../../../icons/HeartIcon";
 import ProductOfferInfo from "./ProductOfferInfo";
+import { formatPrice } from "../../../utils";
 
 interface ProductDetailProps {
   product: Product;
@@ -16,9 +17,59 @@ interface ProductDetailProps {
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
   const navigate = useNavigate();
+  const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [imageIdx, setImageIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    if (product.variants.length > 0) {
+      setSelectedVariant(product.variants[0]);
+    }
+  }, [product]);
+
+  const uniqueVersions = useMemo(() => {
+    const versions = new Set(product.variants.map((v) => v.version));
+    return Array.from(versions);
+  }, [product.variants]);
+
+  const uniqueColors = useMemo(() => {
+    const colors = new Set(
+      product.variants.map((v) =>
+        JSON.stringify({ name: v.colorName, hex: v.hexcode })
+      )
+    );
+    return Array.from(colors).map((c) => JSON.parse(c));
+  }, [product.variants]);
+
+  const handleVersionSelect = (version: string) => {
+    const newVariant = product.variants.find(
+      (v) => v.version === version && v.colorName === selectedVariant.colorName
+    );
+    if (newVariant) {
+      setSelectedVariant(newVariant);
+    } else {
+      const fallbackVariant = product.variants.find(
+        (v) => v.version === version
+      );
+      if (fallbackVariant) setSelectedVariant(fallbackVariant);
+    }
+  };
+
+  const handleColorSelect = (colorName: string) => {
+    const newVariant = product.variants.find(
+      (v) => v.colorName === colorName && v.version === selectedVariant.version
+    );
+    if (newVariant) {
+      setSelectedVariant(newVariant);
+    } else {
+      // Fallback
+      const fallbackVariant = product.variants.find(
+        (v) => v.colorName === colorName
+      );
+      if (fallbackVariant) setSelectedVariant(fallbackVariant);
+    }
+  };
 
   const handleBuy = () => {
     navigate("/checkout", {
@@ -41,9 +92,25 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
     setAdded(false);
   };
 
+  const allImages = useMemo(() => {
+    return product.variants.flatMap((variant) => variant.images[0]);
+  }, [product.variants]);
+
+  useEffect(() => {
+    if (selectedVariant) {
+      let cumulativeIndex = 0;
+      for (const variant of product.variants) {
+        if (variant === selectedVariant) {
+          setImageIdx(cumulativeIndex);
+          break;
+        }
+        cumulativeIndex += variant.images.length;
+      }
+    }
+  }, [selectedVariant, product.variants]);
+
   return (
     <section className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8">
-      {/* Image gallery - hidden on mobile, vertical on desktop */}
       <nav
         className="hidden lg:block w-[120px] xl:w-[170px] h-[400px] xl:h-[600px]"
         aria-label="Product image thumbnails"
@@ -54,7 +121,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           spaceBetween={8}
           className="h-full"
         >
-          {product.imageUrl.map((url, idx) => (
+          {allImages.map((url, idx) => (
             <SwiperSlide key={idx}>
               <button
                 className={`w-full h-[90px] xl:h-[138px] rounded-sm overflow-hidden cursor-pointer border ${
@@ -77,7 +144,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
       <div className="flex flex-col gap-4 md:w-[500px] lg:w-[400px] xl:w-[500px]">
         <figure className="w-full h-[300px] sm:h-[400px] md:h-[500px] xl:h-[600px] rounded-sm overflow-hidden bg-gray-100">
           <img
-            src={product.imageUrl[imageIdx]}
+            src={allImages[imageIdx]}
             alt={product.title}
             className="w-full h-full object-cover"
           />
@@ -93,7 +160,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
               768: { slidesPerView: 6 },
             }}
           >
-            {product.imageUrl.map((url, idx) => (
+            {allImages.map((url, idx) => (
               <SwiperSlide key={idx}>
                 <button
                   className={`w-full aspect-square rounded-sm overflow-hidden cursor-pointer border ${
@@ -125,11 +192,11 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           )}
           <span
             className={`text-sm font-normal ${
-              product.quantity > 0 ? "text-button1" : "text-button2"
+              selectedVariant.quantity > 0 ? "text-button1" : "text-button2"
             }`}
             aria-live="polite"
           >
-            {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+            {selectedVariant.quantity > 0 ? "In Stock" : "Out of Stock"}
           </span>
         </div>
         <div
@@ -139,14 +206,14 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         >
           <span
             className={`text-xl sm:text-2xl font-normal ${
-              product.salePrice ? "text-button2" : "text-black"
-            } ${product.salePrice ? "line-through" : ""}`}
+              selectedVariant.salePrice ? "text-button2" : "text-black"
+            } ${selectedVariant.salePrice ? "line-through" : ""}`}
           >
-            {product.price}
+            {formatPrice(selectedVariant.price)}
           </span>
-          {product.salePrice && (
+          {selectedVariant.salePrice && (
             <span className="text-xl sm:text-2xl text-black font-font-normal">
-              {product.salePrice}
+              {formatPrice(selectedVariant.salePrice)}
             </span>
           )}
         </div>
@@ -155,9 +222,55 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           {product.descriptionDetail}
         </p>
         <SectionLineSeparator />
-        <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+
+        <div className="flex flex-col gap-2">
+          {uniqueVersions.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <span className="font-medium text-black">Version:</span>
+              <div className="flex flex-wrap gap-2">
+                {uniqueVersions.map((version) => (
+                  <button
+                    key={version}
+                    onClick={() => handleVersionSelect(version)}
+                    className={`px-4 py-2 border rounded-sm transition-colors ${
+                      selectedVariant.version === version
+                        ? "border-button2 bg-button2 text-white"
+                        : "border-gray-300 hover:border-button2 text-black"
+                    }`}
+                  >
+                    {version}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {uniqueColors.length > 0 && (
+            <div className="flex flex-col gap-2 mt-4">
+              <span className="font-medium text-black">Color:</span>
+              <div className="flex flex-wrap gap-2">
+                {uniqueColors.map((color) => (
+                  <button
+                    key={color.name}
+                    onClick={() => handleColorSelect(color.name)}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      selectedVariant.colorName === color.name
+                        ? "border-button2 ring-2 ring-offset-2 ring-button2"
+                        : "border-transparent ring-1 ring-gray-300 hover:scale-110"
+                    }`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                    aria-label={`Select color ${color.name}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-6">
           <QuantitySelector
-            maxQuantity={product.quantity}
+            maxQuantity={selectedVariant.quantity}
             quantity={quantity}
             setQuantity={setQuantity}
           />

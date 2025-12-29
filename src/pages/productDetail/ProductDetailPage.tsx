@@ -1,18 +1,23 @@
 import PageTransition from "../../components/common/PageTransition";
 import { useParams } from "react-router-dom";
-import { SAMPLE_ITEMS } from "../../samples";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductDetail from "./components/ProductDetail";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
 import RelatedItems from "./components/RelatedItems";
+import type { Product } from "../../shared/models/product-model";
+import { fetchProductById } from "../../services/api/api.products";
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
 
-  const product = SAMPLE_ITEMS.find((item) => item._id === productId);
+  const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    //get related item
+    const fetchProduct = async () => {
+      const product = await fetchProductById(productId!);
+      setProduct(product);
+    };
+    fetchProduct();
   }, []);
 
   if (!product) {

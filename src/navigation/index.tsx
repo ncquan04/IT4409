@@ -13,6 +13,7 @@ import CheckoutPage from "../pages/checkout/CheckoutPage";
 import AccountPage from "../pages/account/AccountPage";
 import AdminProtectedRoute from "../components/admin/adminProtectedRoute/adminProtectedRoute";
 import AdminPages from "../pages/admin";
+import CartPage from "../pages/cart/CartPage";
 
 export const AppRoutes = {
     DEFAULT: "/",
@@ -135,6 +136,14 @@ const RootNavigation = () => {
                         element={
                             <Mainlayout>
                                 <AccountPage />
+                            </Mainlayout>
+                        }
+                    />
+                    <Route 
+                        path={AppRoutes.CART}
+                        element={
+                            <Mainlayout>
+                                <CartPage />
                             </Mainlayout>
                         }
                     />

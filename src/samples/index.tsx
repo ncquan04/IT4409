@@ -6,7 +6,7 @@ export const SAMPLE_ITEMS: Product[] = [
     _id: "1",
     title: "Sample Product 1",
     description: "This is a sample product description.",
-    descriptionDetail: "This is a detailed description of sample product 1.",
+    descriptionDetail:   "This is a detailed description of sample product 1.",
     price: 29.99,
     quantity: 10,
     categoryId: "cat1",
