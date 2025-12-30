@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
 import { useI18n } from "../../contexts/I18nContext";
 import ItemCard from "./components/ItemCard";
@@ -9,16 +10,8 @@ import CartTotal from "./components/CartTotal";
 
 const CartPage = () => {
   const i18n = useI18n();
-  const [cart, setCart] = useState<CartItem[]>([
-    {
-      productId: "1",
-      quantity: 1,
-    },
-    {
-      productId: "2",
-      quantity: 2,
-    },
-  ]);
+  const navigate = useNavigate();
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -26,9 +19,31 @@ const CartPage = () => {
     //get cart
   }, []);
 
-  const handleReturnToShop = () => {};
+  const handleReturnToShop = () => {
+    navigate("/");
+  };
 
   const handleUpdateCart = () => {};
+
+  if (cart.length === 0) {
+    return (
+      <main
+        className="flex flex-col items-center justify-center gap-8 px-4 md:px-8 lg:px-[var(--horizontal-padding)] py-16"
+        style={
+          {
+            "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,
+          } as React.CSSProperties
+        }
+      >
+        <span className="text-2xl font-medium text-text2">
+          {i18n.t("Nothing in cart")}
+        </span>
+        <div className="w-[218px] h-[56px]">
+          <CommonButton label="Return To Shop" onClick={handleReturnToShop} />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main
