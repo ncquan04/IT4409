@@ -1,23 +1,27 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import SaleTag from "./SaleTag";
 import StarRating from "../starRating/StarRating";
 import { useI18n } from "../../../contexts/I18nContext";
 import type { Product } from "../../../shared/models/product-model";
 import { formatPrice } from "../../../utils";
 import { addToCart } from "../../../services/api/api.cart";
+import { useAuth } from "../../../contexts/AuthContext";
+import { AppRoutes } from "../../../navigation";
+import { useToast } from "../../../contexts/ToastContext";
 
 interface ItemCardProps {
   item: Product;
 }
 
 const ItemCard = ({ item }: ItemCardProps) => {
-  const [productVariant, setProductVariant] = useState<number>(0);
-
   const i18n = useI18n();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+  const { showToast } = useToast();
 
-  const variant = item.variants?.[productVariant];
+  const variant = item.variants?.[0];
 
   const salePercent = useMemo(() => {
     if (variant && variant.salePrice && variant.salePrice < variant.price) {
@@ -29,12 +33,32 @@ const ItemCard = ({ item }: ItemCardProps) => {
   }, [variant]);
 
   const handleAddToCart = async () => {
+    if (!variant) return;
+
+    if (!isAuthenticated) {
+      navigate(AppRoutes.LOGIN, {
+        state: {
+          from: location,
+          action: "addToCart",
+          payload: {
+            productId: item._id,
+            variantId: variant._id,
+            quantity: 1,
+          },
+        },
+      });
+      return;
+    }
+
     try {
-      await addToCart(item._id, 1);
-      alert(i18n.t("Product added to cart successfully"));
+      await addToCart(item._id, variant._id, 1);
+      showToast(i18n.t("Added to cart"), "success");
     } catch (error: any) {
       console.error(error);
-      alert(error.message || i18n.t("Failed to add product to cart"));
+      showToast(
+        error.message || i18n.t("Something went wrong, please try again later"),
+        "error"
+      );
     }
   };
 
@@ -102,5 +126,4 @@ const ItemCard = ({ item }: ItemCardProps) => {
     </article>
   );
 };
-
 export default ItemCard;
