@@ -30,7 +30,7 @@ interface BackendProductResponse {
 export const fetchProducts = async (): Promise<IProduct[]> => {
   try {
     const response = await apiService.get<BackendProductResponse>(
-      API_PATH.PRODUCT.BASE
+      API_PATH.PRODUCT.GET_ALL.URL
     );
 
     if (response && Array.isArray(response.data)) {
@@ -73,7 +73,7 @@ export const fetchProducts = async (): Promise<IProduct[]> => {
 export const fetchProductById = async (productId: string) => {
   try {
     const response = await apiService.get<IProduct>(
-      API_PATH.PRODUCT.DETAIL(productId)
+      API_PATH.PRODUCT.GET_DETAIL(productId).URL
     );
     return response;
   } catch (error) {
