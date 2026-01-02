@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { CSSProperties } from "react";
 import LoadingScreen from "../../components/common/LoadingScreen";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
-import type { ICategory } from "../../shared/models/category-model";
-import type { IProduct } from "../../shared/models/product-model";
 import BannerSwiper from "./components/BannerSwiper";
 import CategorySelector from "./components/CategorySelector";
 import SectionLineSeparator from "./components/SectionLineSeparator";
@@ -12,8 +10,9 @@ import FeaturedSection from "./sections/FeaturedSection";
 import ThisMonthSection from "./sections/ThisMonthSection";
 import TodaySection from "./sections/TodaySection";
 import { motion } from "framer-motion";
-import { fetchProducts } from "../../services/api/api.products";
-import { fetchCategories } from "../../services/api/api.categories";
+import productAsync from "../../redux/async-thunk/product.thunk";
+import categoriesAync from "../../redux/async-thunk/categories.thunk";
+import { useAppDispatch, useAppSelector, type RootState } from "../../redux/store";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -38,22 +37,14 @@ const itemVariants = {
 } as const;
 
 const HomePage = () => {
-    const [products, setProducts] = useState<IProduct[]>([]);
-    const [categories, setCategories] = useState<ICategory[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useAppDispatch();
+    const products = useAppSelector((state: RootState) => state.products.products);
+    const categories = useAppSelector((state: RootState) => state.categories.categories);
+    const isLoading = useAppSelector((state: RootState) => state.products.isLoading);
 
     useEffect(() => {
-        const loadData = async () => {
-            setIsLoading(true);
-            const [productsData, categoriesData] = await Promise.all([
-                fetchProducts(),
-                fetchCategories(),
-            ]);
-            setProducts(productsData);
-            setCategories(categoriesData);
-            setIsLoading(false);
-        };
-        loadData();
+        dispatch(productAsync.fetchProduct({}));
+        dispatch(categoriesAync.fectchCategories());
     }, []);
 
     if (isLoading) {
