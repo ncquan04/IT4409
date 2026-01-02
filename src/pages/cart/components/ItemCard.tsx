@@ -1,25 +1,44 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { Product } from "../../../shared/models/product-model";
-import { SAMPLE_ITEMS } from "../../../samples";
 import QuantitySelector from "../../../components/common/quantitySelector/QuantitySelector";
+import { fetchProductById } from "../../../services/api/api.products";
+import type {
+  IProduct,
+  IProductVariant,
+} from "../../../shared/models/product-model";
+import { formatPrice } from "../../../utils";
 
 const ItemCard = ({
   productId,
   _quantity,
   setTotal,
+  variantId,
 }: {
   productId: string;
+  variantId?: string;
   _quantity: number;
   setTotal: Dispatch<SetStateAction<number>>;
 }) => {
-  const [item, setItem] = useState<Product>(SAMPLE_ITEMS[0]);
+  const [item, setItem] = useState<IProduct | null>(null);
+  const [itemVariant, setItemVariant] = useState<IProductVariant>();
   const [quantity, setQuantity] = useState<number>(_quantity);
-  const [subtotal, setSubtotal] = useState<number>(
-    item.variants[0].price * _quantity
-  );
+  const [subtotal, setSubtotal] = useState<number>(0);
 
   useEffect(() => {
-    //get item
+    const fetchItem = async () => {
+      const product = await fetchProductById(productId);
+      setItem(product);
+      const variant = product?.variants.find(
+        (variant) => variant._id === variantId
+      );
+      setItemVariant(variant);
+      if (variant) {
+        setSubtotal(variant.price * quantity);
+      }
+    };
+    fetchItem();
+  }, [productId]);
+
+  useEffect(() => {
     setTotal((prev) => prev + subtotal);
     return () => {
       setTotal((prev) => prev - subtotal);
@@ -30,8 +49,8 @@ const ItemCard = ({
     <article className="flex flex-col md:flex-row justify-between items-center px-8 py-4 shadow-sm rounded-lg gap-4 md:gap-0">
       <div className="w-full md:w-1/4 flex justify-center md:justify-start">
         <img
-          src={item?.variants[0].images[0]}
-          alt={item.title}
+          src={itemVariant?.images?.[0]}
+          alt={item?.title}
           className="max-w-24 max-h-24 object-contain"
         />
       </div>
@@ -40,16 +59,16 @@ const ItemCard = ({
           Price:
         </span>
         <span className="text-base font-normal text-text2">
-          {item.variants[0].price}
+          {formatPrice(itemVariant?.price)}
         </span>
       </div>
       <div className="w-full md:w-1/4 flex justify-center">
         <QuantitySelector
-          maxQuantity={item.variants[0].quantity}
+          maxQuantity={itemVariant?.quantity || 10}
           quantity={quantity}
           setQuantity={setQuantity}
           onQuantityChange={(newQuantity) => {
-            setSubtotal(item.variants[0].price * newQuantity);
+            setSubtotal((itemVariant?.price || 0) * newQuantity);
           }}
         />
       </div>
@@ -58,7 +77,7 @@ const ItemCard = ({
           Subtotal:
         </span>
         <span className="text-base font-normal text-text2">
-          {subtotal.toFixed(2)}
+          {formatPrice(subtotal)}
         </span>
       </div>
     </article>

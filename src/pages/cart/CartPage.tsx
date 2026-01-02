@@ -3,20 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
 import { useI18n } from "../../contexts/I18nContext";
 import ItemCard from "./components/ItemCard";
-import type { CartItem } from "../../types";
 import CommonButton from "../../components/common/CommonButton";
 import CouponCode from "./components/CouponCode";
 import CartTotal from "./components/CartTotal";
+import { getCart, type ICartResponseItem } from "../../services/api/api.cart";
 
 const CartPage = () => {
   const i18n = useI18n();
   const navigate = useNavigate();
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<ICartResponseItem[]>([]);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    //get cart
+    const fetchCart = async () => {
+      try {
+        const response = await getCart();
+        if (response.success) {
+          const cartItems = response.data;
+          setCart(cartItems);
+        }
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCart();
   }, []);
 
   const handleReturnToShop = () => {
@@ -28,7 +40,7 @@ const CartPage = () => {
   if (cart.length === 0) {
     return (
       <main
-        className="flex flex-col items-center justify-center gap-8 px-4 md:px-8 lg:px-[var(--horizontal-padding)] py-16"
+        className="flex flex-col items-center justify-center gap-8 px-4 md:px-8 lg:px-(--horizontal-padding) py-16"
         style={
           {
             "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,
@@ -47,7 +59,7 @@ const CartPage = () => {
 
   return (
     <main
-      className="flex flex-col gap-16 px-4 md:px-8 lg:px-[var(--horizontal-padding)]"
+      className="flex flex-col gap-16 px-4 md:px-8 lg:px-(--horizontal-padding)"
       style={
         {
           "--horizontal-padding": `${HORIZONTAL_PADDING_REM}rem`,
@@ -79,8 +91,9 @@ const CartPage = () => {
         </div>
         {cart.map((product) => (
           <ItemCard
-            key={product.productId}
-            productId={product.productId}
+            key={product._id}
+            productId={product.product._id}
+            variantId={product.product.selectedVariant?._id}
             _quantity={product.quantity}
             setTotal={setTotal}
           />

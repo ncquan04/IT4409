@@ -29,7 +29,7 @@ const CartTotal = ({
             {total.toFixed(2)}
           </span>
         </div>
-        <div className="w-full h-[1px] bg-[#00000033]" />
+        <div className="w-full h-px bg-[#00000033]" />
         <div className="flex flex-row justify-between items-center">
           <span className="text-base font-normal text-text2">
             {i18n.t("Discount")}
@@ -38,7 +38,7 @@ const CartTotal = ({
             {(total * (discount / 100)).toFixed(2)}
           </span>
         </div>
-        <div className="w-full h-[1px] bg-[#00000033]" />
+        <div className="w-full h-px bg-[#00000033]" />
         <div className="flex flex-row justify-between items-center">
           <span className="text-base font-normal text-text2">
             {i18n.t("Total")}
