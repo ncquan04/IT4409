@@ -5,10 +5,12 @@ import type { TypedUseSelectorHook } from "react-redux";
 import { combineReducers } from "redux";
 import productSlice from "./slice/product.slice";
 import categoriesSlice from "./slice/categories.slice";
+import searchSlice from "./slice/search.slice";
 
 const rootReducer = combineReducers({
     products: productSlice,
     categories: categoriesSlice,
+    search: searchSlice,
 });
 
 export const store = configureStore({
