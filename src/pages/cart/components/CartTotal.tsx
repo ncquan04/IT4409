@@ -1,5 +1,6 @@
 import CommonButton from "../../../components/common/CommonButton";
 import { useI18n } from "../../../contexts/I18nContext";
+import { formatPrice } from "../../../utils";
 
 const CartTotal = ({
   total,
@@ -26,7 +27,7 @@ const CartTotal = ({
             {i18n.t("Subtotal")}
           </span>
           <span className="text-base font-normal text-text2">
-            {total.toFixed(2)}
+            {formatPrice(total)}
           </span>
         </div>
         <div className="w-full h-px bg-[#00000033]" />
@@ -35,7 +36,7 @@ const CartTotal = ({
             {i18n.t("Discount")}
           </span>
           <span className="text-base font-normal text-text2">
-            {(total * (discount / 100)).toFixed(2)}
+            {formatPrice(total * (discount / 100))}
           </span>
         </div>
         <div className="w-full h-px bg-[#00000033]" />
@@ -44,7 +45,7 @@ const CartTotal = ({
             {i18n.t("Total")}
           </span>
           <span className="text-base font-normal text-text2">
-            {(total - total * (discount / 100)).toFixed(2)}
+            {formatPrice(total - total * (discount / 100))}
           </span>
         </div>
       </div>
