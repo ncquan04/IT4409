@@ -6,6 +6,7 @@ import { HORIZONTAL_PADDING_REM } from "../../constants";
 import RelatedItems from "./components/RelatedItems";
 import type { Product } from "../../shared/models/product-model";
 import { fetchProductById } from "../../services/api/api.products";
+import ProductSpecs from "./components/ProductSpecs";
 
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -46,6 +47,7 @@ const ProductDetailPage = () => {
         }
       >
         <ProductDetail product={product} />
+        <ProductSpecs specifications={product.specifications} />
         <RelatedItems product={product} />
       </main>
     </PageTransition>

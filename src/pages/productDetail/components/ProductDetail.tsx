@@ -4,6 +4,7 @@ import type { Product } from "../../../shared/models/product-model";
 import StarRating from "../../../components/common/starRating/StarRating";
 import SectionLineSeparator from "../../home/components/SectionLineSeparator";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, Scrollbar } from "swiper/modules";
 import "swiper/css";
 import QuantitySelector from "../../../components/common/quantitySelector/QuantitySelector";
 import CommonButton from "../../../components/common/CommonButton";
@@ -98,13 +99,9 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
 
   useEffect(() => {
     if (selectedVariant) {
-      let cumulativeIndex = 0;
-      for (const variant of product.variants) {
-        if (variant === selectedVariant) {
-          setImageIdx(cumulativeIndex);
-          break;
-        }
-        cumulativeIndex += variant.images.length;
+      const index = product.variants.findIndex((v) => v === selectedVariant);
+      if (index !== -1) {
+        setImageIdx(index);
       }
     }
   }, [selectedVariant, product.variants]);
@@ -119,12 +116,15 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           direction="vertical"
           slidesPerView={4}
           spaceBetween={8}
-          className="h-full"
+          className="h-full [&_.swiper-scrollbar]:bg-gray-100! [&_.swiper-scrollbar-drag]:bg-gray-300!"
+          mousewheel={true}
+          scrollbar={{ draggable: true, hide: false }}
+          modules={[Mousewheel, Scrollbar]}
         >
           {allImages.map((url, idx) => (
             <SwiperSlide key={idx}>
               <button
-                className={`w-full h-[90px] xl:h-[138px] rounded-sm overflow-hidden cursor-pointer border ${
+                className={`w-[calc(100%-12px)] h-[90px] xl:h-[138px] rounded-sm overflow-hidden cursor-pointer border ${
                   imageIdx === idx ? "border-button2" : "border-transparent"
                 } hover:border-button2 transition-colors`}
                 onClick={() => setImageIdx(idx)}
@@ -253,15 +253,27 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                   <button
                     key={color.name}
                     onClick={() => handleColorSelect(color.name)}
-                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                    className={`px-4 py-2 border rounded-sm flex items-center gap-2 transition-colors ${
                       selectedVariant.colorName === color.name
-                        ? "border-button2 ring-2 ring-offset-2 ring-button2"
-                        : "border-transparent ring-1 ring-gray-300 hover:scale-110"
+                        ? "border-button2 ring-1 ring-button2"
+                        : "border-gray-300 hover:border-button2"
                     }`}
-                    style={{ backgroundColor: color.hex }}
-                    title={color.name}
                     aria-label={`Select color ${color.name}`}
-                  />
+                  >
+                    <div
+                      className="w-5 h-5 rounded-full border border-gray-200"
+                      style={{ backgroundColor: color.hex }}
+                    />
+                    <span
+                      className={`text-sm ${
+                        selectedVariant.colorName === color.name
+                          ? "text-button2 font-medium"
+                          : "text-black"
+                      }`}
+                    >
+                      {color.name}
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
