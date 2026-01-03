@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import CommonButton from "../../../components/common/CommonButton";
 import { useI18n } from "../../../contexts/I18nContext";
 import { formatPrice } from "../../../utils";
@@ -10,9 +11,10 @@ const CartTotal = ({
   discount: number;
 }) => {
   const i18n = useI18n();
+  const navigate = useNavigate();
 
   const handleProceedToCheckout = () => {
-    // proceed to checkout
+    navigate("/checkout");
   };
 
   return (
