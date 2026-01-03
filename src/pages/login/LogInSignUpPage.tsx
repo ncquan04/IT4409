@@ -28,10 +28,27 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
   const fromState = fromLocation?.state;
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(fromPath, { replace: true, state: fromState });
-    }
-  }, [isAuthenticated, navigate, fromPath, fromState]);
+    const handleLoginRedirect = async () => {
+      if (isAuthenticated) {
+        if (location.state?.action === "addToCart" && location.state?.payload) {
+          const { productId, variantId, quantity } = location.state.payload;
+          try {
+            const { addToCart } = await import("../../services/api/api.cart");
+            await addToCart(productId, variantId, quantity);
+
+            navigate(AppRoutes.CART, { replace: true });
+          } catch (error) {
+            console.error("Failed to add to cart after login:", error);
+            navigate(fromPath, { replace: true, state: fromState });
+          }
+        } else {
+          navigate(fromPath, { replace: true, state: fromState });
+        }
+      }
+    };
+
+    handleLoginRedirect();
+  }, [isAuthenticated, fromPath, fromState, location.state]);
 
   const handleLogin = async (email: string, password: string) => {
     if (!email || !password) {
