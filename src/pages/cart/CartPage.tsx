@@ -6,38 +6,33 @@ import ItemCard from "./components/ItemCard";
 import CommonButton from "../../components/common/CommonButton";
 import CouponCode from "./components/CouponCode";
 import CartTotal from "./components/CartTotal";
-import { getCart, type ICartResponseItem } from "../../services/api/api.cart";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import cartAsync from "../../redux/async-thunk/cart.thunk";
 
 const CartPage = () => {
   const i18n = useI18n();
   const navigate = useNavigate();
-  const [cart, setCart] = useState<ICartResponseItem[]>([]);
+  const dispatch = useAppDispatch();
+
+  const { cartItems, totalPrice, isLoading } = useAppSelector(
+    (state) => state.cart
+  );
+
   const [discount, setDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await getCart();
-        if (response.success) {
-          const cartItems = response.data;
-          setCart(cartItems);
-        }
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
-    };
-
-    fetchCart();
-  }, []);
+    dispatch(cartAsync.fetchCart());
+  }, [dispatch]);
 
   const handleReturnToShop = () => {
     navigate("/");
   };
 
-  const handleUpdateCart = () => {};
+  const handleUpdateCart = () => {
+    dispatch(cartAsync.fetchCart());
+  };
 
-  if (cart.length === 0) {
+  if (!isLoading && cartItems.length === 0) {
     return (
       <main
         className="flex flex-col items-center justify-center gap-8 px-4 md:px-8 lg:px-(--horizontal-padding) py-16"
@@ -89,15 +84,17 @@ const CartPage = () => {
             </span>
           </div>
         </div>
-        {cart.map((product) => (
-          <ItemCard
-            key={product._id}
-            productId={product.product._id}
-            variantId={product.product.selectedVariant?._id}
-            _quantity={product.quantity}
-            setTotal={setTotal}
-          />
-        ))}
+        {isLoading && cartItems.length === 0 ? (
+          <div className="text-center py-8">Loading...</div>
+        ) : (
+          cartItems.map((item) => (
+            <ItemCard
+              key={`${item.product._id}-${item.product.selectedVariant?._id}`}
+              item={item}
+            />
+          ))
+        )}
+
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
           <div className="w-full md:w-[218px] h-[56px]">
             <CommonButton
@@ -118,7 +115,7 @@ const CartPage = () => {
 
       <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-0 items-center lg:items-start">
         <CouponCode setDiscount={setDiscount} />
-        <CartTotal total={total} discount={discount} />
+        <CartTotal total={totalPrice} discount={discount} />
       </div>
     </main>
   );
