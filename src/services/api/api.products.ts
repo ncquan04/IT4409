@@ -1,72 +1,32 @@
 import { Contacts } from "../../shared/contacts";
 import { apiService } from "./api.config";
-import type {
-  IProduct,
-  IProductVariant,
-} from "../../shared/models/product-model";
+import type { IProduct } from "../../shared/models/product-model";
 
 const API_PATH = Contacts.API_CONFIG;
 
-interface BackendProduct {
-  title: string;
-  idProduct: string;
-  idVariant: string | null;
-  pricePre: number | null;
-  salePricePre: number | null;
-  imageUrl: string | null;
-  rate: number;
-}
-
-interface BackendProductResponse {
-  data: BackendProduct[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-}
-
-export const fetchProducts = async (): Promise<IProduct[]> => {
+export const fetchProducts = async (categoryId?: string, page?: number) => {
   try {
-    const response = await apiService.get<BackendProductResponse>(
-      API_PATH.PRODUCT.GET_ALL.URL
-    );
+    const params = new URLSearchParams();
 
-    if (response && Array.isArray(response.data)) {
-      return response.data.map((item) => {
-        const variant: IProductVariant = {
-          _id: item.idVariant || "",
-          version: "",
-          colorName: "",
-          hexcode: "",
-          images: item.imageUrl ? [item.imageUrl] : [],
-          quantity: 0,
-          price: item.pricePre || 0,
-          salePrice: item.salePricePre || undefined,
-          sku: "",
-        };
-
-        const product: IProduct = {
-          _id: item.idProduct,
-          title: item.title,
-          brand: "",
-          description: "",
-          descriptionDetail: "",
-          specifications: [],
-          variants: [variant],
-          categoryId: "",
-          isHide: Contacts.Status.Evaluation.PUBLIC,
-          rating: item.rate,
-        };
-        return product;
-      });
-    }
-
-    return [];
+    if (categoryId) params.append("idCategory", categoryId);
+    if (page) params.append("page", String(page));
+    const response = await apiService.get<{
+      data: IProduct[];
+      pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+      };
+    }>(`${API_PATH.PRODUCT.GET_ALL.URL}`);
+    return {
+      products: response.data,
+      page: response.pagination?.page || 1,
+      totalPages: response.pagination?.totalPages || 1,
+    };
   } catch (error) {
     console.log("Fetch products error: ", error);
-    return [];
+    return null;
   }
 };
 
