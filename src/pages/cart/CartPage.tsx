@@ -63,26 +63,27 @@ const CartPage = () => {
     >
       <section className="flex flex-col gap-4" aria-label="Cart Items">
         <div className="hidden md:flex flex-row min-h-[72px] justify-between items-center px-8 py-4 shadow-sm rounded-lg">
-          <div className="w-1/4 flex justify-start">
+          <div className="w-4/12 flex justify-start">
             <span className="text-base font-normal text-text2">
               {i18n.t("Product")}
             </span>
           </div>
-          <div className="w-1/4 flex justify-center">
+          <div className="w-2/12 flex justify-center">
             <span className="text-base font-normal text-text2">
               {i18n.t("Price")}
             </span>
           </div>
-          <div className="w-1/4 flex justify-center">
+          <div className="w-3/12 flex justify-center">
             <span className="text-base font-normal text-text2">
               {i18n.t("Quantity")}
             </span>
           </div>
-          <div className="w-1/4 flex justify-end">
+          <div className="w-2/12 flex justify-end">
             <span className="text-base font-normal text-text2">
               {i18n.t("Subtotal")}
             </span>
           </div>
+          <div className="w-1/12 flex justify-end"></div>
         </div>
         {isLoading && cartItems.length === 0 ? (
           <div className="text-center py-8">Loading...</div>
@@ -103,13 +104,13 @@ const CartPage = () => {
               transparentBg
             />
           </div>
-          <div className="w-full md:w-[218px] h-[56px]">
+          {/* <div className="w-full md:w-[218px] h-[56px]">
             <CommonButton
               label="Update Cart"
               onClick={handleUpdateCart}
               transparentBg
             />
-          </div>
+          </div> */}
         </div>
       </section>
 
