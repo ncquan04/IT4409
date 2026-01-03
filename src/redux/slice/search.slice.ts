@@ -19,7 +19,11 @@ const searchSlice = createSlice({
             searchAsync.searchProducts.fulfilled,
             (state, action: PayloadAction<ISearchProductResponse>) => {
                 (state.error = false), (state.isLoading = false);
-                state.products = action.payload.products;
+                if (action.payload.page === 1) {
+                    state.products = action.payload.products;
+                } else {
+                    state.products.push(...action.payload.products);
+                }
                 state.page = action.payload.page;
                 state.totalPages = action.payload.totalPages;
             },
