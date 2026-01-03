@@ -4,9 +4,13 @@ import "./index.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import App from "./App.tsx";
+import { store } from "./redux/store.ts";
+import { Provider } from "react-redux";
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
-  <App />
-  // </StrictMode>,
+    // <StrictMode>
+    <Provider store={store}>
+        <App />,
+    </Provider>,
+    // </StrictMode>,
 );
