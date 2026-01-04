@@ -14,12 +14,13 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchProduct = async () => {
       const product = await fetchProductById(productId!);
       setProduct(product);
     };
     fetchProduct();
-  }, []);
+  }, [productId]);
 
   if (!product) {
     return (

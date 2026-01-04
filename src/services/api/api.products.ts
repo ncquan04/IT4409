@@ -10,6 +10,7 @@ export const fetchProducts = async (categoryId?: string, page?: number) => {
 
     if (categoryId) params.append("idCategory", categoryId);
     if (page) params.append("page", String(page));
+
     const response = await apiService.get<{
       data: IProduct[];
       pagination: {
@@ -18,7 +19,8 @@ export const fetchProducts = async (categoryId?: string, page?: number) => {
         total: number;
         totalPages: number;
       };
-    }>(`${API_PATH.PRODUCT.GET_ALL.URL}`);
+    }>(`${API_PATH.PRODUCT.GET_ALL.URL}?${params.toString()}`);
+
     return {
       products: response.data,
       page: response.pagination?.page || 1,
