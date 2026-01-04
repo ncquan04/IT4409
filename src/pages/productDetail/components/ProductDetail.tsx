@@ -260,10 +260,6 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                     }`}
                     aria-label={`Select color ${color.name}`}
                   >
-                    <div
-                      className="w-5 h-5 rounded-full border border-gray-200"
-                      style={{ backgroundColor: color.hex }}
-                    />
                     <span
                       className={`text-sm ${
                         selectedVariant.colorName === color.name
