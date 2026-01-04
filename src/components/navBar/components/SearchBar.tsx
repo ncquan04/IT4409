@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useI18n } from "../../../contexts/I18nContext";
 import SearchIcon from "../../../icons/SearchIcon";
-import { useAppDispatch } from "../../../redux/store";
-import searchAsync from "../../../redux/async-thunk/search.thunk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const SearchBar = () => {
     const i18n = useI18n();
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [userInput, setUserInput] = useState<string>("");
 
@@ -19,8 +16,9 @@ const SearchBar = () => {
         if (!userInput) return;
         navigate({
             pathname: "/search",
-            search: `?q=${encodeURIComponent(userInput)}&page=1`,
+            search: `?q=${encodeURIComponent(userInput)}`,
         });
+        setUserInput("");
     };
 
     return (
@@ -39,7 +37,7 @@ const SearchBar = () => {
                 id="navbar-search"
                 type="search"
                 placeholder={i18n.t("What are you looking for?")}
-                className="text-sm md:text-base text-gray-600 border-0 bg-transparent outline-0 w-full h-full truncate pr-10 md:pr-12 placeholder:text-xs md:placeholder:text-sm"
+                className="text-sm md:text-base text-gray-600 bg-transparent outline-0 w-full h-full truncate pr-10 md:pr-12 placeholder:text-xs md:placeholder:text-sm"
                 value={userInput}
                 onChange={handleChangeText}
             />

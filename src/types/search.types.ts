@@ -1,3 +1,4 @@
+import type { ICategory } from "../shared/models/category-model";
 import type { IProduct } from "../shared/models/product-model";
 
 export interface ISearchProduct {
@@ -23,4 +24,15 @@ export interface ISearchInitState {
     isLoading: boolean;
     page?: number;
     totalPages: number;
+}
+
+export interface PriceRange {
+    min: number;
+    max: number;
+}
+
+export interface SearchState {
+    keyword: string;
+    category: ICategory | null;
+    price: PriceRange;
 }

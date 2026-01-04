@@ -33,7 +33,7 @@ const SearchItemList = ({ items, isLoading, hasMore, loadMore }: SearchItemListP
 
     return (
         <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-[1024px] mx-auto p-[20px]">
                 {items.map((item, index) => {
                     const isLast = index === items.length - 1;
 

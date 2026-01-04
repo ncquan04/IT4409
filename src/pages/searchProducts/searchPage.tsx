@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router";
 import { useAppDispatch, useAppSelector, type RootState } from "../../redux/store";
 import searchAsync from "../../redux/async-thunk/search.thunk";
 import SearchItemList from "./components/productItem";
-import SearchFilterPanel from "./components/SearchFilterPanel";
+import NotFoundPage from "../notFound/NotFoundPage";
 
 const SearchPage = () => {
     const dispatch = useAppDispatch();
@@ -16,26 +16,8 @@ const SearchPage = () => {
     // ===== base query (từ SearchBar) =====
     const q = searchParams.get("q") || "";
 
-    // ===== filters (chỉ có ở SearchPage) =====
-    const categoryId = searchParams.get("categoryId") || undefined;
-    const specKey = searchParams.get("specKey") || undefined;
-    const specValue = searchParams.get("specValue") || undefined;
-
-    const minPrice = searchParams.get("minPrice")
-        ? Number(searchParams.get("minPrice"))
-        : undefined;
-
-    const maxPrice = searchParams.get("maxPrice")
-        ? Number(searchParams.get("maxPrice"))
-        : undefined;
-
     const buildPayload = (page: number) => ({
         userInput: q,
-        categoryId,
-        specKey,
-        specValue,
-        minPrice,
-        maxPrice,
         page,
     });
 
@@ -44,7 +26,7 @@ const SearchPage = () => {
         if (!q) return;
 
         dispatch(searchAsync.searchProducts(buildPayload(1)));
-    }, [q, categoryId, specKey, specValue, minPrice, maxPrice]);
+    }, [q]);
 
     /* ===== infinite scroll ===== */
     const loadMore = useCallback(() => {
@@ -52,23 +34,28 @@ const SearchPage = () => {
         if (page! >= totalPages) return;
 
         dispatch(searchAsync.searchProducts(buildPayload(page! + 1)));
-    }, [isLoading, page, totalPages, q, categoryId, specKey, specValue, minPrice, maxPrice]);
+    }, [isLoading, page, totalPages, q]);
 
     const hasMore = page! < totalPages;
 
-    return (
-        <div className="flex flex-col gap-6">
-            {/* LEFT: filter chỉ tồn tại ở SearchPage */}
-            <SearchFilterPanel />
+    if (products.length === 0) {
+        return <NotFoundPage />;
+    }
 
-            {/* RIGHT: result */}
-            <SearchItemList
-                items={products}
-                isLoading={isLoading}
-                hasMore={hasMore}
-                loadMore={loadMore}
-            />
-        </div>
+    return (
+        <>
+            <div className="mb-3 text-sm text-gray-600 max-w-[1024px] mx-auto py-[20px]">
+                Kết quả tìm kiếm cho <span className="font-medium text-gray-900">“{q}”</span>
+            </div>
+            <div className="flex flex-col gap-6">
+                <SearchItemList
+                    items={products}
+                    isLoading={isLoading}
+                    hasMore={hasMore}
+                    loadMore={loadMore}
+                />
+            </div>
+        </>
     );
 };
 
