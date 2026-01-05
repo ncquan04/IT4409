@@ -28,9 +28,9 @@ const CartPage = () => {
     navigate("/");
   };
 
-  const handleUpdateCart = () => {
-    dispatch(cartAsync.fetchCart());
-  };
+  // const handleUpdateCart = () => {
+  //   dispatch(cartAsync.fetchCart());
+  // };
 
   if (!isLoading && cartItems.length === 0) {
     return (

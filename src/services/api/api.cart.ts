@@ -1,5 +1,6 @@
 import { apiService } from "./api.config";
 import type { ICart } from "../../shared/models/cart-model";
+import type { IProductVariant } from "../../shared/models/product-model";
 import { Contacts } from "../../shared/contacts";
 
 export interface ICartResponseItem {
@@ -10,15 +11,7 @@ export interface ICartResponseItem {
     _id: string;
     title: string;
     brand: string;
-    selectedVariant: {
-      _id: string;
-      color: string;
-      storage: string;
-      price: number;
-      discountPrice?: number;
-      quantity: number;
-      images: string[];
-    } | null;
+    selectedVariant: IProductVariant | null;
   };
 }
 
