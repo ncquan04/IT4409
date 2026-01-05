@@ -19,7 +19,7 @@ export type RegisterPayload = {
 
 export const authApi = {
   login: async (email: string, password: string) => {
-    return apiService.post<LoginResponse>(Contacts.API_CONFIG.AUTH.LOGIN, {
+    return apiService.post<LoginResponse>(Contacts.API_CONFIG.AUTH.LOGIN.URL, {
       email,
       password,
     });
@@ -28,13 +28,13 @@ export const authApi = {
   register: async (payload: RegisterPayload) => {
     const dateOfBirth = new Date(payload.dateOfBirth).getTime();
 
-    return apiService.post(Contacts.API_CONFIG.AUTH.REGISTER, {
+    return apiService.post(Contacts.API_CONFIG.AUTH.REGISTER.URL, {
       ...payload,
       dateOfBirth,
     });
   },
 
   logout: async () => {
-    return apiService.post(Contacts.API_CONFIG.AUTH.LOGOUT);
+    return apiService.post(Contacts.API_CONFIG.AUTH.LOGOUT.URL);
   },
 };
