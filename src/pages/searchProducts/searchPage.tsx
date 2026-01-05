@@ -4,29 +4,44 @@ import { useAppDispatch, useAppSelector, type RootState } from "../../redux/stor
 import searchAsync from "../../redux/async-thunk/search.thunk";
 import SearchItemList from "./components/productItem";
 import NotFoundPage from "../notFound/NotFoundPage";
+import categoriesAync from "../../redux/async-thunk/categories.thunk";
 
 const SearchPage = () => {
     const dispatch = useAppDispatch();
     const [searchParams] = useSearchParams();
 
+    const { categories } = useAppSelector((state: RootState) => state.categories);
     const { products, page, totalPages, isLoading } = useAppSelector(
         (state: RootState) => state.search,
     );
 
     // ===== base query (từ SearchBar) =====
     const q = searchParams.get("q") || "";
+    const categoryId = searchParams.get("categoryId") || "";
+    //test dev
+    const all = searchParams.get("all") || "";
 
     const buildPayload = (page: number) => ({
         userInput: q,
         page,
+        categoryId,
     });
 
     /* ===== fetch page 1 khi q hoặc filter đổi ===== */
     useEffect(() => {
-        if (!q) return;
-
+        if (all) {
+            dispatch(searchAsync.searchProducts({ userInput: "" }));
+            return;
+        }
+        if (!q && !categoryId) return;
         dispatch(searchAsync.searchProducts(buildPayload(1)));
-    }, [q]);
+    }, [q, categoryId]);
+
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(categoriesAync.fectchCategories());
+        }
+    }, [categories]);
 
     /* ===== infinite scroll ===== */
     const loadMore = useCallback(() => {
