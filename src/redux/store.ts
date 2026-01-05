@@ -6,19 +6,21 @@ import { combineReducers } from "redux";
 import productSlice from "./slice/product.slice";
 import categoriesSlice from "./slice/categories.slice";
 import cartSlice from "./slice/cart.slice";
+import paymentSlice from "./slice/payment.slice";
 
 const rootReducer = combineReducers({
-  products: productSlice,
-  categories: categoriesSlice,
-  cart: cartSlice,
+    products: productSlice,
+    categories: categoriesSlice,
+    cart: cartSlice,
+    payment: paymentSlice,
 });
 
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 setupListeners(store.dispatch);

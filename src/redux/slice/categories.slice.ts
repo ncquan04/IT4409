@@ -13,18 +13,18 @@ const categoriesSlice = createSlice({
     name: "categories",
     initialState,
     reducers: {},
-    extraReducers: (builer) => {
-        builer.addCase(
+    extraReducers: (builder) => {
+        builder.addCase(
             categoriesAync.fectchCategories.fulfilled,
             (state, action: PayloadAction<{ categories: ICategory[] }>) => {
                 (state.error = false), (state.isLoading = false);
                 state.categories = action.payload.categories;
             },
         );
-        builer.addCase(categoriesAync.fectchCategories.pending, (state) => {
+        builder.addCase(categoriesAync.fectchCategories.pending, (state) => {
             (state.error = false), (state.isLoading = false);
         });
-        builer.addCase(categoriesAync.fectchCategories.rejected, (state) => {
+        builder.addCase(categoriesAync.fectchCategories.rejected, (state) => {
             (state.error = true), (state.isLoading = false);
         });
     },
