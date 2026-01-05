@@ -1,132 +1,164 @@
-import { useState } from "react";
-import { Product } from "../../../shared/models/product-model";
+import { useEffect, useMemo, useState } from "react";
+import { type IProductVariant, type IProduct } from "../../../shared/models/product-model";
 import CommonButton from "../../../components/common/CommonButton";
 import bank1 from "../../../assets/images/image 30.png";
 import bank2 from "../../../assets/images/image 31.png";
 import bank3 from "../../../assets/images/image 32.png";
 import bank4 from "../../../assets/images/image 33.png";
 import { formatPrice } from "../../../utils";
-
-interface OrderSummaryProps {
-  products: (Product & { quantity: number })[];
-}
+import { useAppDispatch, useAppSelector, type RootState } from "../../../redux/store";
+import { updateOrder } from "../../../redux/slice/payment.slice";
 
 const bankOptionsImg = [bank1, bank2, bank3, bank4];
 
-const OrderSummary = ({ products }: OrderSummaryProps) => {
-  const [paymentMethod, setPaymentMethod] = useState<"bank" | "cod">("cod");
-  const [couponCode, setCouponCode] = useState("");
+const OrderSummary = () => {
+    const dispatch = useAppDispatch();
+    const [paymentMethod, setPaymentMethod] = useState<"bank" | "cod">("cod");
+    const products = useAppSelector((state: RootState) => state.payment.order.listProduct);
+    const orderCalc = useMemo(() => {
+        return products.map((item) => {
+            const originalPrice = item.variant.price;
+            const salePrice = item.variant.salePrice ?? originalPrice;
+            const discount = originalPrice - salePrice;
 
-  const subtotal = products.reduce(
-    (acc, product) => acc + product.variants[0].price * product.quantity,
-    0
-  );
-  const shipping = 0;
-  const total = subtotal + shipping;
+            return {
+                ...item,
+                originalPrice,
+                salePrice,
+                discount,
+                total: salePrice * item.quantity,
+            };
+        });
+    }, [products]);
 
-  return (
-    <section className="flex flex-col gap-8 w-full lg:w-[40%] mt-8 lg:mt-24 text-black">
-      <ul className="flex flex-col gap-6">
-        {products.map((product) => (
-          <li key={product._id} className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative w-12 h-12">
-                <img
-                  src={product.variants[0].images[0]}
-                  alt={product.title}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <span className="text-base">{product.title}</span>
+    const subtotal = orderCalc.reduce((sum, i) => sum + i.total, 0);
+    const totalDiscount = orderCalc.reduce((sum, i) => sum + i.discount * i.quantity, 0);
+
+    useEffect(() => {
+        dispatch(updateOrder({ field: "sumPrice", value: subtotal }));
+    }, [subtotal]);
+
+    return (
+        <section className="w-full lg:w-[40%] mt-8 lg:mt-24 text-black space-y-6">
+            {/* PRODUCT LIST */}
+            <div className="space-y-4">
+                {orderCalc.map((item) => (
+                    <div
+                        key={`${item.product._id}-${item.variant._id}`}
+                        className="border border-gray-200 rounded-lg p-4 space-y-4"
+                    >
+                        {/* PRODUCT HEADER */}
+                        <div className="flex gap-4">
+                            <img
+                                src={item.variant.images[0]}
+                                alt={item.variant.sku}
+                                className="w-16 h-16 object-contain border rounded"
+                            />
+                            <div>
+                                <p className="font-medium">{item.product.title}</p>
+                                <p className="text-sm text-gray-500">
+                                    Variant: {item.variant.version}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* PRICE INFO */}
+                        <div className="text-sm space-y-2">
+                            <div className="flex justify-between">
+                                <span>Quantity</span>
+                                <span>{item.quantity}</span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span>Original price</span>
+                                <span className="line-through text-gray-400">
+                                    {formatPrice(item.originalPrice)}
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span>Discount</span>
+                                <span className="text-green-600">
+                                    {item.discount > 0 ? `-${formatPrice(item.discount)}` : "-"}
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between font-medium">
+                                <span>Item total</span>
+                                <span>{formatPrice(item.total)}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <span className="text-base">
-              {formatPrice(product.variants[0].price * product.quantity)}
-            </span>
-          </li>
-        ))}
-      </ul>
 
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between py-4 border-b border-gray-300">
-          <span className="text-base">Subtotal:</span>
-          <span className="text-base">{formatPrice(subtotal)}</span>
-        </div>
-        <div className="flex justify-between py-4 border-b border-gray-300">
-          <span className="text-base">Shipping:</span>
-          <span className="text-base">Free</span>
-        </div>
-        <div className="flex justify-between py-4">
-          <span className="text-base">Total:</span>
-          <span className="text-base">{formatPrice(total)}</span>
-        </div>
-      </div>
+            {/* ORDER SUMMARY */}
+            <div className="border-t pt-4 space-y-3 text-sm">
+                <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>{formatPrice(subtotal + totalDiscount)}</span>
+                </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <input
-              type="radio"
-              id="bank"
-              name="payment"
-              className="w-5 h-5 accent-black"
-              checked={paymentMethod === "bank"}
-              onChange={() => setPaymentMethod("bank")}
-              style={{ colorScheme: "light" }}
-            />
-            <label htmlFor="bank" className="text-base cursor-pointer">
-              Bank
-            </label>
-          </div>
-          <div className="flex gap-2">
-            {bankOptionsImg.map((bank, index) => (
-              <div
-                key={index}
-                className="w-[42px] h-[28px] flex justify-center items-center"
-              >
-                <img src={bank} alt={`Bank ${index + 1}`} />
-              </div>
-            ))}
-          </div>
-        </div>
+                <div className="flex justify-between text-green-600">
+                    <span>Total discount</span>
+                    <span>-{formatPrice(totalDiscount)}</span>
+                </div>
 
-        <div className="flex items-center gap-4">
-          <input
-            type="radio"
-            id="cod"
-            name="payment"
-            className="w-5 h-5 accent-black"
-            checked={paymentMethod === "cod"}
-            onChange={() => setPaymentMethod("cod")}
-            style={{ colorScheme: "light" }}
-          />
-          <label htmlFor="cod" className="text-base cursor-pointer">
-            Cash on delivery
-          </label>
-        </div>
-      </div>
+                <div className="flex justify-between font-semibold text-base border-t pt-3">
+                    <span>Total</span>
+                    <span>{formatPrice(subtotal)}</span>
+                </div>
+            </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 h-auto sm:h-14">
-        <input
-          type="text"
-          placeholder="Coupon Code"
-          value={couponCode}
-          onChange={(e) => setCouponCode(e.target.value)}
-          className="flex-1 w-full sm:w-auto h-14 sm:h-auto border border-black rounded px-6 outline-none text-black"
-        />
-        <CommonButton
-          label="Apply Coupon"
-          onClick={() => {}}
-          className="w-full sm:w-auto px-8 h-14 sm:h-full"
-        />
-      </div>
+            {/* PAYMENT */}
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <input
+                            type="radio"
+                            id="bank"
+                            name="payment"
+                            className="w-5 h-5 accent-black"
+                            checked={paymentMethod === "bank"}
+                            onChange={() => setPaymentMethod("bank")}
+                            style={{ colorScheme: "light" }}
+                        />
+                        <label htmlFor="bank" className="text-base cursor-pointer">
+                            Bank
+                        </label>
+                    </div>
+                    <div className="flex gap-2">
+                        {bankOptionsImg.map((bank, index) => (
+                            <div
+                                key={index}
+                                className="w-[42px] h-[28px] flex justify-center items-center"
+                            >
+                                <img src={bank} alt={`Bank ${index + 1}`} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-      <CommonButton
-        label="Place Order"
-        onClick={() => {}}
-        className="w-full sm:w-auto px-8 self-start"
-      />
-    </section>
-  );
+                <div className="flex items-center gap-4">
+                    <input
+                        type="radio"
+                        id="cod"
+                        name="payment"
+                        className="w-5 h-5 accent-black"
+                        checked={paymentMethod === "cod"}
+                        onChange={() => setPaymentMethod("cod")}
+                        style={{ colorScheme: "light" }}
+                    />
+                    <label htmlFor="cod" className="text-base cursor-pointer">
+                        Cash on delivery
+                    </label>
+                </div>
+            </div>
+
+            {/* ACTION */}
+            <CommonButton label="Place Order" onClick={() => {}} className="w-full" />
+        </section>
+    );
 };
 
 export default OrderSummary;
