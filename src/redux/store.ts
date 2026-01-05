@@ -5,20 +5,22 @@ import type { TypedUseSelectorHook } from "react-redux";
 import { combineReducers } from "redux";
 import productSlice from "./slice/product.slice";
 import categoriesSlice from "./slice/categories.slice";
+import searchSlice from "./slice/search.slice";
 import cartSlice from "./slice/cart.slice";
 
 const rootReducer = combineReducers({
-  products: productSlice,
-  categories: categoriesSlice,
-  cart: cartSlice,
+    products: productSlice,
+    categories: categoriesSlice,
+    cart: cartSlice,
+    search: searchSlice,
 });
 
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 setupListeners(store.dispatch);
