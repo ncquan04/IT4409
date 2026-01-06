@@ -1,34 +1,24 @@
-import * as React from "react"
+import * as React from "react";
 
 function ComputerIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
       width={56}
       height={56}
-      viewBox="0 0 56 56"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
       {...props}
     >
-      <g
-        clipPath="url(#clip0_869_78)"
-        stroke={props.stroke || "#000"}
-        strokeWidth={2}
-        strokeLinecap="round"
-      >
-        <path
-          d="M46.667 9.333H9.333A2.333 2.333 0 007 11.667V35a2.333 2.333 0 002.333 2.333h37.334A2.333 2.333 0 0049 35V11.667a2.333 2.333 0 00-2.333-2.334zM16.334 46.667h23.333M21 37.333v9.334M35 37.333v9.334"
-          strokeLinejoin="round"
-        />
-        <path d="M8 32h40" />
-      </g>
-      <defs>
-        <clipPath id="clip0_869_78">
-          <path fill="#fff" d="M0 0H56V56H0z" />
-        </clipPath>
-      </defs>
+      <path
+        d="M110.8 87.514v-55.86a1.75 1.75 0 00-1.75-1.75h-90.1a1.75 1.75 0 00-1.75 1.75v55.86a1.75 1.75 0 001.75 1.75h90.1a1.75 1.75 0 001.75-1.75zm-3.5-1.75H20.7V33.4h86.6z"
+        data-original="#000000"
+      />
+      <path
+        d="M121.693 92.487h-4.168V29.434a6.258 6.258 0 00-6.252-6.252H16.727a6.258 6.258 0 00-6.252 6.252v63.053H6.307a1.751 1.751 0 00-1.75 1.75v4.331a6.257 6.257 0 006.25 6.25h106.386a6.256 6.256 0 006.25-6.25v-4.331a1.75 1.75 0 00-1.75-1.75zM13.975 29.434a2.754 2.754 0 012.752-2.752h94.546a2.754 2.754 0 012.752 2.752v63.053H77.144a1.75 1.75 0 00-1.75 1.75v.935H52.606v-.935a1.751 1.751 0 00-1.75-1.75H13.975zm105.968 69.134a2.753 2.753 0 01-2.75 2.75H10.807a2.754 2.754 0 01-2.75-2.75v-2.581h41.049v.935a1.75 1.75 0 001.75 1.75h26.288a1.75 1.75 0 001.75-1.75v-.935h41.049z"
+        data-original="#000000"
+      />
     </svg>
-  )
+  );
 }
 
-export default ComputerIcon
+export default ComputerIcon;

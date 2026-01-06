@@ -2,12 +2,15 @@ import SectionTag from "../../../components/common/sectionTag/SectionTag";
 import type { Product } from "../../../shared/models/product-model";
 import CommonButton from "../../../components/common/CommonButton";
 import ItemSwiper from "../../../components/common/itemSwiper/ItemSwiper";
+import { useNavigate } from "react-router-dom";
 
 interface ThisMonthSectionProps {
   bestSellingProducts: Product[];
 }
 
 const ThisMonthSection = (props: ThisMonthSectionProps) => {
+  const navigate = useNavigate();
+
   return (
     <section
       className="flex flex-col gap-4 md:gap-6 lg:gap-8"
@@ -17,7 +20,9 @@ const ThisMonthSection = (props: ThisMonthSectionProps) => {
         <SectionTag title="This Month" />
         <CommonButton
           label="View All Products"
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/search?all=true");
+          }}
           style={{ alignSelf: "center" }}
           className="w-full sm:w-40 md:w-44 h-12 md:h-14"
         />
