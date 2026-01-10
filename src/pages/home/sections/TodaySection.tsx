@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import SectionTag from "../../../components/common/sectionTag/SectionTag";
 import CommonButton from "../../../components/common/CommonButton";
 import type { Product } from "../../../shared/models/product-model";
@@ -8,6 +9,7 @@ interface TodaySectionProps {
 }
 
 const TodaySection = (props: TodaySectionProps) => {
+  const navigate = useNavigate();
   return (
     <section
       className="flex flex-col gap-4 md:gap-6 lg:gap-8"
@@ -17,7 +19,9 @@ const TodaySection = (props: TodaySectionProps) => {
       <ItemSwiper items={props.items} />
       <CommonButton
         label="View All Products"
-        onClick={() => {}}
+        onClick={() => {
+          navigate("/search?all=true");
+        }}
         style={{ alignSelf: "center" }}
         className="w-full sm:w-64 md:w-56 h-12 md:h-14"
       />

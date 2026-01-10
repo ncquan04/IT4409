@@ -59,7 +59,7 @@ const ItemCard = ({ item }: { item: ICartResponseItem }) => {
           </h3>
           {variant && (
             <p className="text-sm text-text2 opacity-80">
-              {variant.color} - {variant.storage}
+              {variant.colorName} - {variant.version}
             </p>
           )}
         </div>
