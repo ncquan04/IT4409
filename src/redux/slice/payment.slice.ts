@@ -1,5 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IPaymentInitState } from "../../types/payment.types";
+import { Contacts } from "../../shared/contacts";
+
+const PAYMENT_METHOD = Contacts.PaymentMethod;
 
 const initialState: IPaymentInitState = {
     userInfo: {
@@ -11,6 +14,7 @@ const initialState: IPaymentInitState = {
     order: {
         listProduct: [],
         sumPrice: 0,
+        method: PAYMENT_METHOD.COD,
     },
     isLoading: false,
     error: false,

@@ -2,38 +2,11 @@ import { useAppDispatch, useAppSelector, type RootState } from "../../../redux/s
 import { updateUserInfo, type UserInfoType } from "../../../redux/slice/payment.slice";
 import InputBilling, { type IInputBillingProps } from "./inputBilling";
 
-const BillingInputData: (IInputBillingProps & { key?: UserInfoType })[] = [
-    {
-        label: "First Name",
-        isRequired: true,
-        key: "name",
-        type: "text",
-    },
-    {
-        label: "Company Name",
-        type: "text",
-    },
-    {
-        label: "Street Address",
-        isRequired: true,
-        key: "streetAddress",
-        type: "text",
-    },
-    {
-        label: "Town/City",
-        isRequired: true,
-        key: "city",
-        type: "text",
-    },
-    {
-        label: "Phone Number",
-        isRequired: true,
-        key: "numberPhone",
-        type: "number",
-    },
-];
-
-const BillingDetails = () => {
+const BillingDetails = ({
+    BillingInputData,
+}: {
+    BillingInputData: (IInputBillingProps & { key?: UserInfoType })[];
+}) => {
     const dispatch = useAppDispatch();
     const payment = useAppSelector((state: RootState) => state.payment);
     return (

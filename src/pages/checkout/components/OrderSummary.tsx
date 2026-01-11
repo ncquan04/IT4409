@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { type IProductVariant, type IProduct } from "../../../shared/models/product-model";
-import CommonButton from "../../../components/common/CommonButton";
+import { useEffect, useMemo } from "react";
 import bank1 from "../../../assets/images/image 30.png";
 import bank2 from "../../../assets/images/image 31.png";
 import bank3 from "../../../assets/images/image 32.png";
@@ -8,12 +6,15 @@ import bank4 from "../../../assets/images/image 33.png";
 import { formatPrice } from "../../../utils";
 import { useAppDispatch, useAppSelector, type RootState } from "../../../redux/store";
 import { updateOrder } from "../../../redux/slice/payment.slice";
+import { Contacts } from "../../../shared/contacts";
 
 const bankOptionsImg = [bank1, bank2, bank3, bank4];
 
+const PAYMENT_METHOD = Contacts.PaymentMethod;
+
 const OrderSummary = () => {
     const dispatch = useAppDispatch();
-    const [paymentMethod, setPaymentMethod] = useState<"bank" | "cod">("cod");
+    const method = useAppSelector((state: RootState) => state.payment.order.method);
     const products = useAppSelector((state: RootState) => state.payment.order.listProduct);
     const orderCalc = useMemo(() => {
         return products.map((item) => {
@@ -38,8 +39,12 @@ const OrderSummary = () => {
         dispatch(updateOrder({ field: "sumPrice", value: subtotal }));
     }, [subtotal]);
 
+    const handleChangeMethod = (method: (typeof PAYMENT_METHOD)[keyof typeof PAYMENT_METHOD]) => {
+        dispatch(updateOrder({ field: "method", value: method }));
+    };
+
     return (
-        <section className="w-full lg:w-[40%] mt-8 lg:mt-24 text-black space-y-6">
+        <>
             {/* PRODUCT LIST */}
             <div className="space-y-4">
                 {orderCalc.map((item) => (
@@ -119,8 +124,10 @@ const OrderSummary = () => {
                             id="bank"
                             name="payment"
                             className="w-5 h-5 accent-black"
-                            checked={paymentMethod === "bank"}
-                            onChange={() => setPaymentMethod("bank")}
+                            checked={method === PAYMENT_METHOD.STRIPE}
+                            onChange={() => {
+                                handleChangeMethod(PAYMENT_METHOD.STRIPE);
+                            }}
                             style={{ colorScheme: "light" }}
                         />
                         <label htmlFor="bank" className="text-base cursor-pointer">
@@ -145,8 +152,10 @@ const OrderSummary = () => {
                         id="cod"
                         name="payment"
                         className="w-5 h-5 accent-black"
-                        checked={paymentMethod === "cod"}
-                        onChange={() => setPaymentMethod("cod")}
+                        checked={method === PAYMENT_METHOD.COD}
+                        onChange={() => {
+                            handleChangeMethod(PAYMENT_METHOD.COD);
+                        }}
                         style={{ colorScheme: "light" }}
                     />
                     <label htmlFor="cod" className="text-base cursor-pointer">
@@ -154,10 +163,7 @@ const OrderSummary = () => {
                     </label>
                 </div>
             </div>
-
-            {/* ACTION */}
-            <CommonButton label="Place Order" onClick={() => {}} className="w-full" />
-        </section>
+        </>
     );
 };
 
