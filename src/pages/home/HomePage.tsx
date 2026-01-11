@@ -13,6 +13,8 @@ import { motion } from "framer-motion";
 import productAsync from "../../redux/async-thunk/product.thunk";
 import categoriesAync from "../../redux/async-thunk/categories.thunk";
 import { useAppDispatch, useAppSelector, type RootState } from "../../redux/store";
+import useSocket from "../../socket/useSocket";
+import Socket from "../../socket/socketConfig";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -45,6 +47,21 @@ const HomePage = () => {
     useEffect(() => {
         dispatch(productAsync.fetchProduct({}));
         dispatch(categoriesAync.fectchCategories());
+    }, []);
+
+    useSocket({
+        namespace: "admin",
+        listener: (socket) => {
+            socket.on("pong", (payload) => {
+                console.log(payload);
+            });
+        },
+    });
+
+    useEffect(() => {
+        Socket.getInstant("admin")?.emit("ping", { test: 1 }, (response: any) => {
+            console.log("response: ", response);
+        });
     }, []);
 
     if (isLoading) {
