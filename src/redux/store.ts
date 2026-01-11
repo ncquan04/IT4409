@@ -7,20 +7,22 @@ import productSlice from "./slice/product.slice";
 import categoriesSlice from "./slice/categories.slice";
 import searchSlice from "./slice/search.slice";
 import cartSlice from "./slice/cart.slice";
+import evaluationSlice from "./slice/evaluation.slice";
 
 const rootReducer = combineReducers({
-    products: productSlice,
-    categories: categoriesSlice,
-    cart: cartSlice,
-    search: searchSlice,
+  products: productSlice,
+  categories: categoriesSlice,
+  cart: cartSlice,
+  search: searchSlice,
+  evaluation: evaluationSlice,
 });
 
 export const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }),
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 setupListeners(store.dispatch);
