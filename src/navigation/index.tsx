@@ -20,6 +20,7 @@ import SearchPage from "../pages/searchProducts/searchPage";
 import CheckoutResultPage from "../pages/checkoutResult/checkoutResultPage";
 import OrdersPage from "../pages/order/orderPage";
 import AdminHeader from "../components/admin/AdminHeader";
+import PaymentReportPage from "../pages/admin/paymentReport";
 
 export const AppRoutes = {
     DEFAULT: "/",
@@ -41,6 +42,7 @@ export const AppRoutes = {
     SEARCH: "/search",
     CHECKOUT_RESULT: "/checkout/:id",
     ORDER: "/orders",
+    ADMIN_PAYMENTS: "/admin/payment-report",
 };
 
 const Mainlayout = ({ children }: { children: any }) => {
@@ -198,6 +200,14 @@ const RootNavigation = () => {
                         element={
                             <AdminLayout>
                                 <ProductManagementPage />
+                            </AdminLayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ADMIN_PAYMENTS}
+                        element={
+                            <AdminLayout>
+                                <PaymentReportPage />
                             </AdminLayout>
                         }
                     />
