@@ -13,11 +13,13 @@ import CheckoutPage from "../pages/checkout/CheckoutPage";
 import AccountPage from "../pages/account/AccountPage";
 import AdminProtectedRoute from "../components/admin/adminProtectedRoute/adminProtectedRoute";
 import AdminPages from "../pages/admin";
+import ProductManagementPage from "../pages/admin/ProductManagementPage";
 import CartPage from "../pages/cart/CartPage";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import SearchPage from "../pages/searchProducts/searchPage";
 import CheckoutResultPage from "../pages/checkoutResult/checkoutResultPage";
 import OrdersPage from "../pages/order/orderPage";
+import AdminHeader from "../components/admin/AdminHeader";
 
 export const AppRoutes = {
     DEFAULT: "/",
@@ -35,6 +37,7 @@ export const AppRoutes = {
     PRODUCT_DETAIL: "/products/:productId",
     CHECKOUT: "/checkout",
     ADMIN: "/admin",
+    ADMIN_PRODUCTS: "/admin/products",
     SEARCH: "/search",
     CHECKOUT_RESULT: "/checkout/:id",
     ORDER: "/orders",
@@ -54,7 +57,7 @@ const AdminLayout = ({ children }: { children: any }) => {
     return (
         <AdminProtectedRoute>
             <>
-                <div>header</div>
+                <AdminHeader />
                 <div>{children}</div>
             </>
         </AdminProtectedRoute>
@@ -187,6 +190,14 @@ const RootNavigation = () => {
                         element={
                             <AdminLayout>
                                 <AdminPages />
+                            </AdminLayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ADMIN_PRODUCTS}
+                        element={
+                            <AdminLayout>
+                                <ProductManagementPage />
                             </AdminLayout>
                         }
                     />

@@ -55,6 +55,56 @@ const productSlice = createSlice({
         builder.addCase(productAsync.fetchDetail.rejected, (state) => {
             (state.error = true), (state.isLoading = false);
         });
+
+        // Create Product
+        builder.addCase(productAsync.createProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.error = false;
+            state.products.unshift(action.payload);
+        });
+        builder.addCase(productAsync.createProduct.pending, (state) => {
+            state.isLoading = true;
+            state.error = false;
+        });
+        builder.addCase(productAsync.createProduct.rejected, (state) => {
+            state.isLoading = false;
+            state.error = true;
+        });
+
+        // Update Product
+        builder.addCase(productAsync.updateProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.error = false;
+            if (state.productDetail && state.productDetail._id === action.payload._id) {
+                state.productDetail = action.payload;
+            }
+            state.products = state.products.map((p) => 
+                p._id === action.payload._id ? action.payload : p
+            );
+        });
+        builder.addCase(productAsync.updateProduct.pending, (state) => {
+            state.isLoading = true;
+            state.error = false;
+        });
+        builder.addCase(productAsync.updateProduct.rejected, (state) => {
+            state.isLoading = false;
+            state.error = true;
+        });
+
+        // Delete Product
+        builder.addCase(productAsync.deleteProduct.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.error = false;
+            state.products = state.products.filter((p) => p._id !== action.payload);
+        });
+        builder.addCase(productAsync.deleteProduct.pending, (state) => {
+            state.isLoading = true;
+            state.error = false;
+        });
+        builder.addCase(productAsync.deleteProduct.rejected, (state) => {
+            state.isLoading = false;
+            state.error = true;
+        });
     },
 });
 
