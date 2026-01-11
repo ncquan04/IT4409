@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Product } from "../../../shared/models/product-model";
+import {
+  Product,
+  type IProductVariant,
+} from "../../../shared/models/product-model";
 import CommonButton from "../../../components/common/CommonButton";
 import bank1 from "../../../assets/images/image 30.png";
 import bank2 from "../../../assets/images/image 31.png";
@@ -8,7 +11,10 @@ import bank4 from "../../../assets/images/image 33.png";
 import { formatPrice } from "../../../utils";
 
 interface OrderSummaryProps {
-  products: (Product & { quantity: number })[];
+  products: (Product & {
+    selectedVariant?: IProductVariant;
+    quantity: number;
+  })[];
 }
 
 const bankOptionsImg = [bank1, bank2, bank3, bank4];
@@ -18,7 +24,10 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
   const [couponCode, setCouponCode] = useState("");
 
   const subtotal = products.reduce(
-    (acc, product) => acc + product.variants[0].price * product.quantity,
+    (acc, product) =>
+      acc +
+      (product.selectedVariant?.price || product.variants[0].price) *
+        product.quantity,
     0
   );
   const shipping = 0;
@@ -32,15 +41,31 @@ const OrderSummary = ({ products }: OrderSummaryProps) => {
             <div className="flex items-center gap-4">
               <div className="relative w-12 h-12">
                 <img
-                  src={product.variants[0].images[0]}
+                  src={
+                    product.selectedVariant?.images[0] ||
+                    product.variants[0].images[0]
+                  }
                   alt={product.title}
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="text-base">{product.title}</span>
+              <div className="flex flex-col">
+                <span className="text-base">{product.title}</span>
+                <span className="text-sm text-text2">
+                  {product.selectedVariant?.version ||
+                    product.variants[0].version}{" "}
+                  -{" "}
+                  {product.selectedVariant?.colorName ||
+                    product.variants[0].colorName}
+                </span>
+                <span className="text-sm text-text2">x{product.quantity}</span>
+              </div>
             </div>
             <span className="text-base">
-              {formatPrice(product.variants[0].price * product.quantity)}
+              {formatPrice(
+                (product.selectedVariant?.price || product.variants[0].price) *
+                  product.quantity
+              )}
             </span>
           </li>
         ))}

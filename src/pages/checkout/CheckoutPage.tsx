@@ -1,12 +1,18 @@
 import PageTransition from "../../components/common/PageTransition";
 import { useLocation } from "react-router-dom";
-import { Product } from "../../shared/models/product-model";
+import {
+  Product,
+  type IProductVariant,
+} from "../../shared/models/product-model";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
 import BillingDetails from "./components/BillingDetails";
 import OrderSummary from "./components/OrderSummary";
 
 interface CheckoutState {
-  products: (Product & { quantity: number })[];
+  products: (Product & {
+    selectedVariant: IProductVariant;
+    quantity: number;
+  })[];
 }
 
 const CheckoutPage = () => {

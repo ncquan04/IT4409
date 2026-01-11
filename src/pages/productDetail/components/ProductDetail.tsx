@@ -78,6 +78,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         products: [
           {
             ...product,
+            selectedVariant,
             quantity: quantity,
           },
         ],
