@@ -9,6 +9,7 @@ import searchSlice from "./slice/search.slice";
 import cartSlice from "./slice/cart.slice";
 import paymentSlice from "./slice/payment.slice";
 import orderSlice from "./slice/order.slice";
+import paymentManagementSlice from "./slice/payment-management.slice";
 
 const rootReducer = combineReducers({
     products: productSlice,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     payment: paymentSlice,
     search: searchSlice,
     order: orderSlice,
+    paymentManagement: paymentManagementSlice,
 });
 
 export const store = configureStore({

@@ -28,7 +28,7 @@ const AdminDashboard = () => {
             color: "bg-button2",
         },
         {
-            title: "Payment Report",
+            title: "Payment Management",
             description: "View and manage orders and payment details",
             icon: (
                 <svg
