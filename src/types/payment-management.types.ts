@@ -17,3 +17,14 @@ export interface IPaymentManagementInitialState {
     isloading: boolean;
     error: boolean;
 }
+
+export interface IRefundReport {
+    orderId: string;
+    paymentId: string;
+    reason: string;
+    amount: number;
+    images: string[];
+    cusName: string;
+    cusMail: string;
+    cusPhone: string;
+}
