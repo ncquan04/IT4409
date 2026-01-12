@@ -3,6 +3,7 @@ import type { IOrder } from "../../shared/models/order-model";
 import type { IPayment } from "../../shared/models/payment-model";
 import {
     getUserCancelledOrders,
+    getUserDeliveryOrdres,
     getUserReturnedOrders,
     userOrderVisible,
 } from "../../services/api/api.order";
@@ -50,6 +51,24 @@ class OrderAsync {
     >("order/user-return-order", async (_, { rejectWithValue }) => {
         try {
             const response = await getUserReturnedOrders();
+            if (!response) {
+                throw new Error("");
+            }
+            return response;
+        } catch (err: any) {
+            return rejectWithValue({
+                error: "user-cancel-order error",
+            });
+        }
+    });
+
+    userDeliverydOrders = createAsyncThunk<
+        (IOrder & { payment: IPayment })[],
+        void,
+        { rejectValue: any }
+    >("order/user-delivery-order", async (_, { rejectWithValue }) => {
+        try {
+            const response = await getUserDeliveryOrdres();
             if (!response) {
                 throw new Error("");
             }
