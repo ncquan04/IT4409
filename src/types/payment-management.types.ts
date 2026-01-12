@@ -4,9 +4,16 @@ import type { IPayment } from "../shared/models/payment-model";
 
 const PAYMENT_STATUS = Contacts.Status.Payment;
 
+export interface PaginationType {
+    page: number;
+    limit: number;
+    totalPages: number;
+    total: number;
+}
 export interface IPaymentManagementInitialState {
     orders: (IOrder & { payment: IPayment })[];
     paymentTab: (typeof PAYMENT_STATUS)[keyof typeof PAYMENT_STATUS];
+    pagination: PaginationType;
     isloading: boolean;
     error: boolean;
 }
