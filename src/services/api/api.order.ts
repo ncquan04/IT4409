@@ -3,7 +3,9 @@ import type { IOrder, IProductItem } from "../../shared/models/order-model";
 import type { IPayment } from "../../shared/models/payment-model";
 import type { PaginationType } from "../../types/payment-management.types";
 import { apiService } from "./api.config";
+
 const API_PATH = Contacts.API_CONFIG;
+const STATUS_ORDER = Contacts.Status.Order;
 
 export const createOrderBuyNow = async ({
     listProduct,
@@ -91,6 +93,25 @@ export const getOrderPaymentStatus = async ({
         return response;
     } catch (err) {
         console.log("get order payment status error: ", err);
+        return null;
+    }
+};
+
+export const putChangeOrderStatus = async ({
+    orderId,
+    statusOrder,
+}: {
+    orderId: string;
+    statusOrder: (typeof STATUS_ORDER)[keyof typeof STATUS_ORDER];
+}) => {
+    try {
+        const response = await apiService.put<boolean>(API_PATH.ORDER.CHANGE_ORDER_STATUS.URL, {
+            orderId,
+            statusOrder,
+        });
+        return response;
+    } catch (err) {
+        console.log("update order status error: ", err);
         return null;
     }
 };

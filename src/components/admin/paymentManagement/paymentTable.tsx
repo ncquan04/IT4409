@@ -1,6 +1,14 @@
+import { useState } from "react";
 import { Contacts } from "../../../shared/contacts";
 import type { IOrder } from "../../../shared/models/order-model";
 import type { IPayment } from "../../../shared/models/payment-model";
+import { RefundModal } from "./refundModal";
+import { putChangeOrderStatus } from "../../../services/api/api.order";
+import type { IRefundReport } from "../../../types/payment-management.types";
+import { createReportRefund } from "../../../services/api/api.report-refund";
+import { putChangePaymentStatus } from "../../../services/api/api.payment";
+import { useAppDispatch } from "../../../redux/store";
+import { setPaymentTab } from "../../../redux/slice/payment-management.slice";
 
 const STATUS_PAYMENT = Contacts.Status.Payment;
 const STATUS_ORDER = Contacts.Status.Order;
@@ -8,7 +16,6 @@ const STATUS_ORDER = Contacts.Status.Order;
 type Props = {
     orders: (IOrder & { payment: IPayment })[];
     loading?: boolean;
-    onRefund?: (paymentId: string) => void;
 };
 
 const PAYMENT_STATUS_LABEL: Record<number, string> = {
@@ -36,7 +43,8 @@ const ORDER_STATUS_COLOR: Record<number, string> = {
     [STATUS_ORDER.RETURNED]: "bg-purple-100 text-purple-700",
 };
 
-const PaymentOrdersTable = ({ orders, loading, onRefund }: Props) => {
+const PaymentOrdersTable = ({ orders, loading }: Props) => {
+    const dispatch = useAppDispatch();
     const canRefund = (order: IOrder & { payment: IPayment }) => {
         const { payment, statusOrder: orderStatus } = order;
 
@@ -45,6 +53,44 @@ const PaymentOrdersTable = ({ orders, loading, onRefund }: Props) => {
             payment.status === STATUS_PAYMENT.PAID &&
             orderStatus === Contacts.Status.Order.SHIPPING
         );
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const handleRefund = async (data: IRefundReport) => {
+        try {
+            const { orderId, paymentId, cusMail, amount, cusName, cusPhone, images, reason } = data;
+            const changeOrder = putChangeOrderStatus({
+                orderId,
+                statusOrder: STATUS_ORDER.RETURNED,
+            });
+
+            if (!changeOrder) throw new Error("");
+
+            const changePaymentStatus = await putChangePaymentStatus({
+                status: STATUS_PAYMENT.REFUNDED,
+                paymentId,
+            });
+
+            if (!changePaymentStatus) throw new Error("");
+
+            const report = await createReportRefund({
+                orderId,
+                paymentId,
+                reason,
+                amount,
+                images,
+                cusMail,
+                cusName,
+                cusPhone,
+            });
+
+            if (!report) throw new Error("");
+
+            dispatch(setPaymentTab(STATUS_PAYMENT.REFUNDED));
+        } catch (err) {
+            alert("refund error");
+        }
     };
 
     if (loading) {
@@ -132,17 +178,29 @@ const PaymentOrdersTable = ({ orders, loading, onRefund }: Props) => {
                                         </span>
 
                                         {canRefund(order) && (
-                                            <button
-                                                onClick={() => onRefund?.(payment._id)}
-                                                className="
-                                                    px-3 py-1 text-xs font-medium
-                                                    bg-red-500 text-white rounded
-                                                    hover:bg-red-600
-                                                    transition
+                                            <>
+                                                <button
+                                                    onClick={() => setOpen(true)}
+                                                    className="
+                                                px-3 py-1 text-xs font-medium
+                                                bg-red-500 text-white rounded
+                                                hover:bg-red-600
+                                                transition
                                                 "
-                                            >
-                                                Refund
-                                            </button>
+                                                >
+                                                    Refund
+                                                </button>
+                                                {open && (
+                                                    <RefundModal
+                                                        open={open}
+                                                        order={order}
+                                                        onClose={() => setOpen(false)}
+                                                        onSubmit={(data: IRefundReport) => {
+                                                            handleRefund?.(data);
+                                                        }}
+                                                    />
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 </td>
