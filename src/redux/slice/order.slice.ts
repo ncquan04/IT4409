@@ -12,6 +12,15 @@ const initialState: IOderInitialState = {
     filterStatus: ORDER_STATUS.SHIPPING,
     isloading: false,
     error: false,
+    adminOrders: {
+        data: [],
+        pagination: {
+            page: 1,
+            limit: 10,
+            total: 0,
+            totalPages: 0,
+        },
+    },
 };
 
 const orderSilce = createSlice({
@@ -68,6 +77,43 @@ const orderSilce = createSlice({
         builder.addCase(orderAsync.userReturnedOrders.rejected, (state) => {
             state.error = true;
             state.isloading = false;
+        });
+        // admin fetch all orders
+        builder.addCase(orderAsync.fetchAllOrders.pending, (state) => {
+            state.error = false;
+            state.isloading = true;
+        });
+        builder.addCase(orderAsync.fetchAllOrders.fulfilled, (state, action) => {
+            state.error = false;
+            state.isloading = false;
+            state.adminOrders = {
+                data: action.payload.data,
+                pagination: action.payload.pagination,
+            };
+        });
+        builder.addCase(orderAsync.fetchAllOrders.rejected, (state) => {
+            state.error = true;
+            state.isloading = false;
+        });
+
+        // update order
+        builder.addCase(orderAsync.updateOrder.fulfilled, (state, action) => {
+            const updatedOrder = action.payload;
+            if (state.adminOrders.data) {
+                const index = state.adminOrders.data.findIndex((o) => o._id === updatedOrder._id);
+                if (index !== -1) {
+                    state.adminOrders.data[index] = updatedOrder;
+                }
+            }
+        });
+
+        // delete order
+        builder.addCase(orderAsync.deleteOrder.fulfilled, (state, action) => {
+            const deletedOrderId = action.payload;
+            if (state.adminOrders.data) {
+                state.adminOrders.data = state.adminOrders.data.filter((o) => o._id !== deletedOrderId);
+                state.adminOrders.pagination.total -= 1;
+            }
         });
     },
 });

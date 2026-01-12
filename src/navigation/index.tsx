@@ -21,6 +21,7 @@ import CheckoutResultPage from "../pages/checkoutResult/checkoutResultPage";
 import OrdersPage from "../pages/order/orderPage";
 import AdminHeader from "../components/admin/AdminHeader";
 import PaymentReportPage from "../pages/admin/paymentReport";
+import OrderManagementPage from "../pages/admin/OrderManagementPage";
 
 export const AppRoutes = {
     DEFAULT: "/",
@@ -43,7 +44,9 @@ export const AppRoutes = {
     CHECKOUT_RESULT: "/checkout/:id",
     ORDER: "/orders",
     ADMIN_PAYMENTS: "/admin/payment-report",
+    ADMIN_ORDERS: "/admin/orders",
 };
+
 
 const Mainlayout = ({ children }: { children: any }) => {
     return (
@@ -208,6 +211,14 @@ const RootNavigation = () => {
                         element={
                             <AdminLayout>
                                 <PaymentReportPage />
+                            </AdminLayout>
+                        }
+                    />
+                    <Route
+                        path={AppRoutes.ADMIN_ORDERS}
+                        element={
+                            <AdminLayout>
+                                <OrderManagementPage />
                             </AdminLayout>
                         }
                     />

@@ -91,6 +91,97 @@ export const getOrderPaymentStatus = async ({
         return response;
     } catch (err) {
         console.log("get order payment status error: ", err);
+    }
+};
+
+// ADMIN
+export const getAllOrders = async ({
+    page,
+    limit,
+    search,
+    status,
+}: {
+    page: number;
+    limit: number;
+    search?: string;
+    status?: string;
+}) => {
+    try {
+        const params = new URLSearchParams();
+        params.append("page", page.toString());
+        params.append("limit", limit.toString());
+        if (search) params.append("search", search);
+        if (status) params.append("status", status);
+
+        const response = await apiService.get<{
+            message: string;
+            data: {
+                orders: (IOrder & {
+                    payment: IPayment;
+                    userId: {
+                        _id: string;
+                        email: string;
+                        fullName: string;
+                        phone: string;
+                    };
+                })[];
+                total: number;
+                currentPage: number;
+                totalPages: number;
+                itemsPerPage: number;
+            };
+        }>(API_PATH.ORDER.ALL_ORDER.URL + "?" + params.toString());
+
+        if (response && response.data && response.data.orders.length > 0) {
+            return {
+                data: response.data.orders,
+                pagination: {
+                    page: response.data.currentPage,
+                    limit: response.data.itemsPerPage,
+                    total: response.data.total,
+                    totalPages: response.data.totalPages,
+                },
+            };
+        }
+        return {
+            data: [],
+            pagination: {
+                page: page,
+                limit: limit,
+                total: 0,
+                totalPages: 0,
+            },
+        };
+    } catch (err) {
+        console.log("get all orders error: ", err);
         return null;
     }
 };
+
+export const updateOrderStatus = async (orderId: string, status: number) => {
+    try {
+        const response = await apiService.put<IOrder & {
+                payment: IPayment;
+                userId: {
+                    _id: string;
+                    email: string;
+                    fullName: string;
+                    phone: string;
+                };
+            }>(
+            API_PATH.ORDER.UPDATE(orderId).URL,
+            { statusOrder: status }
+        );
+        return response;
+    } catch (err) {
+        console.log("update order status error: ", err);
+        return null;
+    }
+};
+
+export const deleteOrder = async (orderId: string) => {
+    console.warn("Backend does not support DELETE ORDER yet.");
+    return false;
+};
+
+
