@@ -106,15 +106,6 @@ const orderSilce = createSlice({
                 }
             }
         });
-
-        // delete order
-        builder.addCase(orderAsync.deleteOrder.fulfilled, (state, action) => {
-            const deletedOrderId = action.payload;
-            if (state.adminOrders.data) {
-                state.adminOrders.data = state.adminOrders.data.filter((o) => o._id !== deletedOrderId);
-                state.adminOrders.pagination.total -= 1;
-            }
-        });
     },
 });
 

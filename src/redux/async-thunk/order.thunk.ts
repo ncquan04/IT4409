@@ -7,8 +7,7 @@ import {
     getUserReturnedOrders,
     userOrderVisible,
     getAllOrders,
-    updateOrderStatus,
-    deleteOrder,
+    putChangeOrderStatus,
 } from "../../services/api/api.order";
 import type { PaginationType } from "../../types/payment-management.types";
 
@@ -134,32 +133,14 @@ class OrderAsync {
         { rejectValue: any }
     >("order/update-order", async ({ orderId, status }, { rejectWithValue }) => {
         try {
-            const response = await updateOrderStatus(orderId, status);
+            const response = await putChangeOrderStatus({ orderId, statusOrder: status as any });
             if (!response) {
                 throw new Error("Failed to update order");
             }
-            return response;
+            return response as any;
         } catch (err: any) {
             return rejectWithValue({
                 error: err.message || "Update order error",
-            });
-        }
-    });
-
-    deleteOrder = createAsyncThunk<
-        string, // Return ID of deleted order
-        string,
-        { rejectValue: any }
-    >("order/delete-order", async (orderId, { rejectWithValue }) => {
-        try {
-            const success = await deleteOrder(orderId);
-            if (!success) {
-                throw new Error("Failed to delete order");
-            }
-            return orderId;
-        } catch (err: any) {
-             return rejectWithValue({
-                error: err.message || "Delete order error",
             });
         }
     });

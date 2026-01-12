@@ -46,17 +46,6 @@ const OrderManagementPage = () => {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Are you sure you want to delete this order?")) {
-            try {
-                await dispatch(orderAsync.deleteOrder(id)).unwrap();
-                showToast("Order deleted", "success");
-            } catch (error) {
-                showToast("Failed to delete order", "error");
-            }
-        }
-    };
-
     return (
         <div className="min-h-screen bg-gray-50/50 p-6 md:p-10">
             <div className="max-w-7xl mx-auto">
@@ -100,7 +89,6 @@ const OrderManagementPage = () => {
                     totalPages={adminOrders.pagination.totalPages}
                     onPageChange={loadData}
                     onStatusChange={handleStatusChange}
-                    onDelete={handleDelete}
                 />
             </div>
         </div>
