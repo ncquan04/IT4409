@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { IProduct } from "../../shared/models/product-model";
-import { fetchProductById, fetchProducts } from "../../services/api/api.products";
+import { 
+    fetchProductById, 
+    fetchProducts, 
+    createProduct as apiCreateProduct,
+    updateProduct as apiUpdateProduct,
+    deleteProduct as apiDeleteProduct
+} from "../../services/api/api.products";
 
 class ProductAsync {
     //fetch product list
@@ -56,6 +62,45 @@ class ProductAsync {
             return rejectWithValue({
                 error: "last message screen chat error: ",
             });
+        }
+    });
+
+    createProduct = createAsyncThunk<
+        IProduct,
+        Partial<IProduct>,
+        { rejectValue: any }
+    >("product/create", async (product: Partial<IProduct>, { rejectWithValue }) => {
+        try {
+            const response = await apiCreateProduct(product);
+            return response;
+        } catch (error) {
+             return rejectWithValue(error);
+        }
+    });
+
+    updateProduct = createAsyncThunk<
+        IProduct,
+        { id: string; data: Partial<IProduct> },
+        { rejectValue: any }
+    >("product/update", async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await apiUpdateProduct(id, data);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    });
+
+    deleteProduct = createAsyncThunk<
+        string,
+        string,
+        { rejectValue: any }
+    >("product/delete", async (id: string, { rejectWithValue }) => {
+        try {
+            await apiDeleteProduct(id);
+            return id;
+        } catch (error) {
+            return rejectWithValue(error);
         }
     });
 }

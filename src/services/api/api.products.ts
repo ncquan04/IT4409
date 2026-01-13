@@ -43,3 +43,45 @@ export const fetchProductById = async (productId: string) => {
     return null;
   }
 };
+
+export const createProduct = async (product: Partial<IProduct>) => {
+    try {
+        const response = await apiService.post<IProduct>(
+            API_PATH.PRODUCT.CREATE.URL,
+            product
+        );
+        return response;
+    } catch (error) {
+        console.log("Create product error: ", error);
+        throw error;
+    }
+};
+
+export const updateProduct = async (id: string, product: Partial<IProduct>) => {
+    try {
+        const response = await apiService.put<IProduct>(
+            API_PATH.PRODUCT.UPDATE(id).URL,
+            product
+        );
+        return response;
+    } catch (error) {
+        console.log("Update product error: ", error);
+        throw error;
+    }
+};
+
+export const changeProductStatus = async (id: string, status: number) => {
+    try {
+        const response = await apiService.patch<{
+            message: string;
+        }>(API_PATH.PRODUCT.UPDATE_STATUS(id).URL, { to: status });
+        return response;
+    } catch (error) {
+        console.log("Change product status error: ", error);
+        throw error;
+    }
+};
+
+export const deleteProduct = async (id: string) => {
+    return await changeProductStatus(id, Contacts.Status.Evaluation.HIDE);
+};
