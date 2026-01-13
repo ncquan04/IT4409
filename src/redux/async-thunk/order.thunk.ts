@@ -160,7 +160,6 @@ class OrderAsync {
         } catch (err: any) {
             return rejectWithValue({
                 error: err.message || "Update order error",
-                error: "user-cancel-order error",
             });
         }
     });
