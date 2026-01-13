@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 import type { Product } from "../../../shared/models/product-model";
 import StarRating from "../../../components/common/starRating/StarRating";
@@ -11,6 +11,15 @@ import CommonButton from "../../../components/common/CommonButton";
 import HeartIcon from "../../../icons/HeartIcon";
 import ProductOfferInfo from "./ProductOfferInfo";
 import { formatPrice } from "../../../utils";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useToast } from "../../../contexts/ToastContext";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import {
+  addToWishlistThunk,
+  checkWishlistThunk,
+  removeFromWishlistThunk,
+} from "../../../redux/async-thunk/wishlist.thunk";
+import { AppRoutes } from "../../../navigation";
 
 interface ProductDetailProps {
     product: Product;
@@ -18,6 +27,12 @@ interface ProductDetailProps {
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { isAuthenticated } = useAuth();
+    const { showToast } = useToast();
+    const dispatch = useAppDispatch();
+    const { checkStatus } = useAppSelector((state) => state.wishlist);
+
     const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
     const [imageIdx, setImageIdx] = useState(0);
     const [quantity, setQuantity] = useState(1);
@@ -28,6 +43,18 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
             setSelectedVariant(product.variants[0]);
         }
     }, [product]);
+
+    useEffect(() => {
+        if (isAuthenticated && product?._id) {
+            dispatch(checkWishlistThunk(product._id));
+        }
+    }, [isAuthenticated, product, dispatch]);
+
+    useEffect(() => {
+        if (isAuthenticated && product?._id && checkStatus[product._id] !== undefined) {
+            setAdded(checkStatus[product._id]);
+        }
+    }, [checkStatus, product, isAuthenticated]);
 
     const uniqueVersions = useMemo(() => {
         const versions = new Set(product.variants.map((v) => v.version));
@@ -80,12 +107,29 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         });
     };
 
-    const handleAddToWishList = () => {
-        setAdded(true);
+    const handleAddToWishList = async () => {
+        if (!isAuthenticated) {
+            navigate(AppRoutes.LOGIN, { state: { from: location } });
+            return;
+        }
+        try {
+            await dispatch(addToWishlistThunk(product._id)).unwrap();
+            setAdded(true);
+            showToast("Added to wishlist", "success");
+        } catch (error) {
+            showToast("Failed to add to wishlist", "error");
+        }
     };
 
-    const handleRemoveFromWishList = () => {
-        setAdded(false);
+    const handleRemoveFromWishList = async () => {
+        if (!isAuthenticated) return;
+        try {
+            await dispatch(removeFromWishlistThunk(product._id)).unwrap();
+            setAdded(false);
+            showToast("Removed from wishlist", "success");
+        } catch (error) {
+            showToast("Failed to remove from wishlist", "error");
+        }
     };
 
     const allImages = useMemo(() => {

@@ -19,7 +19,7 @@ const Wishlist = ({ products }: WishlistProps) => {
       <h2 id="wishlist-section-heading" className="sr-only">
         Wishlist Items
       </h2>
-      <div className="flex justify-end w-full">
+      {/* <div className="flex justify-end w-full">
         <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-[223px] h-14 flex justify-center items-center">
           <CommonButton
             transparentBg
@@ -27,7 +27,7 @@ const Wishlist = ({ products }: WishlistProps) => {
             onClick={handleMoveToBag}
           />
         </div>
-      </div>
+      </div> */}
       <div className="w-full">
         <Swiper
           spaceBetween={12}
