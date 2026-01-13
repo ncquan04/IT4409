@@ -41,6 +41,7 @@ const OrderManagementPage = () => {
         try {
             await dispatch(orderAsync.updateOrder({ orderId: id, status })).unwrap();
             showToast("Order status updated", "success");
+            loadData(adminOrders.pagination.page);
         } catch (error) {
             showToast("Failed to update status", "error");
         }
