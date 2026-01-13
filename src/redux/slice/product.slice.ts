@@ -13,7 +13,7 @@ const initialState: IProductInitState = {
 };
 
 const productSlice = createSlice({
-    name: "counter",
+    name: "products",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

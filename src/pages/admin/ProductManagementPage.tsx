@@ -84,13 +84,14 @@ const ProductManagementPage = () => {
         try {
             if (editingProduct) {
                 await dispatch(productAsync.updateProduct({ id: editingProduct._id, data })).unwrap();
-                 showToast("Product updated successfully", "success");
+                showToast("Product updated successfully", "success");
+                loadData(currentPage);
             } else {
                 await dispatch(productAsync.createProduct(data)).unwrap();
-                 showToast("Product created successfully", "success");
+                showToast("Product created successfully", "success");
+                loadData(1);
             }
             setIsFormOpen(false);
-            loadData(currentPage);
         } catch (error: any) {
             console.error("Failed to save product:", error);
              const message = getErrorMessage(error);
