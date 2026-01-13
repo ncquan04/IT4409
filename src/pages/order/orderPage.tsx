@@ -19,6 +19,8 @@ export default function OrdersPage() {
             dispatch(orderAsync.userVisibleOrderAsync());
         } else if (filter === ORDER_STATUS.CANCELLED) {
             dispatch(orderAsync.userCancelledOrders());
+        } else if (filter === ORDER_STATUS.DELIVERED) {
+            dispatch(orderAsync.userDeliverydOrders());
         } else {
             dispatch(orderAsync.userReturnedOrders());
         }
