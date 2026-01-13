@@ -181,3 +181,15 @@ export const putChangeOrderStatus = async ({
     return null;
   }
 };
+
+export const getUserDeliveryOrdres = async () => {
+    try {
+        const response = await apiService.get<(IOrder & { payment: IPayment })[]>(
+            API_PATH.ORDER.DELIVERY_ORDER.URL,
+        );
+        return response;
+    } catch (err: any) {
+        console.log("get user cancel order ", err);
+        return null;
+    }
+};

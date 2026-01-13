@@ -4,6 +4,7 @@ import type { IPayment } from "../../shared/models/payment-model";
 import {
     getOrderPaymentStatus,
     getUserCancelledOrders,
+    getUserDeliveryOrdres,
     getUserReturnedOrders,
     userOrderVisible,
     getAllOrders,
@@ -119,6 +120,24 @@ class OrderAsync {
         }
     });
 
+    userDeliverydOrders = createAsyncThunk<
+        (IOrder & { payment: IPayment })[],
+        void,
+        { rejectValue: any }
+    >("order/user-delivery-order", async (_, { rejectWithValue }) => {
+        try {
+            const response = await getUserDeliveryOrdres();
+            if (!response) {
+                throw new Error("");
+            }
+            return response;
+        } catch (err: any) {
+            return rejectWithValue({
+                error: err.message || "Fetch all orders error",
+            });
+        }
+    });
+
     updateOrder = createAsyncThunk<
         IOrder & {
             payment: IPayment;
@@ -141,6 +160,7 @@ class OrderAsync {
         } catch (err: any) {
             return rejectWithValue({
                 error: err.message || "Update order error",
+                error: "user-cancel-order error",
             });
         }
     });

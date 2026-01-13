@@ -5,7 +5,8 @@ const ORDER_STATUS = Contacts.Status.Order;
 const FILTERS = [
     { key: ORDER_STATUS.PROCESSING, label: "Đã đặt" },
     { key: ORDER_STATUS.CANCELLED, label: "Thất bại" },
-    { key: ORDER_STATUS.RETURNED, label: "Hoàn thành" },
+    { key: ORDER_STATUS.DELIVERED, label: "Hoàn thành" },
+    { key: ORDER_STATUS.RETURNED, label: "Hoàn hàng" },
 ];
 
 export default function OrderSidebar({ active, onChange }: any) {
