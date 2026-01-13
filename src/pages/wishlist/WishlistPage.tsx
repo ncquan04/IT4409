@@ -1,18 +1,22 @@
 import PageTransition from "../../components/common/PageTransition";
-import { useEffect, useState } from "react";
-import { Product } from "../../shared/models/product-model";
+import { useEffect } from "react";
 import Wishlist from "./components/Wishlist";
-import { SAMPLE_ITEMS } from "../../samples";
 import { HORIZONTAL_PADDING_REM } from "../../constants";
 import JustForYou from "./components/JustForYou";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { fetchWishlist } from "../../redux/async-thunk/wishlist.thunk";
 
 const WishlistPage = () => {
-  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
+  const dispatch = useAppDispatch();
+  const { wishlistItems, isLoading } = useAppSelector((state) => state.wishlist);
 
   useEffect(() => {
-    //get wishlist items
-  }, []);
-
+    const promise = dispatch(fetchWishlist());
+    return () => {
+        promise.abort();
+    };
+  }, [dispatch]);
+  
   return (
     <PageTransition>
       <main
@@ -24,10 +28,17 @@ const WishlistPage = () => {
         }
       >
         <section aria-labelledby="wishlist-heading">
-          <h1 id="wishlist-heading" className="sr-only">
-            Wishlist
-          </h1>
-          <Wishlist products={SAMPLE_ITEMS} />
+          <div className="flex items-center justify-between mb-6">
+            <h1 id="wishlist-heading" className="text-xl font-medium">
+              Wishlist ({wishlistItems.length})
+            </h1>
+          </div>
+          
+          {wishlistItems.length > 0 ? (
+             <Wishlist products={wishlistItems} />
+          ) : (
+            !isLoading && <div className="text-center py-10">Your wishlist is empty.</div>
+          )}
         </section>
         <section aria-labelledby="just-for-you-heading">
           <h2 id="just-for-you-heading" className="sr-only">
