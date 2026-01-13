@@ -1,19 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getEvaluationsByProductId } from "../../shared/mocks/evaluation.mock";
-import { Evaluation } from "../../shared/models/evaluation-model";
-import { Contacts } from "../../shared/contacts";
-
-const mockApiCall = <T>(data: T, delay: number = 1000): Promise<T> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(data), delay);
-  });
-};
+import { evaluationApi } from "../../services/api/api.evaluation";
 
 export const fetchEvaluationsByProductId = createAsyncThunk(
   "evaluation/fetchByProductId",
-  async (productId: string) => {
-    const data = getEvaluationsByProductId(productId);
-    return await mockApiCall(data, 800);
+  async (productId: string, { rejectWithValue }) => {
+    try {
+      const data = await evaluationApi.getEvaluationsByProductId(productId);
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.message || "Failed to fetch evaluations");
+    }
   }
 );
 
@@ -23,24 +19,32 @@ interface SubmitEvaluationPayload {
   rate: number;
   content: string[];
   images?: File[];
+  parentEvaluationId?: string;
 }
 
 export const submitEvaluation = createAsyncThunk(
   "evaluation/submit",
-  async (payload: SubmitEvaluationPayload) => {
-    const newReview = new Evaluation({
-      _id: Math.random().toString(36).substr(2, 9),
-      userId: payload.userId,
-      productId: payload.productId,
-      content: payload.content,
-      rate: payload.rate as any,
-      imageUrlFeedback: payload.images
-        ? payload.images.map((f) => URL.createObjectURL(f))
-        : [],
-      isHide: Contacts.Status.Evaluation.PUBLIC,
-    });
+  async (payload: SubmitEvaluationPayload, { rejectWithValue }) => {
+    try {
+      let imageUrlFeedback: string[] = [];
+      
+      if (payload.images && payload.images.length > 0) {
+        // Upload all images
+        const uploadPromises = payload.images.map((file) => evaluationApi.uploadImage(file));
+        const results = await Promise.all(uploadPromises);
+        imageUrlFeedback = results.map((res) => res.url);
+      }
 
-    // Simulate API call
-    return await mockApiCall(newReview, 1500);
+      const newReview = await evaluationApi.submitEvaluation(payload.productId, {
+        content: payload.content,
+        rate: payload.rate,
+        imageUrlFeedback,
+        parentEvaluationId: payload.parentEvaluationId
+      });
+
+      return newReview;
+    } catch (error: any) {
+      return rejectWithValue(error.message || "Failed to submit evaluation");
+    }
   }
 );

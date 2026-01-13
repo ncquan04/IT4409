@@ -1,5 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import type { IEvaluation } from "../../../../shared/models/evaluation-model";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useAppDispatch } from "../../../../redux/store";
+import { submitEvaluation } from "../../../../redux/async-thunk/evaluation.thunk";
+import EvaluationForm from "./EvaluationForm";
+import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "../../../../navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 import StarIcon2 from "../../../../icons/StarIcon2";
 
@@ -15,6 +22,35 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   const isSeller =
     evaluation.userId === "Apex Store Support" || evaluation.userId === "admin";
   const displayDate = "Oct 20, 2023"; // Mock date
+
+  const [showReplyForm, setShowReplyForm] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleReplyClick = () => {
+    if (!isAuthenticated) {
+      navigate(AppRoutes.LOGIN);
+      return;
+    }
+    setShowReplyForm(!showReplyForm);
+  };
+
+  const handleReplySubmit = (data: any) => {
+    if (user) {
+      dispatch(
+        submitEvaluation({
+          productId: evaluation.productId,
+          userId: user._id,
+          rate: 1, // Reply doesn't have rating
+          content: data.content,
+          images: data.images,
+          parentEvaluationId: evaluation._id,
+        })
+      );
+      setShowReplyForm(false);
+    }
+  };
 
   if (isReply) {
     return (
@@ -118,6 +154,47 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
                 ))}
               </div>
             )}
+          
+          <div className="mt-4 flex items-center gap-4">
+            <button
+              onClick={handleReplyClick}
+              className="text-sm font-medium text-gray-500 hover:text-gray-900 flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+                />
+              </svg>
+              Reply
+            </button>
+          </div>
+
+          <AnimatePresence>
+            {showReplyForm && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                  <EvaluationForm
+                    isReply
+                    onCancel={() => setShowReplyForm(false)}
+                    onSubmit={handleReplySubmit}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

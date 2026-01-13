@@ -3,11 +3,13 @@ import React, { useState } from "react";
 interface EvaluationFormProps {
   onSubmit?: (data: any) => void;
   onCancel?: () => void;
+  isReply?: boolean;
 }
 
 const EvaluationForm: React.FC<EvaluationFormProps> = ({
   onSubmit,
   onCancel,
+  isReply = false,
 }) => {
   const [rating, setRating] = useState<number>(5);
   const [hoverRating, setHoverRating] = useState<number>(0);
@@ -43,48 +45,50 @@ const EvaluationForm: React.FC<EvaluationFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Your Rating
-        </label>
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              className="focus:outline-none transition-transform hover:scale-110"
-              onMouseEnter={() => setHoverRating(star)}
-              onMouseLeave={() => setHoverRating(0)}
-              onClick={() => setRating(star)}
-            >
-              <svg
-                className={`w-8 h-8 ${
-                  star <= (hoverRating || rating)
-                    ? "text-yellow-400 fill-current"
-                    : "text-gray-300 fill-current"
-                } transition-colors duration-200`}
-                viewBox="0 0 24 24"
+      {!isReply && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Your Rating
+          </label>
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                className="focus:outline-none transition-transform hover:scale-110"
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
+                onClick={() => setRating(star)}
               >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-            </button>
-          ))}
+                <svg
+                  className={`w-8 h-8 ${
+                    star <= (hoverRating || rating)
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300 fill-current"
+                  } transition-colors duration-200`}
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <div className="text-sm font-medium text-gray-500 mt-1">
+            {rating === 1 && "Terrible"}
+            {rating === 2 && "Bad"}
+            {rating === 3 && "Average"}
+            {rating === 4 && "Good"}
+            {rating === 5 && "Excellent"}
+          </div>
         </div>
-        <div className="text-sm font-medium text-gray-500 mt-1">
-          {rating === 1 && "Terrible"}
-          {rating === 2 && "Bad"}
-          {rating === 3 && "Average"}
-          {rating === 4 && "Good"}
-          {rating === 5 && "Excellent"}
-        </div>
-      </div>
+      )}
 
       <div>
         <label
           htmlFor="content"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Review Content
+          {isReply ? "Reply Content" : "Review Content"}
         </label>
         <textarea
           id="content"
