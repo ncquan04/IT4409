@@ -9,4 +9,21 @@ export interface IOderInitialState {
     filterStatus: (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS];
     isloading: boolean;
     error: boolean;
+    adminOrders: {
+        data: (IOrder & {
+            payment: IPayment;
+            userId: {
+                _id: string;
+                email: string;
+                fullName: string;
+                phone: string;
+            };
+        })[];
+        pagination: {
+            page: number;
+            limit: number;
+            total: number;
+            totalPages: number;
+        };
+    };
 }

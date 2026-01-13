@@ -7,6 +7,7 @@ import InfoSection from "./components/InfoSection";
 import ActionSection from "./components/ActionSection";
 import { useAuth } from "../../contexts/AuthContext";
 import { AppRoutes } from "../../navigation";
+import { UserRole } from "../../shared/models/user-model";
 
 interface LogInSignUpPageProps {
   action: "login" | "signup";
@@ -20,7 +21,7 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState("");
 
-  const { login, register, isAuthenticated } = useAuth();
+  const { login, register, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const fromLocation = location.state?.from;
@@ -30,6 +31,11 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
   useEffect(() => {
     const handleLoginRedirect = async () => {
       if (isAuthenticated) {
+        if (user?.role === UserRole.ADMIN) {
+          navigate(AppRoutes.ADMIN, { replace: true });
+          return;
+        }
+
         if (location.state?.action === "addToCart" && location.state?.payload) {
           const { productId, variantId, quantity } = location.state.payload;
           try {
@@ -48,7 +54,7 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
     };
 
     handleLoginRedirect();
-  }, [isAuthenticated, fromPath, fromState, location.state]);
+  }, [isAuthenticated, fromPath, fromState, location.state, user]);
 
   const handleLogin = async (email: string, password: string) => {
     if (!email || !password) {
@@ -83,7 +89,7 @@ const LogInSignUpPage = (props: LogInSignUpPageProps) => {
         phoneNumber,
         dateOfBirth,
       });
-      navigate(AppRoutes.HOME);
+      await login(email, password);
     } catch (err: any) {
       setError(err.message || "Registration failed");
     }
