@@ -69,6 +69,23 @@ const orderSilce = createSlice({
             state.error = true;
             state.isloading = false;
         });
+        //delivered order
+        builder.addCase(orderAsync.userDeliverydOrders.pending, (state) => {
+            state.error = false;
+            state.isloading = true;
+        });
+        builder.addCase(
+            orderAsync.userDeliverydOrders.fulfilled,
+            (state, action: PayloadAction<(IOrder & { payment: IPayment })[]>) => {
+                state.error = false;
+                state.isloading = false;
+                state.orders = action.payload;
+            },
+        );
+        builder.addCase(orderAsync.userDeliverydOrders.rejected, (state) => {
+            state.error = true;
+            state.isloading = false;
+        });
     },
 });
 
