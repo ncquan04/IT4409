@@ -30,7 +30,7 @@ const NotificationDropdown = ({ open, onClose }: Props) => {
     }, [open, onClose]);
 
     useEffect(() => {
-        if (open && notifications.length === 0) {
+        if (open) {
             dispatch(
                 adminNotification.fetchNotifications({
                     page: 1,
